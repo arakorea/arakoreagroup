@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="landscape_fullscreen.css"/>
 <title>Contact | ARA KOREA GROUP</title>
 
 <style>
@@ -62,11 +63,7 @@ header{
   align-items:center;
   gap:22px;
 }
-.brand img{
-  height:var(--logoH-desktop);
-  width:auto;
-  display:block;
-}
+.brand img{height:var(--logoH-desktop)}
 nav{display:flex;gap:32px;font-size:14px;color:var(--muted)}
 nav a:hover{color:var(--text)}
 nav a[aria-current="page"]{color:var(--text);position:relative}
@@ -163,14 +160,7 @@ footer{
 
 @media(max-width:780px){.grid{grid-template-columns:1fr}}
 @media(max-width:640px){
-  .brand img{
-  height:var(--logoH-desktop);
-  width:auto;
-  display:block;
-}
-  nav{ gap:18px; font-size:13px; }
-  h1{ font-size:32px; }
-}
+  .brand img{height:var(--logoH-mobile)}
   h1{font-size:32px}
 }
 </style>
@@ -184,19 +174,19 @@ footer{
 
 <header>
   <div class="header-inner">
-    <a class="brand" href="index.html" aria-label="ARA KOREA GROUP">
-      <img src="ara-korea-white.png" alt="ARA KOREA GROUP logo">
+    <a class="brand" href="index.html">
+      <img src="ara-korea-white.png" alt="ARA KOREA GROUP">
     </a>
-    <nav aria-label="Primary navigation">
+    <nav>
       <a href="index.html">Home</a>
       <a href="group.html">Group</a>
       <a href="business.html">Business</a>
       <a href="platforms.html">Platforms</a>
-      <a href="contact.html">Contact</a>
+      <a href="contact.html" aria-current="page">Contact</a>
     </nav>
   </div>
 </header>
-
+\n
 <main>
   <h1>Contact</h1>
   <p class="lead">For partnerships, media inquiries, and collaboration.</p>
