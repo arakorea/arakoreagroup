@@ -244,6 +244,8 @@ main{
   text-align:center;
   padding:14px;
   pointer-events:none;
+
+  animation: sunPulse 7.5s ease-in-out infinite, sunSpin 24s linear infinite;
 }
 
 .sun .title{
@@ -269,7 +271,13 @@ main{
   width:1px;
   height:1px;
   pointer-events:none; /* no click in group map */
+
+  --ry: 0deg;
+  --rx: 0deg;
+  --blur: 0px;
+  --spinDur: 26s;
 }
+
 
 .planet .body{
   position:absolute;
@@ -277,7 +285,8 @@ main{
   width:var(--size);
   height:var(--size);
   border-radius:999px;
-  transform:translate(-50%,-50%) scale(var(--s));
+  transform:translate(-50%,-50%) scale(var(--s)) rotate(var(--spin));
+  transform-style:preserve-3d;
   background:
     radial-gradient(circle at 30% 30%, rgba(255,255,255,0.22), transparent 46%),
     radial-gradient(circle at 70% 70%, rgba(255,255,255,0.10), transparent 62%),
@@ -286,22 +295,35 @@ main{
   box-shadow: 0 0 24px rgba(255,255,255,0.06);
   opacity:var(--a);
   filter:saturate(130%);
+  animation: planetSpin var(--spinDur) linear infinite;
+}
+@keyframes planetSpin{
+  from{ --spin: 0deg; }
+  to{ --spin: 360deg; }
 }
 
 .planet .label{
   position:absolute;
   left:0; top:0;
-  transform:translate(calc(-50% + 0px), calc(-50% + (var(--size)/2 + 18px))) scale(var(--s));
+  transform:
+    translate(calc(-50% + 0px), calc(-50% + (var(--size)/2 + 18px)))
+    scale(var(--s))
+    perspective(600px)
+    rotateY(var(--ry))
+    rotateX(var(--rx));
+  transform-origin: 50% 0%;
   width:max-content;
-  max-width:180px;
+  max-width:200px;
   text-align:center;
   opacity:calc(var(--a) * 1.05);
-  color:rgba(242,242,242,.90);
+  color:rgba(242,242,242,.92);
   font-size:12px;
   letter-spacing:.04em;
   text-transform:uppercase;
   line-height:1.15;
   text-shadow:0 0 12px rgba(0,0,0,0.55);
+  will-change: transform, opacity, filter;
+  filter: blur(var(--blur));
 }
 .planet .label small{
   display:block;
@@ -496,44 +518,44 @@ footer{
         </div>
 
         <!-- Planets (positions updated by JS) -->
-        <div class="planet" data-orbit="140" data-speed="0.003500" data-phase="0.0"
+        <div class="planet" data-orbit="140" data-speed="0.005950" data-phase="0.0"
              data-name="Culture" data-sub="K-Culture / NGO"
              style="--size: 58px; --c1: rgba(120,255,210,.18); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="190" data-speed="0.002800" data-phase="1.8"
+        <div class="planet" data-orbit="190" data-speed="0.004760" data-phase="1.8"
              data-name="Media" data-sub="TIKOONZ"
              style="--size: 54px; --c1: rgba(170,140,255,.18); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="240" data-speed="0.002275" data-phase="3.2"
+        <div class="planet" data-orbit="240" data-speed="0.003868" data-phase="3.2"
              data-name="Platform" data-sub="ourbang"
              style="--size: 52px; --c1: rgba(90,210,255,.18); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="240" data-speed="0.002100" data-phase="5.1"
+        <div class="planet" data-orbit="240" data-speed="0.003570" data-phase="5.1"
              data-name="Commerce" data-sub="ICE Jewelry / Shops"
              style="--size: 50px; --c1: rgba(255,215,168,.16); --c2: rgba(20,20,20,0);"></div>
 
         <!-- Moons (sub-units) -->
-        <div class="planet" data-orbit="320" data-speed="0.001680" data-phase="0.7"
+        <div class="planet" data-orbit="320" data-speed="0.002856" data-phase="0.7"
              data-name="AKFF" data-sub="Film Festival"
              style="--size: 38px; --c1: rgba(255,255,255,.14); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="320" data-speed="0.001470" data-phase="2.4"
+        <div class="planet" data-orbit="320" data-speed="0.002499" data-phase="2.4"
              data-name="arakorea.org" data-sub="Public Programs"
              style="--size: 38px; --c1: rgba(190,140,255,.12); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="380" data-speed="0.001330" data-phase="3.9"
+        <div class="planet" data-orbit="380" data-speed="0.002261" data-phase="3.9"
              data-name="tikoonz.com" data-sub="Brand / Music"
              style="--size: 36px; --c1: rgba(120,255,170,.12); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="380" data-speed="0.001225" data-phase="5.0"
+        <div class="planet" data-orbit="380" data-speed="0.002082" data-phase="5.0"
              data-name="tikoonz.tv" data-sub="Media Channel"
              style="--size: 36px; --c1: rgba(120,180,255,.12); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="420" data-speed="0.001050" data-phase="1.2"
+        <div class="planet" data-orbit="420" data-speed="0.001785" data-phase="1.2"
              data-name="ICE Jewelry" data-sub="Product Line"
              style="--size: 36px; --c1: rgba(255,215,168,.12); --c2: rgba(20,20,20,0);"></div>
 
-        <div class="planet" data-orbit="420" data-speed="0.000980" data-phase="4.4"
+        <div class="planet" data-orbit="420" data-speed="0.001666" data-phase="4.4"
              data-name="Shop Portals" data-sub="arakorea.shop · tikoonz.shop"
              style="--size: 34px; --c1: rgba(255,255,255,.10); --c2: rgba(20,20,20,0);"></div>
       </div>
@@ -673,8 +695,24 @@ footer{
         p.style.zIndex = z;
 
         p.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+
+        // Depth-driven readability: closer = flatter + crisp, farther = angled + slightly blurred
+        const ry = (1 - depth) * 62;          // 0..62deg
+        const rx = (1 - depth) * 12;          // 0..12deg
+        const blur = (1 - depth) * 0.85;      // subtle blur when far
+
         p.style.setProperty("--s", s.toFixed(3));
         p.style.setProperty("--a", a.toFixed(3));
+        p.style.setProperty("--ry", `${ry.toFixed(2)}deg`);
+        p.style.setProperty("--rx", `${rx.toFixed(2)}deg`);
+        p.style.setProperty("--blur", `${blur.toFixed(2)}px`);
+
+        // Give each planet a gentle "self-rotation" speed variation (only set once)
+        if (!p.dataset._spinSet){
+          const base = 18 + (idx % 7) * 4 + Math.random()*6; // 18s..~48s
+          p.style.setProperty("--spinDur", `${base.toFixed(1)}s`);
+          p.dataset._spinSet = "1";
+        }
       });
 
       requestAnimationFrame(tick);
