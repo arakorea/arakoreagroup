@@ -1007,6 +1007,64 @@ footer{
   }
 }
 
+
+/* ===== Mobile landscape: give the universe full screen (avoid header/nav blocking touch) ===== */
+@media (max-width: 980px) and (orientation: landscape){
+  /* Hide sticky header so it can't block touches */
+  header{ display:none !important; }
+
+  /* Remove page spacing caused by header */
+  .page{ padding-top: 0 !important; }
+
+  /* Let the universe be the screen */
+  main.plat-main{
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Optional: hide the hero text to maximize interactive area */
+  .plat-hero{ display:none !important; }
+
+  .universe-wrap{ margin:0 !important; }
+  .universe{
+    height: 100vh !important;
+    width: 100vw !important;
+    border-radius: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+
+  /* Keep controls reachable without overlapping too much */
+  .ring-ui{
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  .universe-hint,
+  .universe-subhint{
+    left: calc(12px + env(safe-area-inset-left, 0px)) !important;
+  }
+}
+
+
+/* ===== Mobile landscape: fill the entire screen with stars ===== */
+@media (max-width: 980px) and (orientation: landscape){
+  /* Remove the upward shift so stars cover full height */
+  .stars{ transform: none !important; }
+
+  /* Slightly increase perceived coverage (more points + softer glow) */
+  .stars.front .star{
+    opacity: .92 !important;
+    box-shadow: 0 0 5px rgba(255,255,255,.42) !important;
+  }
+  .stars.back .star{
+    opacity: .12 !important;
+    filter: blur(1.1px) !important;
+  }
+
+  /* Reduce hazy wash so stars read crisp across the full screen */
+  .universe::before{ opacity: .22 !important; }
+}
+
 </style>
 </head>
 <body>
@@ -1160,6 +1218,18 @@ footer{
       modes: { grab: { distance: 160, links: { opacity: 0.09 } } }
     }
   };
+
+  // Mobile tuning: fewer/smaller particles so stars feel less dense
+  const isMobile = window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
+  if (isMobile){
+    options.particles.number.value = prefersReducedMotion ? 12 : 26;
+    options.particles.number.density.area = 1800;
+    options.particles.size.value = { min: 0.6, max: 1.4 };
+    options.particles.links.distance = 190;
+    options.particles.links.opacity = 0.035;
+    options.particles.move.speed = prefersReducedMotion ? 0 : 0.12;
+  }
+
   if (window.tsParticles) tsParticles.load("tsparticles", options);
 
   // Aurora: rare and soft
@@ -1334,7 +1404,7 @@ footer{
   const DRAG_SENS_DESKTOP = 0.0062;
   const DRAG_SENS_TOUCH   = 0.0048; // less sensitive on mobile
   const CLICK_MOVE_PX_DESKTOP = 8;
-  const CLICK_MOVE_PX_TOUCH   = 14;
+  const CLICK_MOVE_PX_TOUCH   = 24;
 
   // ===== State =====
   let rot = 0;
@@ -1344,7 +1414,7 @@ footer{
 
   let downX = 0, downY = 0;
   let moved = 0;
-  let suppressNextClick = false;
+  let dragHappened = false;
   let isTouch = false;
 
   // Perf: cache measurements, update on resize only
@@ -1459,7 +1529,7 @@ footer{
     lastX = e.clientX;
     downX = e.clientX; downY = e.clientY;
     moved = 0;
-    suppressNextClick = false;
+    dragHappened = false;
   });
 
   window.addEventListener("pointermove", (e) => {
@@ -1478,14 +1548,15 @@ footer{
     moved = Math.max(moved, Math.hypot(mx, my));
 
     const thresh = isTouch ? CLICK_MOVE_PX_TOUCH : CLICK_MOVE_PX_DESKTOP;
-    if (moved > thresh) suppressNextClick = true;
+    if (moved > thresh) dragHappened = true;
   });
 
   window.addEventListener("pointerup", () => {
     isDown = false;
-    setTimeout(() => { suppressNextClick = false; }, 0);
+    // keep dragHappened for the upcoming click event
+    setTimeout(() => { dragHappened = false; }, 80);
   });
-  window.addEventListener("pointercancel", () => { isDown = false; suppressNextClick = false; });
+  window.addEventListener("pointercancel", () => { isDown = false; dragHappened = false; });
 
   // Scroll to spin (desktop)
   universe.addEventListener("wheel", (e) => {
@@ -1507,11 +1578,12 @@ footer{
 
   // Prevent accidental anchor navigation after a drag
   universe.addEventListener("click", (e) => {
-    if (!suppressNextClick) return;
+    if (!dragHappened) return;
     const a = e.target.closest && e.target.closest(".planet");
     if (!a) return;
     e.preventDefault();
     e.stopPropagation();
+    dragHappened = false;
   }, true);
 
   // Performance: re-measure on resize
