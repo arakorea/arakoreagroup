@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact | ARA KOREA GROUP</title>
+
+<style>
+:root{
+  --bg:#0B0B0B;
+  --text:#F2F2F2;
+  --muted:#B8B8B8;
+  --line:rgba(255,255,255,.12);
+  --max:1180px;
+  --logoH-desktop:88px;
+  --logoH-mobile:64px;
+}
+
+*{box-sizing:border-box}
+html, body { height: 100%; scroll-padding-top: var(--headerH, 0px); }
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  overflow-x:hidden;
+}
+
+a{color:inherit;text-decoration:none}
+
+/* ===== Background Layers ===== */
+#tsparticles{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.85}
+#aurora{position:fixed;inset:-15%;z-index:1;pointer-events:none;opacity:0;filter:blur(34px) saturate(150%);mix-blend-mode:screen}
+#overlay{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.9}
+#planets{
+  position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.55;
+  background:
+    radial-gradient(220px 220px at 82% 24%, rgba(255,255,255,.08), transparent 62%),
+    radial-gradient(520px 520px at 16% 78%, rgba(120,170,255,.10), transparent 70%),
+    radial-gradient(360px 360px at 92% 86%, rgba(170,120,255,.08), transparent 70%),
+    radial-gradient(140px 140px at 30% 18%, rgba(255,240,210,.07), transparent 62%);
+  mix-blend-mode:screen;
+  will-change:transform;
+}
+
+/* ===== HEADER ===== */
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(11,11,11,.88);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header-inner{
+  max-width:var(--max);
+  margin:0 auto;
+  padding:36px 20px 28px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:22px;
+}
+.brand img{height:var(--logoH-desktop)}
+nav{display:flex;gap:32px;font-size:14px;color:var(--muted)}
+nav a:hover{color:var(--text)}
+nav a[aria-current="page"]{color:var(--text);position:relative}
+nav a[aria-current="page"]::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-10px;
+  width:28px;
+  height:1px;
+  background:rgba(255,255,255,.35);
+}
+
+/* ===== CONTENT ===== */
+main{
+  position:relative;
+  z-index:3;
+  padding:120px 20px 36px;
+  max-width:var(--max);
+  margin:0 auto;
+  text-align:center;
+  overflow-anchor:none;
+}
+
+h1{font-size:42px;margin-bottom:18px}
+p.lead{
+  font-size:16px;
+  line-height:1.8;
+  color:rgba(242,242,242,.84);
+  max-width:760px;
+  margin:0 auto;
+}
+
+.contact-wrap{
+  max-width:860px;
+  margin:64px auto 0;
+  padding:28px 18px;
+  border-radius:22px;
+  background:rgba(11,11,11,.30);
+  border:1px solid rgba(255,255,255,.10);
+  text-align:left;
+}
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field.full{grid-column:1/-1}
+
+label{
+  font-size:12px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(242,242,242,.62);
+}
+
+input,textarea{
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(11,11,11,.30);
+  color:rgba(242,242,242,.92);
+}
+textarea{min-height:160px}
+
+.actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:16px;
+  gap:14px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  height:46px;
+  padding:0 18px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.26);
+  background:rgba(11,11,11,.22);
+  color:rgba(242,242,242,.92);
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+footer{
+  position:relative;
+  z-index:3;
+  border-top:1px solid var(--line);
+  padding:36px 20px;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+  margin-top:64px;
+}
+
+@media(max-width:780px){.grid{grid-template-columns:1fr}}
+@media(max-width:640px){
+  .brand img{height:var(--logoH-mobile)}
+  h1{font-size:32px}
+}
+</style>
+</head>
+
+<body>
+<div id="tsparticles"></div>
+<div id="aurora"></div>
+<canvas id="overlay"></canvas>
+<div id="planets"></div>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="index.html">
+      <img src="ara-korea-white.png" alt="ARA KOREA GROUP">
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="group.html">Group</a>
+      <a href="business.html">Business</a>
+      <a href="platforms.html">Platforms</a>
+      <a href="contact.html" aria-current="page">Contact</a>
+    </nav>
+  </div>
+</header>
+\n
+<main>
+  <h1>Contact</h1>
+  <p class="lead">For partnerships, media inquiries, and collaboration.</p>
+
+  <section class="contact-wrap">
+    <form method="POST" action="https://formspree.io/f/maqyznbe">
+      <input type="hidden" name="_subject" value="[CONTACT] New inquiry — ARA KOREA GROUP">
+      <input type="hidden" name="form_type" value="CONTACT">
+      <input type="text" name="_gotcha" style="display:none">
+
+      <div class="grid">
+        <div class="field"><label>Name</label><input name="name" required></div>
+        <div class="field"><label>Email</label><input type="email" name="email" required></div>
+        <div class="field"><label>Phone</label><input name="phone"></div>
+        <div class="field"><label>Social</label><input name="social"></div>
+        <div class="field full"><label>Message</label><textarea name="note" required></textarea></div>
+      </div>
+
+      <div class="actions">
+        <span style="font-size:12px;color:rgba(242,242,242,.52)">We will respond as soon as possible.</span>
+        <button class="btn" type="submit">Send</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer>© <span id="y"></span> ARA KOREA GROUP. All rights reserved.</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.12.0/tsparticles.slim.bundle.min.js"></script>
+<script>
+document.getElementById("y").textContent=new Date().getFullYear();
+
+const colorStars = [
+  "#ffffff",
+  "#ffd7a8",
+  "#a8d7ff",
+  "#b7ffcf",
+  "#d7b7ff",
+  "#ffe9f3"
+];
+
+tsParticles.load("tsparticles",{
+  fpsLimit:60,
+  particles:{
+    number:{value:80,density:{enable:true,area:900}},
+    color:{value:colorStars},
+    links:{enable:true,distance:150,color:"#ffffff",opacity:.18,width:1},
+    move:{enable:true,speed:.35,random:true},
+    opacity:{
+      value:{min:.25,max:.75},
+      animation:{enable:true,speed:.6,minimumValue:.2,sync:false}
+    },
+    size:{value:{min:1.2,max:3.4}}
+  }
+});
+
+(function(){
+  const planets=document.getElementById("planets");
+  if(!planets) return;
+  let y=0,ticking=false;
+  window.addEventListener("scroll",()=>{
+    y=window.scrollY;
+    if(!ticking){
+      requestAnimationFrame(()=>{
+        planets.style.transform=`translate3d(0, ${y*0.02}px, 0)`;
+        ticking=false;
+      });
+      ticking=true;
+    }
+  },{passive:true});
+})();
+
+</script>
+</body>
+</html>
