@@ -1,0 +1,47 @@
+/* landscape_fullscreen.css
+   Mobile landscape mode: prioritize content/touch by removing sticky header.
+   Safe to include on every page (selectors are generic + optional). */
+
+@media (max-width: 980px) and (orientation: landscape){
+  header{ display:none !important; }
+
+  /* remove common header-related spacing */
+  .page{ padding-top: 0 !important; }
+
+  /* let content breathe edge-to-edge */
+  main{
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* optional: hide common hero blocks to maximize viewport (no effect if classes don't exist) */
+  .hero,
+  .plat-hero,
+  .group-hero,
+  .group-text,
+  .group-description,
+  .universe-hint,
+  .universe-subhint{
+    display:none !important;
+  }
+
+  /* if there is a primary visual module, let it occupy the screen */
+  .universe,
+  .system,
+  .map,
+  .group-visual,
+  .visual,
+  .stage{
+    height: 100vh !important;
+    width: 100vw !important;
+    border-radius: 0 !important;
+  }
+
+  /* safe-area support */
+  body{
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+}
