@@ -1,0 +1,16 @@
+/* Mobile-only adjustments for Platforms star field */
+@media (max-width: 640px){
+  .stars .star{
+    width: 1.4px;
+    height: 1.4px;
+  }
+
+  /* Reduce glow so dots don't look oversized on small screens */
+  .stars.front .star{
+    box-shadow: 0 0 4px rgba(255,255,255,.40);
+    opacity: .80;
+  }
+  .stars.back .star{
+    opacity: .08;
+  }
+}
