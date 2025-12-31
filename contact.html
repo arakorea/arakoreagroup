@@ -159,7 +159,10 @@ footer{
 
 @media(max-width:780px){.grid{grid-template-columns:1fr}}
 @media(max-width:640px){
-  .brand img{height:var(--logoH-mobile)}
+  .brand img{ height:var(--logoH-mobile); }
+  nav{ gap:18px; font-size:13px; }
+  h1{ font-size:32px; }
+}
   h1{font-size:32px}
 }
 </style>
@@ -173,19 +176,19 @@ footer{
 
 <header>
   <div class="header-inner">
-    <a class="brand" href="index.html">
-      <img src="ara-korea-white.png" alt="ARA KOREA GROUP">
+    <a class="brand" href="index.html" aria-label="ARA KOREA GROUP">
+      <img src="ara-korea-white.png" alt="ARA KOREA GROUP logo">
     </a>
-    <nav>
+    <nav aria-label="Primary navigation">
       <a href="index.html">Home</a>
       <a href="group.html">Group</a>
       <a href="business.html">Business</a>
       <a href="platforms.html">Platforms</a>
-      <a href="contact.html" aria-current="page">Contact</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
-\n
+
 <main>
   <h1>Contact</h1>
   <p class="lead">For partnerships, media inquiries, and collaboration.</p>
