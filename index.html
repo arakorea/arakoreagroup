@@ -18,6 +18,7 @@
   --logoH-mobile:64px;
 }
 
+/* ===== Base ===== */
 *{box-sizing:border-box}
 html, body { height: 100%; }
 
@@ -38,9 +39,10 @@ a{color:inherit;text-decoration:none}
   z-index:0;
   pointer-events:none;
   opacity:0.82;
+  transition: opacity 900ms ease;
 }
 
-/* Aurora overlay: we update background positions/colors dynamically in JS */
+/* Aurora overlay: dynamic in JS */
 #aurora{
   position:fixed;
   inset:-15%;
@@ -65,18 +67,105 @@ a{color:inherit;text-decoration:none}
   100%{ filter: blur(34px) saturate(150%) hue-rotate(24deg); }
 }
 
-/* Meteor canvas + Satellites */
+/* Overlay canvas: meteors + satellites */
 #overlay{
   position:fixed;
   inset:0;
   z-index:2;
   pointer-events:none;
   opacity:0.9;
+  transition: opacity 900ms ease;
 }
 
+/* ===== Intro Screen ===== */
+.intro{
+  position:fixed;
+  inset:0;
+  z-index:5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:auto;
+  background:radial-gradient(60% 50% at 50% 45%, rgba(255,255,255,0.06), transparent 60%);
+  transition: opacity 900ms ease, visibility 900ms ease;
+}
+
+.intro-inner{
+  text-align:center;
+  padding:24px 18px;
+}
+
+.intro-title{
+  margin:0 0 18px 0;
+  font-size:13px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:rgba(242,242,242,.72);
+}
+
+.enter-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-width:210px;
+  height:46px;
+  padding:0 18px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.26);
+  background:rgba(11,11,11,0.22);
+  color:rgba(242,242,242,0.92);
+  font-size:14px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  opacity:0;
+  transform:translateY(10px);
+  animation: enterFade 1.6s ease forwards;
+  animation-delay: 1.8s; /* appears after a beat */
+}
+.enter-btn:hover{
+  background:rgba(255,255,255,0.06);
+  border-color:rgba(255,255,255,0.40);
+}
+
+@keyframes enterFade{
+  to { opacity:1; transform:translateY(0); }
+}
+
+.hint{
+  margin:14px 0 0 0;
+  font-size:12px;
+  color:rgba(242,242,242,0.48);
+  opacity:0;
+  animation: enterFade 1.6s ease forwards;
+  animation-delay: 2.25s;
+}
+
+/* Intro “more sparkle” mode */
+body.is-intro #tsparticles{ opacity:1.0; }
+body.is-intro #overlay{ opacity:1.0; }
+
+/* When intro dismissed */
+body.is-entered .intro{
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+}
+body.is-entered #tsparticles{ opacity:0.82; }
+body.is-entered #overlay{ opacity:0.9; }
+
+/* ===== Main page wrapper ===== */
 .page{
   position:relative;
   z-index:3;
+  opacity:0;               /* hidden until enter */
+  transform:translateY(6px);
+  transition: opacity 900ms ease, transform 900ms ease;
+}
+body.is-entered .page{
+  opacity:1;
+  transform:translateY(0);
 }
 
 /* ===== GLOBAL HEADER ===== */
@@ -175,6 +264,7 @@ p.lead{
   .float1,.float2,.float3{ animation:none; }
   #aurora{ display:none; }
   #overlay{ display:none; }
+  .enter-btn, .hint{ animation:none; opacity:1; transform:none; }
 }
 
 /* ===== FOOTER ===== */
@@ -198,12 +288,21 @@ footer{
 </style>
 </head>
 
-<body>
+<body class="is-intro">
 <div id="tsparticles" aria-hidden="true"></div>
 <div id="aurora" aria-hidden="true"></div>
 <canvas id="overlay" aria-hidden="true"></canvas>
 
-<div class="page">
+<!-- Intro: Space first, then Enter -->
+<div class="intro" role="dialog" aria-label="Enter ARA KOREA GROUP">
+  <div class="intro-inner">
+    <p class="intro-title">ARA KOREA GROUP</p>
+    <button class="enter-btn" id="enterBtn" type="button">Enter</button>
+    <p class="hint">Click to continue</p>
+  </div>
+</div>
+
+<div class="page" id="page">
   <header>
     <div class="header-inner">
       <a class="brand" href="index.html" aria-label="ARA KOREA GROUP">
@@ -313,12 +412,24 @@ footer{
   // Year
   document.getElementById("y").textContent = new Date().getFullYear();
 
-  // Respect reduced motion preference
   const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // ===== tsParticles (colored stars + subtle links) =====
+  // ===== Intro gating =====
+  const enterBtn = document.getElementById("enterBtn");
+  function enterSite(){
+    document.body.classList.remove("is-intro");
+    document.body.classList.add("is-entered");
+  }
+  enterBtn.addEventListener("click", enterSite);
+  // Allow Enter key
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && document.body.classList.contains("is-intro")) enterSite();
+  });
+
+  // ===== tsParticles (intro sparkle vs normal) =====
   const colorStars = ["#ffffff", "#ffd7a8", "#a8d7ff", "#b7ffcf", "#d7b7ff", "#ffe9f3"];
-  const options = {
+
+  const baseParticles = {
     fpsLimit: prefersReducedMotion ? 30 : 60,
     fullScreen: { enable: false },
     background: { color: { value: "transparent" } },
@@ -345,7 +456,34 @@ footer{
       modes: { grab: { distance: 170, links: { opacity: 0.18 } } }
     }
   };
-  if (window.tsParticles) tsParticles.load("tsparticles", options);
+
+  // Make intro feel more “sparkly”
+  const introBoost = JSON.parse(JSON.stringify(baseParticles));
+  introBoost.particles.number.value = prefersReducedMotion ? 30 : 120;
+  introBoost.particles.links.opacity = 0.14;
+  introBoost.particles.opacity.value = { min: 0.14, max: 0.62 };
+  introBoost.particles.size.value = { min: 0.9, max: 3.2 };
+  introBoost.particles.move.speed = 0.55;
+
+  let currentMode = "intro";
+  function loadParticles(mode){
+    if (!window.tsParticles) return;
+    const opts = mode === "intro" ? introBoost : baseParticles;
+    tsParticles.load("tsparticles", opts);
+  }
+  loadParticles("intro");
+
+  // When entering, switch to calmer mode after fade
+  function onEntered(){
+    if (currentMode !== "entered") {
+      currentMode = "entered";
+      setTimeout(() => loadParticles("entered"), 650);
+    }
+  }
+  const obs = new MutationObserver(() => {
+    if (document.body.classList.contains("is-entered")) onEntered();
+  });
+  obs.observe(document.body, { attributes:true, attributeFilter:["class"] });
 
   // ===== Aurora: irregular appearance + drift across screen =====
   (function(){
@@ -356,7 +494,6 @@ footer{
     function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
 
     function buildAuroraGrad(){
-      // pick a palette
       const palettes = [
         ["rgba(90,255,210,.28)","rgba(140,120,255,.22)","rgba(80,180,255,.20)"],
         ["rgba(120,255,170,.25)","rgba(190,120,255,.18)","rgba(90,210,255,.18)"],
@@ -364,7 +501,6 @@ footer{
       ];
       const [c1,c2,c3] = pick(palettes);
 
-      // random anchor points (appear somewhere and move elsewhere)
       const p1x = rand(10,40), p1y = rand(55,85);
       const p2x = rand(55,90), p2y = rand(45,80);
       const p3x = rand(35,75), p3y = rand(10,40);
@@ -377,14 +513,11 @@ footer{
 
     function run(){
       buildAuroraGrad();
-
-      // set random motion vars (CSS variables)
-      const ax1 = rand(-40,40)+"px", ay1 = rand(-30,30)+"px";
-      const ax2 = rand(-140,140)+"px", ay2 = rand(-110,110)+"px";
-      const ax3 = rand(-90,90)+"px", ay3 = rand(-70,70)+"px";
-      const ao  = rand(0.10,0.18).toFixed(3); // subtle max opacity
-      const ar  = rand(-14,14).toFixed(2)+"deg";
-
+      const ax1 = rand(-60,60)+"px", ay1 = rand(-50,50)+"px";
+      const ax2 = rand(-220,220)+"px", ay2 = rand(-170,170)+"px";
+      const ax3 = rand(-140,140)+"px", ay3 = rand(-110,110)+"px";
+      const ao  = rand(0.10,0.20).toFixed(3);
+      const ar  = rand(-16,16).toFixed(2)+"deg";
       aurora.style.setProperty("--ax1", ax1);
       aurora.style.setProperty("--ay1", ay1);
       aurora.style.setProperty("--ax2", ax2);
@@ -394,18 +527,15 @@ footer{
       aurora.style.setProperty("--ao", ao);
       aurora.style.setProperty("--ar", ar);
 
-      const dur = rand(9,14).toFixed(2) + "s";
+      const dur = rand(9,15).toFixed(2) + "s";
       aurora.style.animation = "none";
       void aurora.offsetWidth;
       aurora.style.animation = `auroraInOut ${dur} ease-in-out 1, auroraHue ${dur} linear 1`;
 
-      // next appearance (irregular, sometimes longer gaps)
-      const next = rand(7000, 21000);
+      const next = rand(6500, 23000);
       setTimeout(run, next);
     }
-
-    // start after a short random delay
-    setTimeout(run, 2500 + Math.random()*6500);
+    setTimeout(run, 1200 + Math.random()*5200);
   })();
 
   // ===== Overlay canvas: meteors + satellites =====
@@ -432,35 +562,33 @@ footer{
     window.addEventListener("resize", resize, { passive:true });
     resize();
 
-    // --- Meteors (more dramatic, irregular) ---
+    // Meteors
     function spawnMeteor(){
       const dirs = [
-        {sx: rand(-120, w*0.3), sy: rand(-90, h*0.25), ex: w+260, ey: h+220}, // TL -> BR
-        {sx: rand(w*0.7, w+120), sy: rand(-90, h*0.25), ex: -260, ey: h+220}, // TR -> BL
+        {sx: rand(-160, w*0.25), sy: rand(-120, h*0.25), ex: w+320, ey: h+260},
+        {sx: rand(w*0.75, w+160), sy: rand(-120, h*0.25), ex: -320, ey: h+260},
       ];
       const d = pick(dirs);
-      const dx = d.ex - d.sx;
-      const dy = d.ey - d.sy;
+      const dx = d.ex - d.sx, dy = d.ey - d.sy;
       const dist = Math.hypot(dx,dy) || 1;
       const ux = dx/dist, uy = dy/dist;
 
-      const speed = rand(18, 32);
-      const len = rand(380, 740);                 // longer tail
-      const width = rand(1.6, 2.6);               // thicker
-      const spark = rand(0.55, 0.78);             // brighter head
-      const maxLife = rand(38, 58);               // fast pass
+      const speed = rand(18, 34);
+      const len = rand(420, 820);
+      const width = rand(1.7, 2.8);
+      const spark = rand(0.60, 0.86);
+      const maxLife = rand(36, 56);
       meteors.push({ x:d.sx, y:d.sy, vx:ux*speed, vy:uy*speed, len, width, spark, life:0, maxLife });
     }
 
     function scheduleMeteors(){
-      // sometimes two in a short burst
-      const burst = Math.random() < 0.28;
+      const burst = Math.random() < 0.32;
       spawnMeteor();
-      if (burst) setTimeout(spawnMeteor, rand(450, 1100));
-      const next = rand(3500, 15000);             // irregular intervals
+      if (burst) setTimeout(spawnMeteor, rand(380, 1100));
+      const next = rand(3200, 14500);
       setTimeout(scheduleMeteors, next);
     }
-    setTimeout(scheduleMeteors, rand(1500, 7000));
+    setTimeout(scheduleMeteors, rand(1200, 6800));
 
     function drawMeteor(m){
       const v = Math.hypot(m.vx, m.vy) || 1;
@@ -470,8 +598,8 @@ footer{
 
       const g = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
       g.addColorStop(0, `rgba(255,255,255,${m.spark})`);
-      g.addColorStop(0.15, "rgba(255,255,255,0.26)");
-      g.addColorStop(0.55, "rgba(255,255,255,0.10)");
+      g.addColorStop(0.12, "rgba(255,255,255,0.32)");
+      g.addColorStop(0.48, "rgba(255,255,255,0.12)");
       g.addColorStop(1, "rgba(255,255,255,0)");
 
       ctx.strokeStyle = g;
@@ -481,22 +609,22 @@ footer{
       ctx.lineTo(tailX, tailY);
       ctx.stroke();
 
-      // small head glow
+      // head glow
       ctx.fillStyle = `rgba(255,255,255,${m.spark})`;
       ctx.beginPath();
-      ctx.arc(m.x, m.y, 1.7, 0, Math.PI*2);
+      ctx.arc(m.x, m.y, 2.0, 0, Math.PI*2);
       ctx.fill();
     }
 
-    // --- Satellites (1~2 subtle, slow drift) ---
+    // Satellites
     function spawnSat(){
-      const y = rand(h*0.12, h*0.42);
+      const y = rand(h*0.10, h*0.42);
       const fromLeft = Math.random() < 0.5;
-      const x = fromLeft ? -140 : w+140;
-      const vx = fromLeft ? rand(0.35,0.55) : -rand(0.35,0.55);
-      const size = rand(16, 22);
-      const tilt = rand(-0.35,0.35);
-      const alpha = rand(0.18, 0.28);
+      const x = fromLeft ? -160 : w+160;
+      const vx = fromLeft ? rand(0.32,0.56) : -rand(0.32,0.56);
+      const size = rand(16, 24);
+      const tilt = rand(-0.40,0.40);
+      const alpha = rand(0.18, 0.30);
       const tw = rand(0.02, 0.05);
       sats.push({x,y,vx,size,tilt,alpha,tw,phase:Math.random()*Math.PI*2});
     }
@@ -506,41 +634,35 @@ footer{
       while (sats.length < target) spawnSat();
     }
     ensureSats();
-    // refresh sats occasionally (replace)
     setInterval(() => {
-      if (sats.length && Math.random() < 0.5) sats.shift();
+      if (sats.length && Math.random() < 0.55) sats.shift();
       ensureSats();
-    }, 18000);
+    }, 17000);
 
     function drawSat(s){
-      // simple satellite: body + solar panels + faint trail
       ctx.save();
       ctx.globalAlpha = s.alpha + Math.sin(s.phase)*s.tw;
       ctx.translate(s.x, s.y);
       ctx.rotate(s.tilt);
 
-      // trail
-      const trail = ctx.createLinearGradient(-80, 0, 0, 0);
+      const trail = ctx.createLinearGradient(-90, 0, 0, 0);
       trail.addColorStop(0, "rgba(255,255,255,0)");
-      trail.addColorStop(1, "rgba(255,255,255,0.10)");
+      trail.addColorStop(1, "rgba(255,255,255,0.12)");
       ctx.strokeStyle = trail;
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(-90, 0);
+      ctx.moveTo(-96, 0);
       ctx.lineTo(-18, 0);
       ctx.stroke();
 
-      // panels
       ctx.fillStyle = "rgba(255,255,255,0.14)";
       ctx.fillRect(-s.size-18, -4, 18, 8);
       ctx.fillRect( s.size,    -4, 18, 8);
 
-      // body
       ctx.fillStyle = "rgba(255,255,255,0.28)";
       ctx.fillRect(-10, -6, 20, 12);
 
-      // antenna
-      ctx.strokeStyle = "rgba(255,255,255,0.20)";
+      ctx.strokeStyle = "rgba(255,255,255,0.22)";
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(10,0);
@@ -553,7 +675,6 @@ footer{
     function tick(){
       ctx.clearRect(0,0,w,h);
 
-      // meteors
       for (let i = meteors.length - 1; i >= 0; i--){
         const m = meteors[i];
         m.x += m.vx;
@@ -561,25 +682,21 @@ footer{
         m.life += 1;
 
         const t = m.life / m.maxLife;
-        // ease alpha in/out
         const a = t < 0.15 ? (t/0.15) : (t > 0.86 ? ((1-t)/0.14) : 1);
         ctx.globalAlpha = a;
-
         drawMeteor(m);
 
-        if (m.life > m.maxLife || m.x < -520 || m.x > w+520 || m.y < -520 || m.y > h+520) meteors.splice(i,1);
+        if (m.life > m.maxLife || m.x < -620 || m.x > w+620 || m.y < -620 || m.y > h+620) meteors.splice(i,1);
       }
       ctx.globalAlpha = 1;
 
-      // satellites
       for (let i = sats.length - 1; i >= 0; i--){
         const s = sats[i];
         s.x += s.vx;
         s.phase += 0.03;
         drawSat(s);
-
-        if (s.vx > 0 && s.x > w+180) sats.splice(i,1);
-        if (s.vx < 0 && s.x < -180) sats.splice(i,1);
+        if (s.vx > 0 && s.x > w+200) sats.splice(i,1);
+        if (s.vx < 0 && s.x < -200) sats.splice(i,1);
       }
       ensureSats();
 
