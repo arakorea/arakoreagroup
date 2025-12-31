@@ -12,7 +12,10 @@
   --muted:#B8B8B8;
   --line:rgba(255,255,255,.12);
   --max:1180px;
-  --logoH:34px;
+
+  /* 🔑 LOGO SCALE */
+  --logoH-desktop:64px;
+  --logoH-mobile:48px;
 }
 
 *{box-sizing:border-box}
@@ -39,21 +42,22 @@ header{
 .header-inner{
   max-width:var(--max);
   margin:0 auto;
-  padding:22px 20px 18px;
+  padding:28px 20px 22px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:14px;
+  gap:18px;
 }
 
 .brand img{
-  height:var(--logoH);
+  height:var(--logoH-desktop);
+  width:auto;
   display:block;
 }
 
 nav{
   display:flex;
-  gap:26px;
+  gap:28px;
   font-size:14px;
   color:var(--muted);
 }
@@ -61,7 +65,7 @@ nav a:hover{color:var(--text)}
 
 /* ===== CONTENT ===== */
 main{
-  padding:96px 20px 72px;
+  padding:110px 20px 80px;
   max-width:var(--max);
   margin:0 auto;
   text-align:center;
@@ -70,7 +74,7 @@ main{
 h1{
   font-size:42px;
   line-height:1.2;
-  margin:0 auto 20px;
+  margin:0 auto 22px;
   max-width:900px;
 }
 
@@ -85,15 +89,24 @@ p{
 /* ===== FOOTER ===== */
 footer{
   border-top:1px solid var(--line);
-  padding:28px 20px;
+  padding:32px 20px;
   text-align:center;
   font-size:13px;
   color:var(--muted);
 }
 
+/* ===== MOBILE ===== */
 @media(max-width:640px){
-  nav{gap:18px;font-size:13px}
-  h1{font-size:32px}
+  .brand img{
+    height:var(--logoH-mobile);
+  }
+  nav{
+    gap:18px;
+    font-size:13px;
+  }
+  h1{
+    font-size:32px;
+  }
 }
 </style>
 </head>
