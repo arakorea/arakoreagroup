@@ -1146,6 +1146,59 @@ footer{
   .thumb{ padding: 12px 10px; }
   .thumb-dot{ width: 32px; height: 32px; }
 }
+
+/* ===== Mobile interaction + size fix (2026-01-01) =====
+   - halve the "planet/star" sizes on mobile (portrait & landscape)
+   - make only the center (ourbang) planet clickable
+   - fade peripheral planets and peripheral background stars
+*/
+@media (max-width: 720px){
+  /* halve everything inside the planet system (keeps JS transforms intact) */
+  #planets, .planets{
+    transform: scale(0.5);
+    transform-origin: 50% 50%;
+  }
+
+  /* allow only the center planet to be clicked */
+  .planet{
+    opacity: 0.10;
+    filter: blur(1.6px);
+    pointer-events: none !important;
+  }
+  .planet .p-label{ opacity: 0; }
+
+  .planet[data-id="ourbang.com"]{
+    opacity: 1;
+    filter: none;
+    pointer-events: auto !important;
+  }
+  .planet[data-id="ourbang.com"] .p-label{
+    opacity: 1;
+  }
+
+  /* soften peripheral starfield so center stands out */
+  .universe::after{
+    display:block !important;
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:3; /* above stars (1) but below UI (header) */
+    background: radial-gradient(circle at 50% 45%,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.18) 40%,
+      rgba(0,0,0,0.62) 78%,
+      rgba(0,0,0,0.88) 100%);
+  }
+
+  /* smaller particle stars (if generated as DOM dots) */
+  .stars .star{
+    width:1px;
+    height:1px;
+  }
+  .stars.front .star{ box-shadow: 0 0 3px rgba(255,255,255,.35); }
+}
+
 </style>
 </head>
 <body>
