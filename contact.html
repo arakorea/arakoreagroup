@@ -76,8 +76,13 @@ header{
   display:block;
 }
 
+
+nav a{display:inline-flex;align-items:center;justify-content:center;padding:6px 2px;}
 nav{
   display:flex;
+  flex-wrap:nowrap;
+  justify-content:center;
+  align-items:center;
   gap:32px;
   font-size:14px;
   color:var(--muted);
@@ -167,7 +172,8 @@ footer{
 
 @media(max-width:780px){.grid{grid-template-columns:1fr}}
 @media(max-width:640px){
-  .brand img{height:var(--logoH-mobile)}
+  .brand img{height:var(--logoH-mobile)  nav{ gap:18px; font-size:13px; flex-wrap:wrap; justify-content:center; }
+}
   h1{font-size:32px}
 }
 </style>
