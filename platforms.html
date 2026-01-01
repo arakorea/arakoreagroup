@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<link rel="stylesheet" href="landscape_fullscreen.css"/>
+<link href="landscape_fullscreen.css" rel="stylesheet"/>
 <title>ARA KOREA GROUP | Platforms</title>
 <style>
 :root{
@@ -1066,6 +1066,86 @@ footer{
   .universe::before{ opacity: .22 !important; }
 }
 
+
+
+
+/* ===== Platforms: usability tuning ===== */
+.planet{ touch-action: manipulation; }
+.universe{ touch-action: pan-y; }
+
+/* Make planets slightly smaller on desktop and give more breathing room */
+@media (min-width: 721px){
+  .planet{ --sz: calc(var(--sz) * 0.90); }
+}
+
+/* ===== Quick Links thumbnails (mobile-friendly) ===== */
+.plat-thumbs{
+  margin-top: 18px;
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.20);
+  padding: 18px;
+}
+.plat-thumbs h2{
+  margin:0;
+  font-size: 18px;
+  letter-spacing: .2px;
+}
+.plat-thumbs p{
+  margin: 8px 0 0;
+  color: rgba(242,242,242,.75);
+  font-size: 13.5px;
+}
+.thumb-grid{
+  margin-top: 14px;
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.thumb{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.04);
+  text-decoration:none;
+  color: rgba(242,242,242,.92);
+  min-height: 56px; /* easy tap target */
+}
+.thumb:hover{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); }
+.thumb:active{ transform: translateY(1px); }
+.thumb-dot{
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  background:
+    radial-gradient(70% 70% at 30% 30%, rgba(255,255,255,.55), transparent 55%),
+    radial-gradient(90% 90% at 70% 70%, hsla(var(--hue, 210), 85%, 60%, .35), transparent 60%),
+    hsla(var(--hue, 210), 70%, 55%, .16);
+  box-shadow: 0 0 0 1px rgba(255,255,255,.14), 0 0 14px rgba(255,255,255,.10);
+  flex: 0 0 auto;
+}
+.thumb-meta{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+.thumb-name{
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow:hidden;
+  text-overflow: ellipsis;
+}
+.thumb-tag{
+  font-size: 12.5px;
+  color: rgba(242,242,242,.65);
+}
+
+/* On very small phones, give even more spacing between tiles */
+@media (max-width: 420px){
+  .thumb-grid{ gap: 10px; }
+  .thumb{ padding: 12px 10px; }
+  .thumb-dot{ width: 32px; height: 32px; }
+}
 </style>
 </head>
 <body>
@@ -1139,11 +1219,11 @@ footer{
 <span class="p-name">tikoonz radio</span>
 <span class="p-sub">Live</span>
 </span>
-</a><a class="planet" data-angle="3.769911" data-id="ourbang" data-name="ourbang" data-radius="290" data-size="61.6" data-slogan="Space becomes a digital asset" data-sub="Scan, view, and trade space through a credit system." data-tag="Platform" data-url="https://www.ourbang.com" href="https://www.ourbang.com" rel="noopener noreferrer" role="link" style="--sz:61.6px; --hue:240;" target="_blank">
+</a><a class="planet" data-angle="3.769911" data-id="ourbang.com" data-name="ourbang.com" data-radius="290" data-size="61.6" data-slogan="Space becomes a digital asset" data-sub="Scan, view, and trade space through a credit system." data-tag="Platform" data-url="https://www.ourbang.com.com" href="https://ourbang.com" rel="noopener noreferrer" role="link" style="--sz:61.6px; --hue:240;" target="_blank">
 <span aria-hidden="true" class="p-body"></span>
 <span aria-hidden="true" class="p-ring"></span>
 <span class="p-label">
-<span class="p-name">ourbang</span>
+<span class="p-name">ourbang.com</span>
 <span class="p-sub">Platform</span>
 </span>
 </a><a class="planet" data-angle="4.398230" data-id="ice-jewelry" data-name="ICE Jewelry" data-radius="290" data-size="58.9" data-slogan="Identity expressed through form" data-sub="Design-led product line bridging culture and value." data-tag="Product" data-url="https://www.icehail.com" href="https://www.icehail.com" rel="noopener noreferrer" role="link" style="--sz:58.9px; --hue:270;" target="_blank">
@@ -1186,13 +1266,13 @@ footer{
 </div>
 </div>
 </div>
-</div>
-</section>
-</main>
+</section><section aria-label="Quick links" class="plat-thumbs"><h2>Quick Links</h2><p>Tap a tile to open the platform directly. (Same destinations as the planets above.)</p><div class="thumb-grid"><a class="thumb" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:0;"></span><span class="thumb-meta"><span class="thumb-name">AKFF</span><span class="thumb-tag">Festival</span></span></a><a class="thumb" href="https://arakorea.org" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:30;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.org</span><span class="thumb-tag">Culture</span></span></a><a class="thumb" href="https://www.akenm.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:60;"></span><span class="thumb-meta"><span class="thumb-name">publishing</span><span class="thumb-tag">Publishing</span></span></a><a class="thumb" href="https://tikoonz.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:120;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.com</span><span class="thumb-tag">Media</span></span></a><a class="thumb" href="https://tikoonz.tv" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:180;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.tv</span><span class="thumb-tag">Channel</span></span></a><a class="thumb" href="https://www.youtube.com/@tikoonz" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:210;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz radio</span><span class="thumb-tag">Live</span></span></a><a class="thumb" href="https://ourbang.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:240;"></span><span class="thumb-meta"><span class="thumb-name">ourbang.com</span><span class="thumb-tag">Platform</span></span></a><a class="thumb" href="https://www.icehail.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:270;"></span><span class="thumb-meta"><span class="thumb-name">ICE Jewelry</span><span class="thumb-tag">Product</span></span></a><a class="thumb" href="https://arakorea.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:300;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.shop</span><span class="thumb-tag">Shop</span></span></a><a class="thumb" href="https://tikoonz.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:330;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.shop</span><span class="thumb-tag">Shop</span></span></a></div></section></main></div>
+
+
 <footer>
     © <span id="y"></span> ARA KOREA GROUP. All rights reserved.
   </footer>
-</div>
+
 <script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.12.0/tsparticles.slim.bundle.min.js"></script>
 <script>
   document.getElementById("y").textContent = new Date().getFullYear();
@@ -1390,8 +1470,9 @@ footer{
 
   // ===== Ring + depth settings =====
   const ellipseY = 0.24;
-  const minScale = 0.50;
-  const maxScale = 2.25;
+  const isMobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
+  const minScale = isMobile ? 0.58 : 0.50;
+  const maxScale = isMobile ? 2.15 : 1.85;
   const zDepth  = 460;
 
   // back planets
@@ -1420,11 +1501,11 @@ footer{
 
   // Perf: cache measurements, update on resize only
   let rect = universe.getBoundingClientRect();
-  let r = rect.width * 0.47;
+  let r = Math.min(rect.width * (isMobile ? 0.50 : 0.54), rect.height * 0.62);
 
   function measure(){
     rect = universe.getBoundingClientRect();
-    r = rect.width * 0.47; // fill width
+r = Math.min(rect.width * (isMobile ? 0.50 : 0.54), rect.height * 0.62); // fill width
   }
 
   function setSliderFromRot(){
@@ -1493,9 +1574,9 @@ footer{
   }
 
   // ===== Snap-in intro (polished first impression) =====
-  // Put "ourbang" near the front on load, then ease in.
+  // Put "ourbang.com" near the front on load, then ease in.
   function snapIntro(){
-    const target = planets.find(p => (p.dataset.id || "").toLowerCase() === "ourbang") || planets[0];
+    const target = planets.find(p => (p.dataset.id || "").toLowerCase() === "ourbang.com") || planets[0];
     const ang0 = parseFloat(target.dataset.angle || "0");
     const desired = 0; // front
     const targetRot = desired - ang0;
