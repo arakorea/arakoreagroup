@@ -1309,6 +1309,41 @@ body.guide-on .planet.is-center::after{
 }
 </style>
 
+
+<style>
+/* === NAV LOCK (MATCH OTHER PAGES) === */
+header{width:100%;}
+nav{display:flex;justify-content:center;align-items:center;gap:18px;}
+nav a{font-size:0.85rem;line-height:1;padding:8px 10px;}
+@media (max-width:768px){
+  header{padding-top:16px;}
+  nav{flex-wrap:wrap;gap:16px;}
+  nav a{font-size:0.85rem;padding:8px 10px;}
+}
+</style>
+
+
+<style>
+/* === MOBILE PLANET TAP + SPACING === */
+/* Make the anchor itself the tappable circle (fixes mobile tap failing) */
+.planet{
+  width: var(--sz, 72px);
+  height: var(--sz, 72px);
+  pointer-events: none; /* default: avoid mis-taps on back planets */
+}
+.planet .body{ left:0; top:0; } /* keep existing internals aligned */
+
+/* Stars layers must never steal taps */
+.stars{ pointer-events:none; }
+
+/* Only center is clickable on mobile; side/back are visual only */
+@media (max-width: 1024px){
+  .planet.is-center{ pointer-events:auto; touch-action:manipulation; }
+  .planet:not(.is-center){ opacity:.35; filter: blur(0.5px); }
+  .planet.is-center{ opacity:1; filter:none; }
+}
+</style>
+
 </head>
 <body>
 <div aria-hidden="true" id="tsparticles"></div>
@@ -1589,7 +1624,7 @@ body.guide-on .planet.is-center::after{
         // scale/opacity with depth (closer = clearer)
         let s = 0.62 + depth * 0.55;
         // Mobile landscape: half size for easier scanning
-        if (window.matchMedia && window.matchMedia("(max-width: 1024px) and (orientation: landscape)").matches) s *= 0.5;
+        if (window.matchMedia && window.matchMedia("(max-width: 1024px)").matches) s *= 0.5;
         const a = 0.20 + depth * 0.86;
 
         // 3D: pop forward a touch when near
@@ -1633,15 +1668,15 @@ body.guide-on .planet.is-center::after{
   if (!universe || planets.length === 0) return;
 
   // ===== Ring + depth settings =====
-  let ellipseY = 0.78; // more circular, less empty space
+  let ellipseY = 0.86; // closer to a circle on mobile/desktop // more circular, less empty space
   const isMobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
   const minScale = isMobile ? 0.58 : 0.50;
   const maxScale = isMobile ? 2.15 : 1.85;
   const zDepth  = 460;
 
   // back planets
-  const backFade = 0.78;
-  const backBlur = 3.1;
+  const backFade = 0.60;
+  const backBlur = 3.6;
 
   // stronger non-linear depth curve
   const scaleCurve = 1.65;
@@ -1665,11 +1700,11 @@ body.guide-on .planet.is-center::after{
 
   // Perf: cache measurements, update on resize only
   let rect = universe.getBoundingClientRect();
-  let r = Math.min(rect.width * (isMobile ? 0.62 : 0.56), rect.height * 0.58);
+  let r = Math.min(rect.width * (isMobile ? 0.70 : 0.58), rect.height * (isMobile ? 0.60 : 0.58));
 
   function measure(){
     rect = universe.getBoundingClientRect();
-r = Math.min(rect.width * (isMobile ? 0.62 : 0.56), rect.height * 0.58); // larger orbit, better spacing
+r = Math.min(rect.width * (isMobile ? 0.70 : 0.58), rect.height * (isMobile ? 0.60 : 0.58)); // wider orbit for easier taps
   }
 
   function setSliderFromRot(){
@@ -1710,7 +1745,7 @@ r = Math.min(rect.width * (isMobile ? 0.62 : 0.56), rect.height * 0.58); // larg
       const sc = minScale + Math.pow(t, scaleCurve) * (maxScale - minScale);
       const tz = z * zDepth;
 
-      const op = 0.12 + Math.pow(t, 1.12) * backFade;
+      const op = 0.06 + Math.pow(t, 1.12) * backFade;
       const blur = (1 - t) * backBlur;
 
       // extra polish: sharpen and brighten near front
