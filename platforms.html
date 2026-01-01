@@ -1147,58 +1147,24 @@ footer{
   .thumb-dot{ width: 32px; height: 32px; }
 }
 
-/* ===== Mobile interaction + size fix (2026-01-01) =====
-   - halve the "planet/star" sizes on mobile (portrait & landscape)
-   - make only the center (ourbang) planet clickable
-   - fade peripheral planets and peripheral background stars
-*/
-@media (max-width: 720px){
-  /* halve everything inside the planet system (keeps JS transforms intact) */
-  #planets, .planets{
-    transform: scale(0.5);
-    transform-origin: 50% 50%;
+/* ===== Mobile PORTRAIT ONLY: focus center planet + improve tap ===== */
+@media (max-width: 640px) and (orientation: portrait){
+  .universe-hint, .universe-subhint{ display:none !important; }
+
+  /* Make everything feel calmer/less busy */
+  .stars.back .star{ opacity:0.05 !important; }
+  .stars.front .star{ opacity:0.08 !important; }
+
+  /* Dim all planets by default (JS will re-enable the center one) */
+  .planet{ opacity:0.10 !important; filter: blur(2.2px) saturate(0.85) !important; }
+  .planet.is-center{
+    opacity:1 !important;
+    filter:none !important;
   }
 
-  /* allow only the center planet to be clicked */
-  .planet{
-    opacity: 0.10;
-    filter: blur(1.6px);
-    pointer-events: none !important;
-  }
-  .planet .p-label{ opacity: 0; }
-
-  .planet[data-id="ourbang.com"]{
-    opacity: 1;
-    filter: none;
-    pointer-events: auto !important;
-  }
-  .planet[data-id="ourbang.com"] .p-label{
-    opacity: 1;
-  }
-
-  /* soften peripheral starfield so center stands out */
-  .universe::after{
-    display:block !important;
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    z-index:3; /* above stars (1) but below UI (header) */
-    background: radial-gradient(circle at 50% 45%,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.18) 40%,
-      rgba(0,0,0,0.62) 78%,
-      rgba(0,0,0,0.88) 100%);
-  }
-
-  /* smaller particle stars (if generated as DOM dots) */
-  .stars .star{
-    width:1px;
-    height:1px;
-  }
-  .stars.front .star{ box-shadow: 0 0 3px rgba(255,255,255,.35); }
+  /* Prevent accidental drag stealing taps */
+  #universe{ touch-action: manipulation; }
 }
-
 </style>
 </head>
 <body>
@@ -1272,7 +1238,7 @@ footer{
 <span class="p-name">tikoonz radio</span>
 <span class="p-sub">Live</span>
 </span>
-</a><a class="planet" data-angle="3.769911" data-id="ourbang.com" data-name="ourbang.com" data-radius="290" data-size="61.6" data-slogan="Space becomes a digital asset" data-sub="Scan, view, and trade space through a credit system." data-tag="Platform" data-url="//ourbang.com" href="//ourbang.com" rel="noopener noreferrer" role="link" style="--sz:61.6px; --hue:240;" target="_blank">
+</a><a class="planet" data-angle="3.769911" data-id="ourbang.com" data-name="ourbang.com" data-radius="290" data-size="61.6" data-slogan="Space becomes a digital asset" data-sub="Scan, view, and trade space through a credit system." data-tag="Platform" data-url="https://www.ourbang.com.com" href="https://www.ourbang.com.com" rel="noopener noreferrer" role="link" style="--sz:61.6px; --hue:240;" target="_blank">
 <span aria-hidden="true" class="p-body"></span>
 <span aria-hidden="true" class="p-ring"></span>
 <span class="p-label">
@@ -1319,7 +1285,7 @@ footer{
 </div>
 </div>
 </div>
-</section><section aria-label="Quick links" class="plat-thumbs"><h2>Quick Links</h2><p>Tap a tile to open the platform directly. (Same destinations as the planets above.)</p><div class="thumb-grid"><a class="thumb" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:0;"></span><span class="thumb-meta"><span class="thumb-name">AKFF</span><span class="thumb-tag">Festival</span></span></a><a class="thumb" href="https://arakorea.org" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:30;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.org</span><span class="thumb-tag">Culture</span></span></a><a class="thumb" href="https://www.akenm.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:60;"></span><span class="thumb-meta"><span class="thumb-name">publishing</span><span class="thumb-tag">Publishing</span></span></a><a class="thumb" href="https://tikoonz.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:120;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.com</span><span class="thumb-tag">Media</span></span></a><a class="thumb" href="https://tikoonz.tv" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:180;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.tv</span><span class="thumb-tag">Channel</span></span></a><a class="thumb" href="https://www.youtube.com/@tikoonz" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:210;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz radio</span><span class="thumb-tag">Live</span></span></a><a class="thumb" href="//ourbang.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:240;"></span><span class="thumb-meta"><span class="thumb-name">ourbang.com</span><span class="thumb-tag">Platform</span></span></a><a class="thumb" href="https://www.icehail.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:270;"></span><span class="thumb-meta"><span class="thumb-name">ICE Jewelry</span><span class="thumb-tag">Product</span></span></a><a class="thumb" href="https://arakorea.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:300;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.shop</span><span class="thumb-tag">Shop</span></span></a><a class="thumb" href="https://tikoonz.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:330;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.shop</span><span class="thumb-tag">Shop</span></span></a></div></section></main></div>
+</section><section aria-label="Quick links" class="plat-thumbs"><h2>Quick Links</h2><p>Tap a tile to open the platform directly. (Same destinations as the planets above.)</p><div class="thumb-grid"><a class="thumb" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:0;"></span><span class="thumb-meta"><span class="thumb-name">AKFF</span><span class="thumb-tag">Festival</span></span></a><a class="thumb" href="https://arakorea.org" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:30;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.org</span><span class="thumb-tag">Culture</span></span></a><a class="thumb" href="https://www.akenm.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:60;"></span><span class="thumb-meta"><span class="thumb-name">publishing</span><span class="thumb-tag">Publishing</span></span></a><a class="thumb" href="https://tikoonz.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:120;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.com</span><span class="thumb-tag">Media</span></span></a><a class="thumb" href="https://tikoonz.tv" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:180;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.tv</span><span class="thumb-tag">Channel</span></span></a><a class="thumb" href="https://www.youtube.com/@tikoonz" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:210;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz radio</span><span class="thumb-tag">Live</span></span></a><a class="thumb" href="https://www.ourbang.com.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:240;"></span><span class="thumb-meta"><span class="thumb-name">ourbang.com</span><span class="thumb-tag">Platform</span></span></a><a class="thumb" href="https://www.icehail.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:270;"></span><span class="thumb-meta"><span class="thumb-name">ICE Jewelry</span><span class="thumb-tag">Product</span></span></a><a class="thumb" href="https://arakorea.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:300;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.shop</span><span class="thumb-tag">Shop</span></span></a><a class="thumb" href="https://tikoonz.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:330;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.shop</span><span class="thumb-tag">Shop</span></span></a></div></section></main></div>
 
 
 <footer>
@@ -1411,6 +1377,69 @@ footer{
     if (!system) return;
 
     const planets = Array.from(system.querySelectorAll(".planet"));
+
+const LINK_MAP = {
+  "tikoonz-com": "//tikoonz.com",
+  "ourbang-com": "//ourbang.com",
+  "tikoonz-tv": "//tikoonz.tv",
+  "tikoonz-radio": "//tikoonz.com",   // adjust if you have a separate radio URL
+  "akff": "//arakorea.org"
+};
+
+// Mobile portrait-only lock flag (we only change portrait; landscape/desktop remain untouched)
+let portraitOnly = false;
+
+function applyPortraitOnly(){
+  const mq = window.matchMedia("(max-width: 640px) and (orientation: portrait)");
+  portraitOnly = mq.matches;
+
+  // Mark the center planet (we'll lock to tikoonz-com for portrait)
+  const centerId = "tikoonz-com";
+
+  planets.forEach(p => {
+    const id = p.getAttribute("data-id") || "";
+
+    // Ensure href exists (fixes cases where JS/touch prevents opening)
+    if (LINK_MAP[id]) {
+      p.setAttribute("href", LINK_MAP[id]);
+      p.setAttribute("rel", "noopener noreferrer");
+      p.setAttribute("target", "_blank");
+    }
+
+    if (portraitOnly) {
+      // Shrink planet sizes about half (CSS vars used by both implementations)
+      const cs = getComputedStyle(p);
+      const szRaw = (cs.getPropertyValue("--sz") || p.style.getPropertyValue("--sz") || "").trim();
+      const sz = parseFloat(szRaw);
+      if (!Number.isNaN(sz) && sz > 0){
+        const half = (sz * 0.5);
+        p.style.setProperty("--sz", half + "px");
+        p.style.setProperty("--size", half + "px");
+      }
+
+      // Only center is clearly visible + clickable
+      if (id === centerId){
+        p.classList.add("is-center");
+        p.style.pointerEvents = "auto";
+      } else {
+        p.classList.remove("is-center");
+        p.style.pointerEvents = "none";
+      }
+    } else {
+      // Reset portrait-only overrides when not portrait
+      p.classList.remove("is-center");
+      p.style.pointerEvents = "";
+      p.style.removeProperty("--size");
+    }
+  });
+
+    applyPortraitOnly();
+
+}
+
+// Apply once and on orientation/resize
+window.addEventListener("resize", applyPortraitOnly, {passive:true});
+window.addEventListener("orientationchange", applyPortraitOnly);
 
     // inject bodies/labels
     planets.forEach(p => {
