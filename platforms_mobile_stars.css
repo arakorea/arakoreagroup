@@ -1,5 +1,7 @@
 /* Mobile-only adjustments for Platforms star field */
-@media (max-width: 640px){
+
+/* ✅ Mobile LANDSCAPE: keep existing behavior (unchanged from your current file) */
+@media (max-width: 640px) and (orientation: landscape){
   .stars .star{
     width: 1.4px;
     height: 1.4px;
@@ -12,5 +14,29 @@
   }
   .stars.back .star{
     opacity: .08;
+  }
+}
+
+/* ✅ Mobile PORTRAIT ONLY: dim stars + DO NOT block taps */
+@media (max-width: 640px) and (orientation: portrait){
+
+  /* The starfield should never steal taps/clicks on mobile portrait */
+  .stars{
+    pointer-events: none;
+  }
+
+  /* Make stars much smaller and less distracting in portrait */
+  .stars .star{
+    width: 0.8px;
+    height: 0.8px;
+  }
+
+  .stars.front .star{
+    box-shadow: 0 0 2px rgba(255,255,255,.22);
+    opacity: .28;
+  }
+
+  .stars.back .star{
+    opacity: .02;
   }
 }
