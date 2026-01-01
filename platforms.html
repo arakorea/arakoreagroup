@@ -1147,6 +1147,168 @@ footer{
   .thumb-dot{ width: 32px; height: 32px; }
 }
 </style>
+
+<style>
+/* === GLOBAL NAV LOCK (MATCH INDEX/BUSINESS) === */
+header {
+  width: 100%;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+
+nav a {
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 8px 10px;
+}
+
+/* Mobile normalization */
+@media (max-width: 768px) {
+  header {
+    padding-top: 16px;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  nav a {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+}
+</style>
+
+
+<style>
+/* === MOBILE STAR INTERACTION TUNING === */
+
+/* Portrait (vertical) mobile */
+@media (max-width: 768px) and (orientation: portrait) {
+  .stars-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 140px; /* large horizontal spacing */
+  }
+
+  .star {
+    transform: scale(1.1);
+  }
+
+  .star.center {
+    transform: scale(1.3);
+    z-index: 3;
+    pointer-events: auto;
+  }
+
+  .star.side {
+    opacity: 0.6;
+  }
+}
+
+/* Landscape (horizontal) mobile */
+@media (max-width: 1024px) and (orientation: landscape) {
+  .stars-container {
+    gap: 220px; /* even wider spacing */
+  }
+
+  .star {
+    transform: scale(0.5);
+  }
+}
+
+/* Ensure touch always works */
+.star a,
+.star {
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+</style>
+
+
+<style>
+/* === CENTER PLANET GUIDANCE (PULSE/GLOW/RIPPLE/FOCUS) === */
+:root{
+  --centerGlow: rgba(255,255,255,.28);
+  --centerGlowStrong: rgba(255,255,255,.45);
+}
+
+/* Make the center planet feel tappable without being loud */
+.planet.is-center{
+  position: relative;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Subtle pulse + glow (disabled when guide is off or reduced motion) */
+body.guide-on .planet.is-center{
+  animation: centerPulse 2.8s ease-in-out infinite;
+  filter: drop-shadow(0 0 18px var(--centerGlow));
+}
+body.guide-off .planet.is-center{
+  animation: none !important;
+  filter: none;
+}
+
+@keyframes centerPulse{
+  0%,100%{ transform: translate(var(--tx,0px), var(--ty,0px)) translate(-50%,-50%) scale(var(--s,1)); }
+  50%{ transform: translate(var(--tx,0px), var(--ty,0px)) translate(-50%,-50%) scale(calc(var(--s,1) * 1.03)); }
+}
+
+/* Ripple (halo): first-load only, 2 gentle waves */
+body.guide-on .planet.is-center::before,
+body.guide-on .planet.is-center::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width: 110%;
+  height: 110%;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.35);
+  transform: translate(-50%,-50%) scale(.92);
+  opacity: 0;
+  pointer-events:none;
+}
+body.guide-on .planet.is-center::before{
+  animation: haloRipple 2.2s ease-out 0.25s 1;
+}
+body.guide-on .planet.is-center::after{
+  animation: haloRipple 2.2s ease-out 1.05s 1;
+}
+
+@keyframes haloRipple{
+  0%{ opacity: 0; transform: translate(-50%,-50%) scale(.92); }
+  20%{ opacity: .55; }
+  100%{ opacity: 0; transform: translate(-50%,-50%) scale(1.28); }
+}
+
+/* Tap feedback: quick brightening */
+.planet.is-center:active{
+  filter: drop-shadow(0 0 24px var(--centerGlowStrong));
+}
+
+/* Ensure touch/click always works */
+.planet{
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  body.guide-on .planet.is-center{ animation: none !important; }
+  body.guide-on .planet.is-center::before,
+  body.guide-on .planet.is-center::after{ animation: none !important; display:none; }
+}
+</style>
+
 </head>
 <body>
 <div aria-hidden="true" id="tsparticles"></div>
@@ -1169,12 +1331,12 @@ footer{
 <main class="plat-main">
 <section class="plat-hero">
 <h1>Explore the Ecosystem</h1>
-<p>Rotate the ring to browse the ten domains. The front planet grows—click it to open the live asset in a new tab.</p>
+
 </section>
 <section aria-label="Ecosystem universe" class="universe-wrap">
 <div aria-label="Interactive universe" class="universe" id="universe" role="application">
-<div class="universe-hint">Click a planet</div>
-<div class="universe-subhint">Drag to rotate · Scroll to spin · Click a planet</div>
+
+
 <div aria-hidden="true" class="stars back" id="starsBack"></div>
 <div aria-hidden="true" class="stars front" id="starsFront"></div>
 <div class="planets" id="planets"><a class="planet" data-angle="0.000000" data-id="akff" data-name="AKFF" data-radius="290" data-size="79.6" data-slogan="Cinema as a cultural meeting point" data-sub="Festival and cultural exchange platform." data-tag="Festival" data-url="https://www.arakoreafilmfestival.com" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" role="link" style="--sz:79.6px; --hue:0;" target="_blank">
@@ -1223,8 +1385,8 @@ footer{
 <span aria-hidden="true" class="p-body"></span>
 <span aria-hidden="true" class="p-ring"></span>
 <span class="p-label">
-<span class="p-name">ourbang.com</span>
-<span class="p-sub">Platform</span>
+<span class="p-name"></span>
+<span class="p-sub"></span>
 </span>
 </a><a class="planet" data-angle="4.398230" data-id="ice-jewelry" data-name="ICE Jewelry" data-radius="290" data-size="58.9" data-slogan="Identity expressed through form" data-sub="Design-led product line bridging culture and value." data-tag="Product" data-url="https://www.icehail.com" href="https://www.icehail.com" rel="noopener noreferrer" role="link" style="--sz:58.9px; --hue:270;" target="_blank">
 <span aria-hidden="true" class="p-body"></span>
@@ -1250,7 +1412,7 @@ footer{
 </a></div>
 <div aria-live="polite" class="focus" id="focus">
 <div class="focus-card">
-<div class="focus-title" id="focusTitle">—</div>
+
 <div class="focus-slogan" id="focusSlogan">—</div>
 <div class="focus-sub" id="focusSub">—</div>
 <div class="focus-actions">
@@ -1261,12 +1423,12 @@ footer{
 </div>
 <div aria-label="Ring control" class="ring-ui">
 <div class="ring-ui-inner">
-<div class="ring-label">RING</div>
+
 <input class="ring-slider" id="ringControl" max="360" min="0" type="range" value="0"/>
 </div>
 </div>
 </div>
-</section><section aria-label="Quick links" class="plat-thumbs"><h2>Quick Links</h2><p>Tap a tile to open the platform directly. (Same destinations as the planets above.)</p><div class="thumb-grid"><a class="thumb" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:0;"></span><span class="thumb-meta"><span class="thumb-name">AKFF</span><span class="thumb-tag">Festival</span></span></a><a class="thumb" href="https://arakorea.org" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:30;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.org</span><span class="thumb-tag">Culture</span></span></a><a class="thumb" href="https://www.akenm.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:60;"></span><span class="thumb-meta"><span class="thumb-name">publishing</span><span class="thumb-tag">Publishing</span></span></a><a class="thumb" href="https://tikoonz.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:120;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.com</span><span class="thumb-tag">Media</span></span></a><a class="thumb" href="https://tikoonz.tv" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:180;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.tv</span><span class="thumb-tag">Channel</span></span></a><a class="thumb" href="https://www.youtube.com/@tikoonz" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:210;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz radio</span><span class="thumb-tag">Live</span></span></a><a class="thumb" href="https://ourbang.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:240;"></span><span class="thumb-meta"><span class="thumb-name">ourbang.com</span><span class="thumb-tag">Platform</span></span></a><a class="thumb" href="https://www.icehail.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:270;"></span><span class="thumb-meta"><span class="thumb-name">ICE Jewelry</span><span class="thumb-tag">Product</span></span></a><a class="thumb" href="https://arakorea.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:300;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.shop</span><span class="thumb-tag">Shop</span></span></a><a class="thumb" href="https://tikoonz.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:330;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.shop</span><span class="thumb-tag">Shop</span></span></a></div></section></main></div>
+</section><section aria-label="Quick links" class="plat-thumbs"><h2>Quick Links</h2><p>Tap a tile to open the platform directly. (Same destinations as the planets above.)</p><div class="thumb-grid"><a class="thumb" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:0;"></span><span class="thumb-meta"><span class="thumb-name">AKFF</span><span class="thumb-tag">Festival</span></span></a><a class="thumb" href="https://arakorea.org" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:30;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.org</span><span class="thumb-tag">Culture</span></span></a><a class="thumb" href="https://www.akenm.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:60;"></span><span class="thumb-meta"><span class="thumb-name">publishing</span><span class="thumb-tag">Publishing</span></span></a><a class="thumb" href="https://tikoonz.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:120;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.com</span><span class="thumb-tag">Media</span></span></a><a class="thumb" href="https://tikoonz.tv" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:180;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.tv</span><span class="thumb-tag">Channel</span></span></a><a class="thumb" href="https://www.youtube.com/@tikoonz" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:210;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz radio</span><span class="thumb-tag">Live</span></span></a><a class="thumb" href="https://ourbang.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:240;"></span><span class="thumb-meta"><span class="thumb-name"></span><span class="thumb-tag"></span></span></a><a class="thumb" href="https://www.icehail.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:270;"></span><span class="thumb-meta"><span class="thumb-name">ICE Jewelry</span><span class="thumb-tag">Product</span></span></a><a class="thumb" href="https://arakorea.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:300;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.shop</span><span class="thumb-tag">Shop</span></span></a><a class="thumb" href="https://tikoonz.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:330;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.shop</span><span class="thumb-tag">Shop</span></span></a></div></section></main></div>
 
 
 <footer>
@@ -1365,7 +1527,7 @@ footer{
       const sub  = p.getAttribute("data-sub") || "";
       p.innerHTML = `
         <div class="body"></div>
-        <div class="label">${name}${sub ? `<small>${sub}</small>` : ""}</div>
+        
       `;
     });
 
@@ -1425,7 +1587,9 @@ footer{
         lit = Math.max(0.18, Math.min(0.95, lit));
 
         // scale/opacity with depth (closer = clearer)
-        const s = 0.62 + depth * 0.55;
+        let s = 0.62 + depth * 0.55;
+        // Mobile landscape: half size for easier scanning
+        if (window.matchMedia && window.matchMedia("(max-width: 1024px) and (orientation: landscape)").matches) s *= 0.5;
         const a = 0.20 + depth * 0.86;
 
         // 3D: pop forward a touch when near
@@ -1469,7 +1633,7 @@ footer{
   if (!universe || planets.length === 0) return;
 
   // ===== Ring + depth settings =====
-  const ellipseY = 0.24;
+  let ellipseY = 0.78; // more circular, less empty space
   const isMobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
   const minScale = isMobile ? 0.58 : 0.50;
   const maxScale = isMobile ? 2.15 : 1.85;
@@ -1501,11 +1665,11 @@ footer{
 
   // Perf: cache measurements, update on resize only
   let rect = universe.getBoundingClientRect();
-  let r = Math.min(rect.width * (isMobile ? 0.50 : 0.54), rect.height * 0.62);
+  let r = Math.min(rect.width * (isMobile ? 0.62 : 0.56), rect.height * 0.58);
 
   function measure(){
     rect = universe.getBoundingClientRect();
-r = Math.min(rect.width * (isMobile ? 0.50 : 0.54), rect.height * 0.62); // fill width
+r = Math.min(rect.width * (isMobile ? 0.62 : 0.56), rect.height * 0.58); // larger orbit, better spacing
   }
 
   function setSliderFromRot(){
@@ -1522,8 +1686,8 @@ r = Math.min(rect.width * (isMobile ? 0.50 : 0.54), rect.height * 0.62); // fill
 
   function layout(){
     // Keep the FRONT planet exactly at visual center:
-    // y = cos(a)*r*ellipseY + yBase ; at a=0 -> y = r*ellipseY + yBase = 0 => yBase = -r*ellipseY
-    const yBase = -r * ellipseY;
+    // y = cos(a)*r*ellipseY + yBase(); at a=0 -> y = r*ellipseY + yBase = 0 => yBase = -r*ellipseY
+    function yBase(){ return -r * ellipseY; } // front planet centered vertically
 
     if (!isDown) {
       velocity *= 0.94;
@@ -1536,7 +1700,7 @@ r = Math.min(rect.width * (isMobile ? 0.50 : 0.54), rect.height * 0.62); // fill
       const a = ang0 + rot;
 
       const x = Math.sin(a) * r;
-      const y = Math.cos(a) * r * ellipseY + yBase;
+      const y = Math.cos(a) * r * ellipseY + yBase();
 
       // Depth: front at a=0 (z=1), back at a=pi (z=-1)
       const z = Math.cos(a); // -1..1
@@ -1678,5 +1842,88 @@ r = Math.min(rect.width * (isMobile ? 0.50 : 0.54), rect.height * 0.62); // fill
   snapIntro();
   requestAnimationFrame(layout);
 })();
-</script></body>
+</script>
+<script>
+(function(){
+  const centerSelector = '.planet[data-id="ourbang.com"], .planet[data-name="ourbang.com"], .planet[href*="ourbang.com"]';
+  const prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function isMobile(){
+    return window.matchMedia && window.matchMedia("(max-width: 1024px)").matches;
+  }
+
+  function applyFocusClasses(){
+    const planetsWrap = document.getElementById("planets");
+    if(!planetsWrap) return;
+
+    const planets = Array.from(planetsWrap.querySelectorAll(".planet"));
+    if(!planets.length) return;
+
+    // Reset
+    planets.forEach(p=>{
+      p.classList.remove("is-center","is-side-left","is-side-right","is-hidden");
+      p.removeAttribute("tabindex");
+    });
+
+    // Choose center (ourbang.com preferred)
+    let center = planetsWrap.querySelector(centerSelector) || planets[Math.floor(planets.length/2)];
+    if(!center) return;
+
+    center.classList.add("is-center");
+    center.setAttribute("tabindex","0");
+
+    // Pick immediate neighbors for left/right hint
+    const idx = planets.indexOf(center);
+    const left = planets[idx-1] || planets[planets.length-1];
+    const right = planets[idx+1] || planets[0];
+
+    if(left) left.classList.add("is-side-left");
+    if(right) right.classList.add("is-side-right");
+    }
+
+    // First-load guidance ON
+    if(!prefersReduced){
+      document.body.classList.add("guide-on");
+      document.body.classList.remove("guide-off");
+    }else{
+      document.body.classList.add("guide-off");
+      document.body.classList.remove("guide-on");
+    }
+
+    // Accessibility: move focus to center link (no scrolling jump)
+    try{ center.focus({preventScroll:true}); }catch(e){}
+
+    // Gentle auto-focus scroll (mobile only, once)
+    if(isMobile() && !prefersReduced && !sessionStorage.getItem("centerAutoFocused")){
+      sessionStorage.setItem("centerAutoFocused","1");
+      setTimeout(()=>{
+        try{
+          center.scrollIntoView({behavior:"smooth", block:"center", inline:"center"});
+        }catch(e){}
+      }, 180);
+    }
+  }
+
+  function stopGuidance(){
+    document.body.classList.add("guide-off");
+    document.body.classList.remove("guide-on");
+  }
+
+  // Stop guidance on first real interaction
+  ["pointerdown","touchstart","wheel","keydown","scroll"].forEach(evt=>{
+    window.addEventListener(evt, stopGuidance, {passive:true, once:true});
+  });
+
+  // Apply on load and on orientation/resize
+  window.addEventListener("DOMContentLoaded", applyFocusClasses);
+  window.addEventListener("resize", () => {
+    // debounce lightly
+    clearTimeout(window.__pf_t);
+    window.__pf_t = setTimeout(applyFocusClasses, 120);
+  });
+
+})();
+</script>
+
+</body>
 </html>
