@@ -59,6 +59,7 @@ header{
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
 }
+
 .header-inner{
   max-width:var(--max);
   margin:0 auto;
@@ -68,19 +69,22 @@ header{
   align-items:center;
   gap:22px;
 }
-.brand img{height:var(--logoH-desktop)}
+
+.brand img{
+  height:var(--logoH-desktop);
+  width:auto;
+  display:block;
+}
+
 nav{
   display:flex;
   gap:32px;
   font-size:14px;
-  color:rgba(242,242,242,.62);
-  flex-wrap:wrap;
-  justify-content:center;
-  row-gap:10px;
+  color:var(--muted);
 }
-nav a{white-space:nowrap}
-nav a:hover{color:rgba(242,242,242,.92)}
-nav a[aria-current="page"]{color:rgba(242,242,242,.92)}
+nav a:hover{color:var(--text)}
+nav a[aria-current="page"]{color:var(--text)}
+
 /* ===== CONTENT ===== */
 main{
   position:relative;
@@ -189,7 +193,7 @@ footer{
     </nav>
   </div>
 </header>
-\n
+
 <main>
   <h1>Contact</h1>
   <p class="lead">For partnerships, media inquiries, and collaboration.</p>
