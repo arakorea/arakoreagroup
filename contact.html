@@ -82,13 +82,19 @@ nav{
   gap:32px;
   font-size:14px;
   color:rgba(242,242,242,.62);
-  flex-wrap:wrap;
-  justify-content:center;
-  row-gap:10px;
 }
-nav a{white-space:nowrap}
 nav a:hover{color:rgba(242,242,242,.92)}
 nav a[aria-current="page"]{color:rgba(242,242,242,.92)}
+
+/* Mobile nav wrap (matches other pages' behavior when space is tight) */
+@media (max-width: 640px){
+  nav{
+    flex-wrap:wrap;
+    justify-content:center;
+    row-gap:10px;
+  }
+  nav a{white-space:nowrap}
+}
 
 /* ===== CONTENT ===== */
 main{
