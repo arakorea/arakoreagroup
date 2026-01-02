@@ -40,3 +40,42 @@
     opacity: .02;
   }
 }
+
+
+/* ===== HOTFIX: Mobile Stars Visibility + Size (2026-01-02) ===== */
+/* This file is used by platforms.html as platforms_mobile_stars.css */
+
+/* Ensure star layers cover the whole universe */
+.stars{
+  position:absolute;
+  inset:0;
+}
+
+/* MOBILE PORTRAIT: stars were effectively hidden by heavy vignette + low opacity.
+   - Keep stars subtle but visible.
+   - Soften/override the vignette overlay added inline in platforms.html (.universe-wrap::after). */
+@media (max-width: 640px) and (orientation: portrait){
+  .stars .star{ width: 1px; height: 1px; }
+
+  .stars.front .star{
+    opacity: .55 !important;
+    box-shadow: 0 0 3px rgba(255,255,255,.28) !important;
+  }
+  .stars.back .star{
+    opacity: .18 !important;
+    filter: blur(.6px) !important;
+  }
+
+  .universe-wrap::after{
+    background: radial-gradient(circle at 50% 45%,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.28) 58%,
+      rgba(0,0,0,0.42) 100%) !important;
+  }
+}
+
+/* MOBILE LANDSCAPE: make stars about half-size */
+@media (max-width: 980px) and (orientation: landscape){
+  .stars .star{ width: 0.7px !important; height: 0.7px !important; }
+  .stars.front .star{ box-shadow: 0 0 3px rgba(255,255,255,.28) !important; }
+}
