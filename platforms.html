@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link href="landscape_fullscreen.css" rel="stylesheet"/>
-<link href="platforms_mobile_stars_FINAL_v3.css" rel="stylesheet"/>
+<link href="platforms_mobile_stars_FINAL_v4.css" rel="stylesheet"/>
 <title>ARA KOREA GROUP | Platforms</title>
 <style>
 :root{
@@ -1409,74 +1409,6 @@ footer{
 
     const planets = Array.from(system.querySelectorAll(".planet"));
 
-const LINK_MAP = {
-  "tikoonz-com": "//tikoonz.com",
-  "ourbang-com": "//ourbang.com",
-  "tikoonz-tv": "//tikoonz.tv",
-  "tikoonz-radio": "//tikoonz.com",   // adjust if you have a separate radio URL
-  "akff": "//arakorea.org"
-};
-
-// Mobile portrait-only lock flag (we only change portrait; landscape/desktop remain untouched)
-let portraitOnly = false;
-
-function applyPortraitOnly(){
-  const mq = window.matchMedia("(max-width: 640px) and (orientation: portrait)");
-  portraitOnly = mq.matches;
-
-  // Mark the center planet (we'll lock to tikoonz-com for portrait)
-  const centerId = "tikoonz-com";
-
-  // Dedicated tap target for portrait (avoids drag/overlay issues on mobile Safari)
-  const portraitLink = document.getElementById("portraitCenterLink");
-  if (portraitLink){
-    portraitLink.href = LINK_MAP[centerId] || "//tikoonz.com";
-    if (portraitOnly){
-      portraitLink.style.display = "block";
-    } else {
-      portraitLink.style.display = "none";
-    }
-  }
-
-  planets.forEach(p => {
-    const id = p.getAttribute("data-id") || "";
-
-    // Ensure href exists (fixes cases where JS/touch prevents opening)
-    if (LINK_MAP[id]) {
-      p.setAttribute("href", LINK_MAP[id]);
-      p.setAttribute("rel", "noopener noreferrer");
-      p.setAttribute("target", "_blank");
-    }
-
-    if (portraitOnly) {
-      // Shrink planet sizes about half (CSS vars used by both implementations)
-      const cs = getComputedStyle(p);
-      const szRaw = (cs.getPropertyValue("--sz") || p.style.getPropertyValue("--sz") || "").trim();
-      const sz = parseFloat(szRaw);
-      if (!Number.isNaN(sz) && sz > 0){
-        const half = (sz * 0.5);
-        p.style.setProperty("--sz", half + "px");
-        p.style.setProperty("--size", half + "px");
-      }
-
-      // Only center is clearly visible + clickable
-      if (id === centerId){
-        p.classList.add("is-center");
-        p.style.pointerEvents = "auto";
-      } else {
-        p.classList.remove("is-center");
-        p.style.pointerEvents = "none";
-      }
-    } else {
-      // Reset portrait-only overrides when not portrait
-      p.classList.remove("is-center");
-      p.style.pointerEvents = "";
-      p.style.removeProperty("--size");
-    }
-  });
-
-    applyPortraitOnly();
-
 }
 
 // Apply once and on orientation/resize
@@ -1606,8 +1538,8 @@ window.addEventListener("orientationchange", applyPortraitOnly);
   const zDepth  = isMobile ? (isLandscape ? 360 : 420) : 460;
 
   // back planets
-  const backFade = 0.78;
-  const backBlur = 3.1;
+  const backFade = 0.92;
+  const backBlur = 2.2;
 
   // stronger non-linear depth curve
   const scaleCurve = 1.65;
@@ -1628,6 +1560,9 @@ window.addEventListener("orientationchange", applyPortraitOnly);
   let moved = 0;
   let dragHappened = false;
   let isTouch = false;
+
+  let downPlanet = null;
+  let downPlanetHref = "";
 
   // Perf: cache measurements, update on resize only
   let rect = universe.getBoundingClientRect();
@@ -1675,7 +1610,7 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
       const sc = minScale + Math.pow(t, scaleCurve) * (maxScale - minScale);
       const tz = z * zDepth;
 
-      const op = 0.12 + Math.pow(t, 1.12) * backFade;
+      const op = 0.22 + Math.pow(t, 1.08) * backFade;
       const blur = (1 - t) * backBlur;
 
       // extra polish: sharpen and brighten near front
@@ -1689,6 +1624,9 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
       p.style.zIndex = String(Math.round(10 + t * 280));
       p.style.opacity = String(Math.max(0.08, Math.min(1, op)));
       p.style.filter = `blur(${blur.toFixed(2)}px) saturate(${sat.toFixed(2)}) contrast(${con.toFixed(2)}) brightness(${bri.toFixed(2)})`;
+
+      // Tag the front planet (used by portrait CSS to keep it crisp)
+      if (t > 0.86) p.classList.add('is-front'); else p.classList.remove('is-front');
 
       // Mobile UX: only the front (center) planet should be tappable to avoid mis-taps.
       if (isMobile){
@@ -1746,7 +1684,12 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
     downX = e.clientX; downY = e.clientY;
     moved = 0;
     dragHappened = false;
+
+    // Remember which planet was pressed (so a tap can navigate even on iOS Safari)
+    downPlanet = e.target && e.target.closest ? e.target.closest(".planet") : null;
+    downPlanetHref = downPlanet ? (downPlanet.getAttribute("href") || "") : "";
   });
+
 
   window.addEventListener("pointermove", (e) => {
     if (!isDown) return;
@@ -1767,11 +1710,22 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
     if (moved > thresh) dragHappened = true;
   });
 
-  window.addEventListener("pointerup", () => {
+  window.addEventListener("pointerup", (e) => {
     isDown = false;
+
+    // Touch tap: if we didn't really drag, navigate to the pressed planet.
+    // This is more reliable than 'click' on some mobile browsers.
+    if (isTouch && !dragHappened && downPlanet && downPlanetHref) {
+      // Use same-tab navigation (fast + consistent)
+      window.location.href = downPlanetHref;
+    }
+
     // keep dragHappened for the upcoming click event
     setTimeout(() => { dragHappened = false; }, 80);
+    downPlanet = null;
+    downPlanetHref = "";
   });
+
   window.addEventListener("pointercancel", () => { isDown = false; dragHappened = false; });
 
   // Scroll to spin (desktop)
@@ -1801,23 +1755,6 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
     e.stopPropagation();
     dragHappened = false;
   }, true);
-
-  // Mobile portrait: ensure the center planet always opens on tap (iOS Safari-safe)
-  universe.addEventListener("touchend", (e) => {
-    const mq = window.matchMedia && window.matchMedia("(max-width: 640px) and (orientation: portrait)");
-    if (!mq || !mq.matches) return;
-    if (dragHappened) return;
-
-    const a = e.target.closest && e.target.closest(".planet.is-center, .planet.is-front, .planet[data-front='true'], .planet[aria-current='true']");
-    if (!a) return;
-
-    const href = a.getAttribute("href") || a.getAttribute("data-url");
-    if (!href) return;
-
-    e.preventDefault();
-    window.open(href, "_blank", "noopener,noreferrer");
-  }, { passive: false });
-
 
   // Performance: re-measure on resize
   window.addEventListener("resize", () => {

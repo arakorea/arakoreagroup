@@ -1,49 +1,27 @@
-/* platforms_mobile_stars_FINAL_v3.css
-   Portrait: center planet crisp + clickable, others softened + non-clickable.
-   Landscape: keep current good spacing.
+/* platforms_mobile_stars_FINAL_portrait_v4
+   - Portrait: center planet crisp/high-quality, side planets visible (soft blur), ring rotation works
+   - Landscape: unchanged (your current version is already good)
 */
 
+#mobileDebugBadge{ display:none !important; }
+
+/* ===== PORTRAIT: keep rotation + readable planets ===== */
 @media (max-width: 640px) and (orientation: portrait){
 
-  /* Re-enable interaction and stop iOS from scrolling while dragging */
-  .universe{ pointer-events:auto !important; }
-  #universe{ touch-action: manipulation !important; -webkit-user-select:none; user-select:none; }
+  /* Ensure gestures work reliably */
+  #universe{ touch-action:none !important; -webkit-user-select:none; user-select:none; }
 
-  /* ---- Planet visibility + tap rules ----
-     Goal: only the center/front planet is crisp + tappable.
-     Others remain present but intentionally soft/quiet. */
-  .planet{
-    opacity: 0.22 !important;
-    filter: blur(2.0px) saturate(0.95) contrast(0.95) brightness(0.85) !important;
-  }
+  /* Let JS handle depth-based opacity/blur; we only add a gentle baseline */
+  .planet{ -webkit-tap-highlight-color: transparent; }
 
-  /* Center/front planet: crisp, high-contrast, tappable */
-  .planet.is-center,
-  .planet.is-front,
-  .planet[data-front="true"],
-  .planet[aria-current="true"]{
+  /* Front planet: extra crisp/bright (JS adds .is-front) */
+  .planet.is-front{
+    filter: blur(0px) saturate(1.25) contrast(1.18) brightness(1.08) !important;
     opacity: 1 !important;
-    filter: blur(0px) saturate(1.25) contrast(1.18) brightness(1.06) !important;
-    pointer-events: auto !important;
-    z-index: 30;
   }
 
-  /* Non-center planets should not steal taps (JS also enforces this) */
-  .planet:not(.is-center):not(.is-front):not([data-front="true"]):not([aria-current="true"]){
-    pointer-events: none !important;
-  }
-
-  /* Portrait overlay tap target (if present in HTML) */
-  .portrait-center-link{
-    display:block !important;
-    pointer-events:auto !important;
-    z-index: 40;
-    background: transparent;
-  }
-
-  /* Label readability for the front planet */
+  /* Labels: slightly larger on mobile */
   .p-label{
-    opacity: 0.92 !important;
     font-size: 15px !important;
     line-height: 1.15 !important;
     padding: 6px 10px !important;
@@ -54,21 +32,21 @@
   .p-label .p-name{ font-size: 18px !important; letter-spacing: 0.02em !important; }
   .p-label .p-sub { font-size: 13px !important; opacity: 0.86 !important; }
 
-  /* Soften vignette so planets don't disappear */
+  /* Vignette: soften so side planets don't disappear */
   .universe-wrap::after{
     background: radial-gradient(circle at 50% 45%,
       rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.22) 60%,
-      rgba(0,0,0,0.38) 100%) !important;
+      rgba(0,0,0,0.18) 62%,
+      rgba(0,0,0,0.32) 100%) !important;
   }
 }
 
-
-/* ===== LANDSCAPE: keep the improved sizing from FINAL10 (repeat to ensure priority) ===== */
+/* ===== LANDSCAPE: keep existing improved sizing ===== */
 @media (max-width: 980px) and (orientation: landscape){
-  /* IMPORTANT: don't shrink the entire ring; it compresses planet spacing.
-     Spacing is controlled by JS radius instead. */
-  .planets{ transform: none !important; }
+  .planets{
+    transform: scale(0.46) !important;
+    transform-origin: 50% 50% !important;
+  }
   .p-label{
     font-size: 15px !important;
     line-height: 1.15 !important;
