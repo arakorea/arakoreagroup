@@ -24,6 +24,24 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Restore full star coverage in portrait (avoid a “black band” at bottom) */
+  .stars{ transform: none !important; }
+
+  /* Slightly stronger aurora / space wash in portrait so the box reads as one space */
+  .universe::before{ opacity: .55 !important; }
+  .universe::after{
+    content:"";
+    position:absolute;
+    inset:-10% -10% -30% -10%;
+    pointer-events:none;
+    background:
+      radial-gradient(80% 60% at 50% 95%, rgba(255,255,255,0.035), transparent 70%),
+      radial-gradient(60% 55% at 20% 85%, rgba(120,255,210,0.055), transparent 72%),
+      radial-gradient(70% 60% at 80% 80%, rgba(140,120,255,0.055), transparent 72%);
+    opacity:.9;
+    mix-blend-mode: screen;
+  }
+
   /* Center the planets box vertically */
   .planets{
     position: absolute !important;
@@ -45,7 +63,7 @@
     background: transparent !important;
 
     overflow-x: auto !important;
-    overflow-y: hidden !important; /* keeps box clean; height above prevents label clipping */
+    overflow-y: visible !important; /* no hard crop: keep labels/halo inside the universe */
     scroll-snap-type: x mandatory !important;
     -webkit-overflow-scrolling: touch !important;
     pointer-events: auto !important;
@@ -55,7 +73,8 @@
     position: relative !important;
     left: auto !important;
     top: auto !important;
-    transform: none !important;
+    /* Scale is driven by JS (center bigger, sides smaller). Default kept modest. */
+    transform: scale(var(--pScale, 0.78)) !important;
 
     flex: 0 0 auto !important;
     width: 96px !important;
@@ -71,6 +90,13 @@
   }
 
   .planet.is-front{ pointer-events: auto !important; }
+
+  /* Subtle “center glow” for the focused planet (kept restrained) */
+  .planet.is-front .p-body{
+    box-shadow:
+      0 0 28px rgba(255,255,255,0.18),
+      0 0 120px hsla(var(--hue, 210), 95%, 65%, 0.22) !important;
+  }
 
   /* Labels always readable */
   .planet .p-label{
