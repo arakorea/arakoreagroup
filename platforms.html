@@ -1305,15 +1305,27 @@ footer{
     }
   };
 
-  // Mobile tuning: fewer/smaller particles so stars feel less dense
+  // Mobile tuning
   const isMobile = window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
+  const isPortrait = window.matchMedia && window.matchMedia("(orientation: portrait)").matches;
   if (isMobile){
-    options.particles.number.value = prefersReducedMotion ? 12 : 26;
-    options.particles.number.density.area = 1800;
-    options.particles.size.value = { min: 0.6, max: 1.4 };
-    options.particles.links.distance = 190;
-    options.particles.links.opacity = 0.035;
-    options.particles.move.speed = prefersReducedMotion ? 0 : 0.12;
+    // Portrait: slightly denser so the box reads as one continuous "universe"
+    if (isPortrait){
+      options.particles.number.value = prefersReducedMotion ? 14 : 34;
+      options.particles.number.density.area = 1400;
+      options.particles.size.value = { min: 0.7, max: 1.6 };
+      options.particles.links.distance = 175;
+      options.particles.links.opacity = 0.055;
+      options.particles.move.speed = prefersReducedMotion ? 0 : 0.14;
+    } else {
+      // Landscape: keep lighter to avoid clutter
+      options.particles.number.value = prefersReducedMotion ? 12 : 26;
+      options.particles.number.density.area = 1800;
+      options.particles.size.value = { min: 0.6, max: 1.4 };
+      options.particles.links.distance = 190;
+      options.particles.links.opacity = 0.035;
+      options.particles.move.speed = prefersReducedMotion ? 0 : 0.12;
+    }
   }
 
   if (window.tsParticles) tsParticles.load("tsparticles", options);
@@ -1481,85 +1493,28 @@ window.addEventListener("orientationchange", applyPortraitOnly);
 
   // ===== Ring + depth settings =====
   const ellipseY = 0.24;
-  const isMobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
-  const isLandscape = window.matchMedia && window.matchMedia('(orientation: landscape)').matches;
-  const isPortrait  = window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
 
-  // ===== Mobile portrait strip mode (<=640px portrait) =====
-  const isStripPortrait = window.matchMedia && window.matchMedia('(max-width: 640px) and (orientation: portrait)').matches;
-  if (isStripPortrait){
-    const strip = document.getElementById("planets");
-    if (!strip) return;
+  // NOTE:
+  // The page supports two mobile UX modes:
+  // 1) Default ring (desktop + mobile landscape)
+  // 2) Portrait "strip" (mobile portrait only)
+  // If a user rotates the phone, we must switch modes cleanly.
+  // We do this by detecting mode changes and reloading once.
+  const mqMobile720 = window.matchMedia ? window.matchMedia('(max-width: 720px)') : null;
+  const mqPortrait  = window.matchMedia ? window.matchMedia('(orientation: portrait)') : null;
+  const mqLandscape = window.matchMedia ? window.matchMedia('(orientation: landscape)') : null;
+  const mqStrip640  = window.matchMedia ? window.matchMedia('(max-width: 640px)') : null;
 
-    function findCenteredPlanet(){
-      const centerX = strip.getBoundingClientRect().left + strip.clientWidth / 2;
-      let best = null;
-      let bestDist = Infinity;
-      planets.forEach(p => {
-        const r = p.getBoundingClientRect();
-        const pc = r.left + r.width / 2;
-        const d = Math.abs(pc - centerX);
-        if (d < bestDist){
-          bestDist = d;
-          best = p;
-        }
-      });
-      return best;
-    }
+  function isMobileNow(){ return !!(mqMobile720 && mqMobile720.matches); }
+  function isPortraitNow(){ return !!(mqPortrait && mqPortrait.matches); }
+  function isLandscapeNow(){ return !!(mqLandscape && mqLandscape.matches); }
+  function isPortraitStripNow(){ return isPortraitNow() && !!(mqStrip640 && mqStrip640.matches); }
 
-    function applyFront(){
-      const best = findCenteredPlanet();
-      planets.forEach(p => p.classList.toggle("is-front", p === best));
-    }
-
-    function syncSlider(){
-      if (!slider) return;
-      const maxScroll = strip.scrollWidth - strip.clientWidth;
-      const pct = maxScroll > 0 ? (strip.scrollLeft / maxScroll) : 0;
-      slider.value = String(Math.round(pct * 360));
-    }
-
-    let raf = 0;
-    function onStripScroll(){
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        applyFront();
-        syncSlider();
-      });
-    }
-
-    strip.addEventListener("scroll", onStripScroll, { passive: true });
-
-    if (slider){
-      slider.addEventListener("input", () => {
-        const maxScroll = strip.scrollWidth - strip.clientWidth;
-        const pct = (parseFloat(slider.value || "0") / 360);
-        strip.scrollTo({ left: pct * maxScroll, behavior: "smooth" });
-      });
-    }
-
-    // Intro: center ourbang.com if present
-    function centerById(id){
-      const target = planets.find(p => ((p.dataset.id || "") + "").toLowerCase() === (id + "").toLowerCase());
-      if (!target) return;
-      target.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" });
-    }
-
-    // Run once after layout
-    setTimeout(() => {
-      centerById("ourbang.com");
-      applyFront();
-      syncSlider();
-    }, 60);
-
-    window.addEventListener("resize", () => {
-      applyFront();
-      syncSlider();
-    }, { passive: true });
-
-    return; // stop ring physics on strip mode
-  }
-
+  const isMobile = isMobileNow();
+  const isLandscape = isLandscapeNow();
+  const isPortrait = isPortraitNow();
+  let isPortraitStrip = isPortraitStripNow();
+  const planetsWrap = document.getElementById("planets");
 
   // Mobile tuning:
   // - Landscape: smaller planets + more spacing
@@ -1567,6 +1522,23 @@ window.addEventListener("orientationchange", applyPortraitOnly);
   const minScale = isMobile ? (isLandscape ? 0.48 : 0.55) : 0.50;
   const maxScale = isMobile ? (isLandscape ? 1.35 : 1.75) : 1.85;
   const zDepth  = isMobile ? (isLandscape ? 360 : 420) : 460;
+
+  // Switch modes safely on rotate / resize (portrait-strip <-> ring)
+  let __lastMode = isPortraitStrip;
+  let __modeTimer = 0;
+  function handleModeChange(){
+    const now = isPortraitStripNow();
+    if (now !== __lastMode){
+      __lastMode = now;
+      // simplest + most reliable: reload so transforms/handlers re-init correctly
+      window.location.reload();
+    }
+  }
+  window.addEventListener('orientationchange', handleModeChange);
+  window.addEventListener('resize', () => {
+    clearTimeout(__modeTimer);
+    __modeTimer = setTimeout(handleModeChange, 180);
+  }, { passive:true });
 
   // back planets
   const backFade = 0.92;
@@ -1613,6 +1585,88 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
     if (!slider) return;
     const deg = parseFloat(slider.value || "0");
     rot = deg * Math.PI / 180;
+  }
+
+  // ==============================
+  // Mobile PORTRAIT "strip" mode
+  // - Center planet is larger
+  // - Sides shrink smoothly
+  // - Only centered planet is clickable
+  // - Scroll snap + slider sync
+  // ==============================
+  function initPortraitStrip(){
+    if (!planetsWrap) return;
+
+    // Helper: center a given planet in the scroll container
+    function scrollToPlanet(p, behavior){
+      const left = p.offsetLeft + (p.offsetWidth / 2) - (planetsWrap.clientWidth / 2);
+      planetsWrap.scrollTo({ left, behavior: behavior || "smooth" });
+    }
+
+    // Pick the planet closest to the horizontal center of the strip
+    function updateFromScroll(){
+      const wrapRect = planetsWrap.getBoundingClientRect();
+      const centerX = wrapRect.left + wrapRect.width / 2;
+      let best = null;
+      let bestDist = Infinity;
+
+      planets.forEach((p) => {
+        const r = p.getBoundingClientRect();
+        const px = r.left + r.width / 2;
+        const dist = Math.abs(px - centerX);
+        if (dist < bestDist){ bestDist = dist; best = p; }
+
+        // scale falloff: 1.18 at center -> 0.70 at edges
+        const t = Math.max(0, Math.min(1, 1 - (dist / (wrapRect.width * 0.52))));
+        const sc = 0.70 + Math.pow(t, 1.35) * 0.48;
+        p.style.setProperty("--pScale", sc.toFixed(3));
+      });
+
+      planets.forEach((p) => p.classList.toggle("is-front", p === best));
+
+      // slider sync: map centered index -> 0..360
+      if (slider && best){
+        const idx = Math.max(0, planets.indexOf(best));
+        const deg = (idx / planets.length) * 360;
+        slider.value = String(Math.round(deg));
+      }
+    }
+
+    // Throttle scroll handler for performance
+    let raf = 0;
+    planetsWrap.addEventListener("scroll", () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(updateFromScroll);
+    }, { passive: true });
+
+    // Slider -> snap to nearest planet
+    if (slider){
+      slider.addEventListener("input", () => {
+        const deg = parseFloat(slider.value || "0");
+        const idx = Math.round((deg / 360) * (planets.length - 1));
+        const target = planets[Math.max(0, Math.min(planets.length - 1, idx))];
+        if (target) scrollToPlanet(target, "smooth");
+      });
+    }
+
+    // Initial snap: prefer ourbang.com
+    const target = planets.find(p => (p.dataset.id || "").toLowerCase() === "ourbang.com") || planets[0];
+    if (target){
+      // wait a frame so layout metrics are ready
+      requestAnimationFrame(() => {
+        scrollToPlanet(target, "auto");
+        updateFromScroll();
+      });
+    } else {
+      updateFromScroll();
+    }
+  }
+
+  // If we're in mobile PORTRAIT (<=640px), use the scroll-strip UX.
+  // This keeps the universe as one continuous space and avoids the "cut band" feel.
+  if (isMobile && isPortraitStrip && planetsWrap){
+    initPortraitStrip();
+    return;
   }
 
   function layout(){
@@ -1825,7 +1879,13 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
     measure();
   });
 
-  // Start
+  // ===== Start =====
+  // Portrait strip mode: disable ring-rotation gestures/animation; use native scroll + snap.
+  if (isPortraitStrip){
+    initPortraitStrip();
+    return;
+  }
+
   measure();
   snapIntro();
   requestAnimationFrame(layout);
