@@ -1,0 +1,59 @@
+/* =====================================================
+   Mobile PORTRAIT – Simple, reliable interaction version
+   - No blur
+   - Full color planets
+   - Sideways spacing for easy tapping
+   - Landscape untouched
+   ===================================================== */
+
+@media (max-width: 640px) and (orientation: portrait){
+
+  /* Remove all blur / dimming */
+  .planet,
+  .planet *{
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Horizontal layout */
+  .planets{
+    position:absolute !important;
+    left:0 !important;
+    right:0 !important;
+    top:50% !important;
+    transform: translateY(-50%) !important;
+
+    display:flex !important;
+    flex-direction: row !important;
+    align-items:center !important;
+
+    gap:56px !important;
+    padding:0 36px !important;
+
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+  }
+
+  .planet{
+    position:relative !important;
+    left:auto !important;
+    top:auto !important;
+    transform:none !important;
+
+    flex:0 0 auto !important;
+    pointer-events:auto !important;
+    min-width:96px !important;
+    min-height:96px !important;
+  }
+
+  /* Labels always visible */
+  .p-label{
+    opacity:1 !important;
+    transform:none !important;
+    background:none !important;
+  }
+
+  /* Let taps reach planets, not the universe container */
+  .universe{ pointer-events:none !important; }
+  .planets{ pointer-events:auto !important; }
+}

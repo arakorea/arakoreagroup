@@ -6,6 +6,8 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link href="landscape_fullscreen.css" rel="stylesheet"/>
 <link href="platforms_mobile_stars_FINAL_v5.css" rel="stylesheet"/>
+
+<link rel="stylesheet" href="platforms_mobile_portrait_simple_FINAL.css?v=20260102">
 <title>ARA KOREA GROUP | Platforms</title>
 <style>
 :root{
@@ -1150,52 +1152,14 @@ footer{
   .thumb-dot{ width: 32px; height: 32px; }
 }
 
-/* ===== Mobile PORTRAIT ONLY: focus center planet + improve tap ===== */
+
+/* ===== FINAL PORTRAIT OVERRIDE SAFEGUARD (keeps taps + full color) ===== */
 @media (max-width: 640px) and (orientation: portrait){
-  .universe-hint, .universe-subhint{ display:none !important; }
-
-  /* Make everything feel calmer/less busy */
-  .stars.back .star{ opacity:0.05 !important; }
-  .stars.front .star{ opacity:0.08 !important; }
-
-  /* Dim all planets by default (JS will re-enable the center one) */
-  .planet{ opacity:0.10 !important; filter: blur(2.2px) saturate(0.85) !important; }
-  .planet.is-center{
-    opacity:1 !important;
-    filter:none !important;
-  }
-
-  /* Prevent accidental drag stealing taps */
-  #universe{ touch-action: manipulation; }
-
-  /* Portrait-only: lock interaction to a single, reliable tap target */
-  .universe{ pointer-events:none; }
-  .portrait-center-link{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform: translate(-50%, -50%);
-    width: 220px;
-    height: 220px;
-    z-index: 20; /* above planets/canvas */
-    display:block;
-    pointer-events:auto;
-    -webkit-tap-highlight-color: transparent;
-    background: transparent;
-  }
-
-  /* Make stars subtle but not fully invisible, and fade edges */
-  .stars.back .star{ opacity:0.08 !important; }
-  .stars.front .star{ opacity:0.12 !important; }
-  .universe-wrap::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    z-index:15;
-    background: radial-gradient(circle at 50% 45%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.88) 100%);
-  }
+  .planet, .planet *{ filter:none !important; opacity:1 !important; }
+  .universe{ pointer-events:auto !important; }
+  .planets{ pointer-events:auto !important; }
 }
+
 </style>
 </head>
 <body>
