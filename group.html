@@ -705,8 +705,11 @@ footer{
       const scaleFit = clamp(Math.min(rect.width / 980, 1), 0.72, 1);
 
       planets.forEach((p, idx) => {
-        const r = parseFloat(p.dataset.orbit || "200") * scaleFit;
-        const speed = parseFloat(p.dataset.speed || "0.0020");
+        const orbit = parseFloat(p.dataset.orbit || "200");
+        const r = orbit * scaleFit;
+        let speed = parseFloat(p.dataset.speed || "0.0020");
+        // Outer-ring planets (commerce row) move 2x faster
+        if (orbit >= 420) speed *= 2;
         const phase = parseFloat(p.dataset.phase || "0");
         const angle = t * (Math.PI * 2) * speed + phase;
 
