@@ -19,7 +19,7 @@
   /* Ensure universe is the positioning context */
   .universe{
     position: relative !important;
-    pointer-events: auto !important;
+    pointer-events: none !important;
   }
 
   /* Center the planets box vertically */
@@ -40,7 +40,11 @@
     overflow-x: auto !important;
     overflow-y: hidden !important;
     pointer-events: auto !important;
-  }
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important; /* Firefox */
+
+}
 
   .planet{
     position: relative !important;
@@ -51,7 +55,7 @@
     flex: 0 0 auto !important;
     min-width: 96px !important;
     min-height: 96px !important;
-    pointer-events: auto !important;
+    pointer-events: none !important;
   }
 
   /* Labels always readable */
@@ -66,4 +70,13 @@
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
+
+  /* Hide scrollbar (WebKit) */
+  .planets::-webkit-scrollbar{ display:none !important; }
+
+  /* Snap each planet to center */
+  .planet{ scroll-snap-align: center !important; }
+
+  /* Only the centered planet is clickable */
+  .planet.is-front{ pointer-events: auto !important; }
 }
