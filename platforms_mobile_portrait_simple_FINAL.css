@@ -1,40 +1,40 @@
 /* =====================================================
-   Mobile PORTRAIT – Centered planet strip (FINAL)
+   Mobile PORTRAIT – Planet strip (FINAL)
    - ONLY affects <=640px portrait
-   - Centers the planet row inside the universe box
+   - Planets sit in the visual center of the universe box (not clipped)
    - Horizontal swipe with snap-to-center
-   - Only the centered planet is clickable (via .is-front)
+   - Only the centered planet is clickable (via .is-front set by JS)
    ===================================================== */
 
 @media (max-width: 640px) and (orientation: portrait){
 
-  /* Keep everything interactive on mobile */
+  /* Universe must stay interactive */
   .universe{
     position: relative !important;
     pointer-events: auto !important;
     touch-action: pan-y !important; /* allow page scroll */
   }
 
-  /* IMPORTANT: base CSS sets .planets{inset:0}; reset it so top:50% works */
+  /* IMPORTANT: base CSS sets .planets{inset:0}; reset it so our centering works */
   .planets{
     position: absolute !important;
 
-    inset: auto !important;     /* cancels top/right/bottom/left from base */
+    inset: auto !important;         /* cancels top/right/bottom/left from base */
     left: 0 !important;
     right: 0 !important;
-    top: 50% !important;
-    bottom: auto !important;
-    height: auto !important;
 
+    /* Move the strip slightly upward so labels + ring UI never feel “cut” */
+    top: calc(50% - 56px) !important;
     transform: translateY(-50%) !important;
 
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
-    justify-content: flex-start !important;
 
-    gap: 56px !important;
-    padding: 0 44px !important;
+    gap: 56px !important;           /* spacing between planets */
+    padding: 18px 40px 56px !important; /* extra bottom space for labels */
+
+    height: 240px !important;       /* ensures no top/bottom clipping */
 
     overflow-x: auto !important;
     overflow-y: hidden !important;
@@ -46,7 +46,7 @@
     touch-action: pan-x !important; /* swipe planets horizontally */
   }
 
-  /* Each planet becomes a flex item (override any inline transform from JS) */
+  /* Each planet becomes a flex item (strip mode) */
   .planet{
     position: relative !important;
     left: auto !important;
@@ -54,8 +54,9 @@
     transform: none !important;
 
     flex: 0 0 auto !important;
-    min-width: 96px !important;
-    min-height: 96px !important;
+
+    width: 96px !important;
+    height: 96px !important;
 
     scroll-snap-align: center !important;
 
@@ -68,40 +69,24 @@
     pointer-events: auto !important;
   }
 
-  /* Make sure the visible body fills the hitbox */
-  .planet .p-body{
-    position: absolute !important;
-    inset: 0 !important;
-    border-radius: 999px !important;
-  }
-
-  /* Labels always readable in strip view */
+  /* Labels: show clearly for centered planet (and keep others subtle but readable) */
   .planet .p-label{
+    opacity: .55 !important;
+    transform: translateX(-50%) !important;
+    background: none !important;
+  }
+  .planet.is-front .p-label{
     opacity: 1 !important;
-    transform: none !important;
-    pointer-events: none !important;
+    transform: translateX(-50%) translateY(-1px) !important;
   }
 
-  /* Prevent wrappers from offsetting vertical center */
+  /* Prevent outer wrappers from offsetting center */
   .universe-wrap{
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
 
-  /* Hide horizontal scrollbar (WebKit) */
+  /* Hide horizontal scrollbar (WebKit/Firefox) */
   .planets::-webkit-scrollbar{ display:none !important; }
   .planets{ scrollbar-width: none !important; }
-
-  /* === Optional debug line (uncomment to verify true center)
-  .universe::after{
-    content:"";
-    position:absolute;
-    left:0; right:0;
-    top:50%;
-    height:1px;
-    background: rgba(255,255,255,.45);
-    z-index: 9999;
-    pointer-events:none;
-  }
-  === */
 }

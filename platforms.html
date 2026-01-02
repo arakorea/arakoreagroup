@@ -1479,117 +1479,87 @@ window.addEventListener("orientationchange", applyPortraitOnly);
   const slider = document.getElementById("ringControl");
   if (!universe || planets.length === 0) return;
 
-  // ===== Mobile portrait: carousel mode (center + snap + only-center clickable) =====
-  const portraitCarousel = window.matchMedia && window.matchMedia("(max-width: 640px) and (orientation: portrait)").matches;
-  if (portraitCarousel){
-    const rail = document.getElementById("planets");
-    if (!rail) return;
-
-    // Helper: center a planet within the horizontal rail
-    function centerOn(el, behavior="smooth"){
-      const rRect = rail.getBoundingClientRect();
-      const eRect = el.getBoundingClientRect();
-      const delta = (eRect.left + eRect.width/2) - (rRect.left + rRect.width/2);
-      rail.scrollTo({ left: rail.scrollLeft + delta, behavior });
-    }
-
-    function getCenteredPlanet(){
-      const rRect = rail.getBoundingClientRect();
-      const cx = rRect.left + rRect.width/2;
-      let best = null;
-      let bestDist = Infinity;
-      for (const p of planets){
-        const b = p.getBoundingClientRect();
-        const pcx = b.left + b.width/2;
-        const d = Math.abs(pcx - cx);
-        if (d < bestDist){ bestDist = d; best = p; }
-      }
-      return best;
-    }
-
-    function setFront(front){
-      planets.forEach(p => {
-        const isFront = (p === front);
-        p.classList.toggle("is-front", isFront);
-        p.style.pointerEvents = isFront ? "auto" : "none";
-      });
-    }
-
-    // Sync the slider with the currently centered planet (uses data-angle)
-    function syncSliderToPlanet(p){
-      if (!slider || !p) return;
-      const ang = parseFloat(p.dataset.angle || "0"); // radians
-      let deg = (ang * 180 / Math.PI) % 360;
-      if (deg < 0) deg += 360;
-      slider.value = String(Math.round(deg));
-    }
-
-    // When the slider moves, snap the closest planet to center
-    function snapToSlider(){
-      if (!slider) return;
-      const deg = parseFloat(slider.value || "0");
-      const target = deg * Math.PI / 180;
-      let best = planets[0];
-      let bestDist = Infinity;
-      planets.forEach(p => {
-        const a = parseFloat(p.dataset.angle || "0");
-        const d = Math.abs(Math.atan2(Math.sin(a-target), Math.cos(a-target))); // shortest angular distance
-        if (d < bestDist){ bestDist = d; best = p; }
-      });
-      centerOn(best, "smooth");
-      setFront(best);
-    }
-
-    // Scroll -> determine center -> enable click -> keep slider in sync
-    let raf = 0;
-    function onScroll(){
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        const centered = getCenteredPlanet();
-        if (centered){
-          setFront(centered);
-          syncSliderToPlanet(centered);
-        }
-      });
-    }
-    rail.addEventListener("scroll", onScroll, { passive:true });
-
-    // Wheel trackpad/desktop scroll support
-    rail.addEventListener("wheel", (e) => {
-      e.preventDefault();
-      rail.scrollLeft += (e.deltaY || 0) + (e.deltaX || 0);
-    }, { passive:false });
-
-    if (slider){
-      slider.addEventListener("input", () => {
-        snapToSlider();
-      });
-    }
-
-    // Initial: center on ourbang.com if present (otherwise first planet)
-    const initial = planets.find(p => (p.dataset.id || "").toLowerCase() === "ourbang.com") || planets[0];
-    requestAnimationFrame(() => {
-      centerOn(initial, "auto");
-      setFront(initial);
-      syncSliderToPlanet(initial);
-    });
-
-    // On resize/orientation change, re-center the current front planet
-    window.addEventListener("resize", () => {
-      const current = rail.querySelector(".planet.is-front") || getCenteredPlanet() || initial;
-      if (current) centerOn(current, "auto");
-    }, { passive:true });
-
-    return; // IMPORTANT: do not run 3D ring mode in portrait carousel
-  }
-
-
   // ===== Ring + depth settings =====
   const ellipseY = 0.24;
   const isMobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
   const isLandscape = window.matchMedia && window.matchMedia('(orientation: landscape)').matches;
   const isPortrait  = window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
+
+  // ===== Mobile portrait strip mode (<=640px portrait) =====
+  const isStripPortrait = window.matchMedia && window.matchMedia('(max-width: 640px) and (orientation: portrait)').matches;
+  if (isStripPortrait){
+    const strip = document.getElementById("planets");
+    if (!strip) return;
+
+    function findCenteredPlanet(){
+      const centerX = strip.getBoundingClientRect().left + strip.clientWidth / 2;
+      let best = null;
+      let bestDist = Infinity;
+      planets.forEach(p => {
+        const r = p.getBoundingClientRect();
+        const pc = r.left + r.width / 2;
+        const d = Math.abs(pc - centerX);
+        if (d < bestDist){
+          bestDist = d;
+          best = p;
+        }
+      });
+      return best;
+    }
+
+    function applyFront(){
+      const best = findCenteredPlanet();
+      planets.forEach(p => p.classList.toggle("is-front", p === best));
+    }
+
+    function syncSlider(){
+      if (!slider) return;
+      const maxScroll = strip.scrollWidth - strip.clientWidth;
+      const pct = maxScroll > 0 ? (strip.scrollLeft / maxScroll) : 0;
+      slider.value = String(Math.round(pct * 360));
+    }
+
+    let raf = 0;
+    function onStripScroll(){
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        applyFront();
+        syncSlider();
+      });
+    }
+
+    strip.addEventListener("scroll", onStripScroll, { passive: true });
+
+    if (slider){
+      slider.addEventListener("input", () => {
+        const maxScroll = strip.scrollWidth - strip.clientWidth;
+        const pct = (parseFloat(slider.value || "0") / 360);
+        strip.scrollTo({ left: pct * maxScroll, behavior: "smooth" });
+      });
+    }
+
+    // Intro: center ourbang.com if present
+    function centerById(id){
+      const target = planets.find(p => ((p.dataset.id || "") + "").toLowerCase() === (id + "").toLowerCase());
+      if (!target) return;
+      target.scrollIntoView({ behavior: "auto", inline: "center", block: "nearest" });
+    }
+
+    // Run once after layout
+    setTimeout(() => {
+      centerById("ourbang.com");
+      applyFront();
+      syncSlider();
+    }, 60);
+
+    window.addEventListener("resize", () => {
+      applyFront();
+      syncSlider();
+    }, { passive: true });
+
+    return; // stop ring physics on strip mode
+  }
+
 
   // Mobile tuning:
   // - Landscape: smaller planets + more spacing
