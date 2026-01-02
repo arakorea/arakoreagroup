@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link href="landscape_fullscreen.css" rel="stylesheet"/>
-<link href="platforms_mobile_stars.css?v=FINAL5" rel="stylesheet"/>
+<link href="platforms_mobile_stars.css?v=FINAL7" rel="stylesheet"/>
 <title>ARA KOREA GROUP | Platforms</title>
 <style>
 :root{
@@ -1196,62 +1196,9 @@ footer{
     background: radial-gradient(circle at 50% 45%, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 55%, rgba(0,0,0,0.88) 100%);
   }
 }
-
-
-/* ===== MOBILE OVERRIDES (final) =====
-   Fixes:
-   - Portrait: stars invisible -> make visible
-   - Landscape: stars too big -> half-size
-   - Keep only center star tappable on portrait
-   Desktop unaffected.
-*/
-.stars{ position:absolute; inset:0; }
-
-@media (max-width: 640px) and (orientation: portrait){
-  /* Keep interaction limited to the center link only */
-  .universe{ pointer-events:none !important; }
-
-  /* Make background stars visible (they were near-zero) */
-  .stars.front .star{ opacity: .50 !important; box-shadow: 0 0 3px rgba(255,255,255,.28) !important; }
-  .stars.back  .star{ opacity: .16 !important; filter: blur(.6px) !important; }
-  .stars .star{ width: 1px !important; height: 1px !important; }
-
-  /* Soften the dark vignette overlay that was covering stars */
-  .universe-wrap::after{
-    background: radial-gradient(circle at 50% 45%,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.28) 58%,
-      rgba(0,0,0,0.42) 100%) !important;
-  }
-
-  /* Center tappable star */
-  .portrait-center-link{
-    display:block !important;
-    width: 220px !important;
-    height: 220px !important;
-    z-index: 30 !important;
-    pointer-events:auto !important;
-  }
-}
-
-/* Landscape: reduce star size ~ half */
-@media (max-width: 980px) and (orientation: landscape){
-  .stars .star{ width: 0.7px !important; height: 0.7px !important; }
-  .stars.front .star{ box-shadow: 0 0 3px rgba(255,255,255,.28) !important; opacity: .85 !important; }
-  .stars.back .star{ opacity: .10 !important; }
-  .portrait-center-link{
-    display:block !important;
-    width: 180px !important;
-    height: 180px !important;
-    z-index: 30 !important;
-  }
-}
-
 </style>
 </head>
 <body>
-<div id="mobileDebugBadge">FINAL5</div>
-
 <div aria-hidden="true" id="tsparticles"></div>
 <div aria-hidden="true" id="aurora"></div>
 <div class="page">
@@ -1275,7 +1222,7 @@ footer{
 <p>Rotate the ring to browse the ten domains. The front planet grows—click it to open the live asset in a new tab.</p>
 </section>
 <section aria-label="Ecosystem universe" class="universe-wrap">
-<a class="portrait-center-link" id="portraitCenterLink" href="https://ourbang.com" target="_blank" rel="noopener noreferrer" aria-label="Open tikoonz.com"></a>
+<a class="portrait-center-link" id="portraitCenterLink" href="https://ourbang.com" target="_blank" rel="noopener noreferrer" aria-label="Open ourbang.com"></a>
 
 <div aria-label="Interactive universe" class="universe" id="universe" role="application">
 <div class="universe-hint">Click a planet</div>
@@ -1324,7 +1271,7 @@ footer{
 <span class="p-name">tikoonz radio</span>
 <span class="p-sub">Live</span>
 </span>
-</a><a class="planet" data-angle="3.769911" data-id="ourbang.com" data-name="ourbang.com" data-radius="290" data-size="61.6" data-slogan="Space becomes a digital asset" data-sub="Scan, view, and trade space through a credit system." data-tag="Platform" data-url="https://ourbang.com" href="https://ourbang.com" rel="noopener noreferrer" role="link" style="--sz:61.6px; --hue:240;" target="_blank">
+</a><a class="planet" data-angle="3.769911" data-id="ourbang.com" data-name="ourbang.com" data-radius="290" data-size="61.6" data-slogan="Space becomes a digital asset" data-sub="Scan, view, and trade space through a credit system." data-tag="Platform" data-url="https://www.ourbang.com.com" href="https://www.ourbang.com.com" rel="noopener noreferrer" role="link" style="--sz:61.6px; --hue:240;" target="_blank">
 <span aria-hidden="true" class="p-body"></span>
 <span aria-hidden="true" class="p-ring"></span>
 <span class="p-label">
@@ -1371,7 +1318,7 @@ footer{
 </div>
 </div>
 </div>
-</section><section aria-label="Quick links" class="plat-thumbs"><h2>Quick Links</h2><p>Tap a tile to open the platform directly. (Same destinations as the planets above.)</p><div class="thumb-grid"><a class="thumb" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:0;"></span><span class="thumb-meta"><span class="thumb-name">AKFF</span><span class="thumb-tag">Festival</span></span></a><a class="thumb" href="https://arakorea.org" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:30;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.org</span><span class="thumb-tag">Culture</span></span></a><a class="thumb" href="https://www.akenm.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:60;"></span><span class="thumb-meta"><span class="thumb-name">publishing</span><span class="thumb-tag">Publishing</span></span></a><a class="thumb" href="https://tikoonz.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:120;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.com</span><span class="thumb-tag">Media</span></span></a><a class="thumb" href="https://tikoonz.tv" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:180;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.tv</span><span class="thumb-tag">Channel</span></span></a><a class="thumb" href="https://www.youtube.com/@tikoonz" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:210;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz radio</span><span class="thumb-tag">Live</span></span></a><a class="thumb" href="https://ourbang.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:240;"></span><span class="thumb-meta"><span class="thumb-name">ourbang.com</span><span class="thumb-tag">Platform</span></span></a><a class="thumb" href="https://www.icehail.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:270;"></span><span class="thumb-meta"><span class="thumb-name">ICE Jewelry</span><span class="thumb-tag">Product</span></span></a><a class="thumb" href="https://arakorea.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:300;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.shop</span><span class="thumb-tag">Shop</span></span></a><a class="thumb" href="https://tikoonz.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:330;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.shop</span><span class="thumb-tag">Shop</span></span></a></div></section></main></div>
+</section><section aria-label="Quick links" class="plat-thumbs"><h2>Quick Links</h2><p>Tap a tile to open the platform directly. (Same destinations as the planets above.)</p><div class="thumb-grid"><a class="thumb" href="https://www.arakoreafilmfestival.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:0;"></span><span class="thumb-meta"><span class="thumb-name">AKFF</span><span class="thumb-tag">Festival</span></span></a><a class="thumb" href="https://arakorea.org" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:30;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.org</span><span class="thumb-tag">Culture</span></span></a><a class="thumb" href="https://www.akenm.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:60;"></span><span class="thumb-meta"><span class="thumb-name">publishing</span><span class="thumb-tag">Publishing</span></span></a><a class="thumb" href="https://tikoonz.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:120;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.com</span><span class="thumb-tag">Media</span></span></a><a class="thumb" href="https://tikoonz.tv" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:180;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.tv</span><span class="thumb-tag">Channel</span></span></a><a class="thumb" href="https://www.youtube.com/@tikoonz" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:210;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz radio</span><span class="thumb-tag">Live</span></span></a><a class="thumb" href="https://www.ourbang.com.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:240;"></span><span class="thumb-meta"><span class="thumb-name">ourbang.com</span><span class="thumb-tag">Platform</span></span></a><a class="thumb" href="https://www.icehail.com" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:270;"></span><span class="thumb-meta"><span class="thumb-name">ICE Jewelry</span><span class="thumb-tag">Product</span></span></a><a class="thumb" href="https://arakorea.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:300;"></span><span class="thumb-meta"><span class="thumb-name">arakorea.shop</span><span class="thumb-tag">Shop</span></span></a><a class="thumb" href="https://tikoonz.shop" rel="noopener noreferrer" target="_blank"><span class="thumb-dot" style="--hue:330;"></span><span class="thumb-meta"><span class="thumb-name">tikoonz.shop</span><span class="thumb-tag">Shop</span></span></a></div></section></main></div>
 
 
 <footer>
