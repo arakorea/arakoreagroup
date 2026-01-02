@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link href="landscape_fullscreen.css" rel="stylesheet"/>
-<link href="platforms_mobile_stars.css?v=FINAL8" rel="stylesheet"/>
+<link href="platforms_mobile_stars_FINAL_v3.css" rel="stylesheet"/>
 <title>ARA KOREA GROUP | Platforms</title>
 <style>
 :root{
@@ -1594,15 +1594,16 @@ window.addEventListener("orientationchange", applyPortraitOnly);
 
   // ===== Ring + depth settings =====
   const ellipseY = 0.24;
-  const mq = (q) => (window.matchMedia ? window.matchMedia(q).matches : false);
+  const isMobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
+  const isLandscape = window.matchMedia && window.matchMedia('(orientation: landscape)').matches;
+  const isPortrait  = window.matchMedia && window.matchMedia('(orientation: portrait)').matches;
 
-  // These are recomputed on measure() so they stay correct after rotation/resize.
-  let isMobile = false;
-  let isLandscape = false;
-  let isPortrait = false;
-  let minScale = 0.50;
-  let maxScale = 1.85;
-  let zDepth = 460;
+  // Mobile tuning:
+  // - Landscape: smaller planets + more spacing
+  // - Portrait: keep clear center focus without blocking ring movement
+  const minScale = isMobile ? (isLandscape ? 0.48 : 0.55) : 0.50;
+  const maxScale = isMobile ? (isLandscape ? 1.35 : 1.75) : 1.85;
+  const zDepth  = isMobile ? (isLandscape ? 360 : 420) : 460;
 
   // back planets
   const backFade = 0.78;
@@ -1630,36 +1631,10 @@ window.addEventListener("orientationchange", applyPortraitOnly);
 
   // Perf: cache measurements, update on resize only
   let rect = universe.getBoundingClientRect();
-  let r = 0;
+  let r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.height * (isMobile ? (isLandscape ? 0.70 : 0.62) : 0.62));
 function measure(){
     rect = universe.getBoundingClientRect();
-
-    isMobile = mq('(max-width: 720px)');
-    isLandscape = mq('(orientation: landscape)');
-    isPortrait  = mq('(orientation: portrait)');
-
-    // Mobile tuning:
-    // - Portrait: only the front planet reads crisp/tappable
-    // - Landscape: increase ring radius so planets feel spaced out
-    minScale = isMobile ? (isLandscape ? 0.46 : 0.52) : 0.50;
-    maxScale = isMobile ? (isLandscape ? 1.28 : 1.75) : 1.85;
-    zDepth   = isMobile ? (isLandscape ? 360 : 420) : 460;
-
-    // Base radius fit
-    const baseR = Math.min(
-      rect.width  * (isMobile ? (isLandscape ? 0.78 : 0.54) : 0.58),
-      rect.height * (isMobile ? (isLandscape ? 0.90 : 0.66) : 0.66)
-    );
-
-    // Landscape: increase spacing between planets.
-    // We aim for ~2x, but cap to the box so it never clips.
-    if (isMobile && isLandscape){
-      const desired = baseR * 2.0;
-      const maxR = Math.min(rect.width * 0.92, rect.height * 0.96);
-      r = Math.min(desired, maxR);
-    } else {
-      r = baseR;
-    }
+r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.height * (isMobile ? (isLandscape ? 0.70 : 0.62) : 0.62)); // fill width
   }
 
   function setSliderFromRot(){
@@ -1696,18 +1671,6 @@ function measure(){
       const z = Math.cos(a); // -1..1
       const t = Math.max(0, Math.min(1, (z + 1) * 0.5)); // 0..1
 
-      // Mark the current front planet for portrait CSS (crisp + high quality)
-      const isFront = (t > 0.86);
-      if (isFront){
-        p.classList.add('is-front');
-        p.setAttribute('data-front', 'true');
-        p.setAttribute('aria-current', 'true');
-      } else {
-        p.classList.remove('is-front');
-        p.removeAttribute('data-front');
-        p.removeAttribute('aria-current');
-      }
-
       // Make center planet "real": crisp, high-contrast, higher saturation
       const sc = minScale + Math.pow(t, scaleCurve) * (maxScale - minScale);
       const tz = z * zDepth;
@@ -1729,7 +1692,7 @@ function measure(){
 
       // Mobile UX: only the front (center) planet should be tappable to avoid mis-taps.
       if (isMobile){
-        p.style.pointerEvents = isFront ? "auto" : "none";
+        p.style.pointerEvents = (t > 0.86) ? "auto" : "none";
       }
 
       // Labels: only readable at the front; otherwise ghosted away
@@ -1839,11 +1802,25 @@ function measure(){
     dragHappened = false;
   }, true);
 
+  // Mobile portrait: ensure the center planet always opens on tap (iOS Safari-safe)
+  universe.addEventListener("touchend", (e) => {
+    const mq = window.matchMedia && window.matchMedia("(max-width: 640px) and (orientation: portrait)");
+    if (!mq || !mq.matches) return;
+    if (dragHappened) return;
+
+    const a = e.target.closest && e.target.closest(".planet.is-center, .planet.is-front, .planet[data-front='true'], .planet[aria-current='true']");
+    if (!a) return;
+
+    const href = a.getAttribute("href") || a.getAttribute("data-url");
+    if (!href) return;
+
+    e.preventDefault();
+    window.open(href, "_blank", "noopener,noreferrer");
+  }, { passive: false });
+
+
   // Performance: re-measure on resize
   window.addEventListener("resize", () => {
-    measure();
-  });
-  window.addEventListener("orientationchange", () => {
     measure();
   });
 
