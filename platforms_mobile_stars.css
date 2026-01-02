@@ -13,23 +13,25 @@
   .universe{ pointer-events:auto !important; }
   #universe{ touch-action:none !important; -webkit-user-select:none; user-select:none; }
 
-  /* ---- Planet visibility overrides (beats inline styles) ---- */
+  /* ---- Planet visibility + tap rules (beats inline styles) ----
+     Goal: only the center/front planet is crisp + tappable.
+     Others remain present but intentionally soft/quiet. */
   .planet{
-    opacity: 0.55 !important;                /* was ~0.10 -> too faint */
-    filter: blur(1.2px) saturate(1.1) contrast(1.05) !important;
-    box-shadow: 0 0 24px rgba(255,255,255,0.10) !important;
+    opacity: 0.18 !important;
+    filter: blur(2.2px) saturate(0.95) contrast(0.95) brightness(0.85) !important;
+    pointer-events: none !important;
   }
 
-  /* Front (focused) planet: crisp + bright */
+  /* Center/front planet: crisp, high-contrast, tappable */
   .planet.is-front,
   .planet[data-front="true"],
   .planet[aria-current="true"]{
     opacity: 1 !important;
-    filter: blur(0px) saturate(1.15) contrast(1.10) brightness(1.05) !important;
-    box-shadow: 0 0 36px rgba(255,255,255,0.18) !important;
+    filter: blur(0px) saturate(1.25) contrast(1.18) brightness(1.06) !important;
+    pointer-events: auto !important;
   }
 
-  /* If JS uses scale/transform to indicate front, ensure label is readable */
+  /* Label readability for the front planet */
   .p-label{
     opacity: 0.92 !important;
     font-size: 15px !important;
@@ -56,10 +58,9 @@
 
 /* ===== LANDSCAPE: keep the improved sizing from FINAL10 (repeat to ensure priority) ===== */
 @media (max-width: 980px) and (orientation: landscape){
-  .planets{
-    transform: scale(0.46) !important;
-    transform-origin: 50% 50% !important;
-  }
+  /* IMPORTANT: don't shrink the entire ring; it compresses planet spacing.
+     Spacing is controlled by JS radius instead. */
+  .planets{ transform: none !important; }
   .p-label{
     font-size: 15px !important;
     line-height: 1.15 !important;
