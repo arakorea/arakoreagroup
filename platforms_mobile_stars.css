@@ -1,70 +1,84 @@
-/* platforms_mobile_stars.css (FINAL8)
-   Mobile-only:
-   - Bigger, clearer labels for the front planet
-   - Subtle starfield inside the universe card (optional, works even if JS star DOM is empty)
-   - Remove any debug badge (FINAL5)
+/* platforms_mobile_stars.css (FINAL10)
+   Fixes mobile PORTRAIT interaction being disabled by inline CSS.
+   - Re-enable ring drag / 10-planet motion on portrait
+   - Only front planet tappable (JS already handles pointer-events; we don't block it)
+   - Improve label readability on mobile
+   - Landscape: make planets smaller + a bit more spacing
+   Desktop unaffected.
 */
 
+/* Kill any leftover debug badge */
 #mobileDebugBadge{ display:none !important; }
 
-/* Optional starfield layer inside the universe card */
-.universe{ position: relative; overflow:hidden; }
-.universe::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  opacity: 0.22;
-  background-image:
-    radial-gradient(circle at 12% 18%, rgba(255,255,255,.85) 0 1px, transparent 2px),
-    radial-gradient(circle at 72% 22%, rgba(255,255,255,.70) 0 1px, transparent 2px),
-    radial-gradient(circle at 48% 62%, rgba(255,255,255,.55) 0 1px, transparent 2px),
-    radial-gradient(circle at 84% 78%, rgba(255,255,255,.80) 0 1px, transparent 2px),
-    radial-gradient(circle at 22% 72%, rgba(255,255,255,.60) 0 1px, transparent 2px),
-    radial-gradient(circle, rgba(255,255,255,.20) 0 1px, transparent 2px);
-  background-size: 260px 260px, 320px 320px, 300px 300px, 360px 360px, 300px 300px, 120px 120px;
-  background-repeat: repeat;
-}
+/* --- MOBILE PORTRAIT: undo the inline "pointer-events:none" / overlay lock --- */
+@media (max-width: 640px) and (orientation: portrait){
+  /* Inline CSS currently does: .universe{pointer-events:none;} -> undo */
+  .universe{ pointer-events:auto !important; }
 
-/* Keep planets above starfield */
-.planets, .planets *{ position: relative; z-index: 2; }
+  /* Inline CSS dims all planets to opacity 0.10 -> undo so we can see all 10 */
+  .planet{
+    opacity: 1 !important;
+    filter: none !important;
+  }
 
-/* Mobile label typography */
-@media (max-width: 720px){
+  /* If any portrait-center-link exists in old HTML, hide it (it blocks interaction) */
+  .portrait-center-link{ display:none !important; }
+
+  /* Allow drag gestures to control the ring (avoid iOS interpreting as page scroll) */
+  #universe{
+    touch-action: none !important;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Make stars subtle but visible (optional) */
+  .stars.front .star{ opacity: .16 !important; }
+  .stars.back  .star{ opacity: .08 !important; }
+
+  /* Soften heavy vignette overlay from inline CSS */
+  .universe-wrap::after{
+    background: radial-gradient(circle at 50% 45%,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.28) 60%,
+      rgba(0,0,0,0.45) 100%) !important;
+  }
+
+  /* Labels bigger & clearer */
   .p-label{
     font-size: 15px !important;
-    line-height: 1.1 !important;
-  }
-  .p-label .p-name{
-    font-size: 18px !important;
-    letter-spacing: 0.02em !important;
-  }
-  .p-label .p-sub{
-    font-size: 13px !important;
-    opacity: 0.85 !important;
-  }
-  /* Give label a soft backdrop for readability */
-  .p-label{
+    line-height: 1.15 !important;
     padding: 6px 10px !important;
     border-radius: 999px !important;
     background: rgba(0,0,0,0.28) !important;
     backdrop-filter: blur(6px);
   }
+  .p-label .p-name{ font-size: 18px !important; letter-spacing: 0.02em !important; }
+  .p-label .p-sub { font-size: 13px !important; opacity: 0.85 !important; }
 }
 
-/* Portrait: slightly denser stars, calm */
-@media (max-width: 720px) and (orientation: portrait){
-  .universe::after{
-    opacity: 0.26;
-    background-size: 220px 220px, 280px 280px, 260px 260px, 320px 320px, 260px 260px, 110px 110px;
-  }
-}
-
-/* Landscape: stars a bit smaller/dense */
+/* --- MOBILE LANDSCAPE: smaller planets + more spacing --- */
 @media (max-width: 980px) and (orientation: landscape){
-  .universe::after{
-    opacity: 0.24;
-    background-size: 170px 170px, 210px 210px, 190px 190px, 240px 240px, 190px 190px, 90px 90px;
+  /* Make the whole ring smaller (planets were still huge) */
+  .planets{
+    transform: scale(0.46) !important;
+    transform-origin: 50% 50% !important;
   }
+
+  /* Add a bit of breathing room (ring occupies less area) */
+  .universe{
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  /* Labels still readable */
+  .p-label{
+    font-size: 15px !important;
+    line-height: 1.15 !important;
+    padding: 6px 10px !important;
+    border-radius: 999px !important;
+    background: rgba(0,0,0,0.24) !important;
+    backdrop-filter: blur(6px);
+  }
+  .p-label .p-name{ font-size: 18px !important; }
+  .p-label .p-sub { font-size: 13px !important; opacity: 0.85 !important; }
 }
