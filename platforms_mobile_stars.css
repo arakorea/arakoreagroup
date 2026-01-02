@@ -1,7 +1,9 @@
-/* platforms_mobile_stars.css (FINAL5 DEBUG)
-   If you can see the FINAL5 badge on mobile, this file is loading correctly.
+/* platforms_mobile_stars.css (FINAL6)
+   Mobile-only: create visible stars INSIDE the universe card (no JS dependency),
+   and reduce "planet/star" size in landscape.
 */
 
+/* Debug badge stays if present */
 @media (max-width: 980px){
   #mobileDebugBadge{
     position: fixed;
@@ -17,41 +19,112 @@
   }
 }
 
-/* Ensure star layers cover the universe */
-.stars{ position:absolute; inset:0; }
+/* ===== Stars inside the universe card (works even when .stars divs are empty) ===== */
+.universe{
+  position: relative;
+  overflow: hidden;
+}
 
-/* Portrait: make stars visible and calm */
+/* Starfield layer */
+.universe::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index: 0;
+  pointer-events:none;
+  opacity: 0.55;
+  /* Star pattern using multiple repeating radial gradients */
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.9) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 22%, rgba(255,255,255,.75) 0 1px, transparent 2px),
+    radial-gradient(circle at 48% 62%, rgba(255,255,255,.6) 0 1px, transparent 2px),
+    radial-gradient(circle at 84% 78%, rgba(255,255,255,.85) 0 1px, transparent 2px),
+    radial-gradient(circle at 22% 72%, rgba(255,255,255,.65) 0 1px, transparent 2px),
+    radial-gradient(circle at 35% 40%, rgba(200,220,255,.55) 0 1px, transparent 2px),
+    radial-gradient(circle at 62% 48%, rgba(220,200,255,.45) 0 1px, transparent 2px),
+    radial-gradient(circle at 10% 85%, rgba(255,235,200,.45) 0 1px, transparent 2px),
+    radial-gradient(circle at 90% 12%, rgba(255,255,255,.55) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 10%, rgba(255,255,255,.45) 0 1px, transparent 2px),
+
+    /* subtle dense layer */
+    radial-gradient(circle, rgba(255,255,255,.25) 0 1px, transparent 2px);
+  background-size:
+    240px 240px,
+    280px 280px,
+    260px 260px,
+    300px 300px,
+    260px 260px,
+    340px 340px,
+    360px 360px,
+    420px 420px,
+    380px 380px,
+    420px 420px,
+    120px 120px;
+  background-repeat: repeat;
+  filter: blur(0.2px);
+}
+
+/* Keep planets above starfield */
+.planets, .planets *{
+  position: relative;
+  z-index: 2;
+}
+
+/* Center tappable star (from HTML: .portrait-center-link) stays on top */
+.portrait-center-link{
+  z-index: 5 !important;
+}
+
+/* ===== Mobile PORTRAIT: show only a clear center focus, reduce other planets slightly ===== */
 @media (max-width: 640px) and (orientation: portrait){
-  .stars{ pointer-events:none; opacity:0.22; filter: blur(0.8px); }
-  .stars .star{ width: 1px !important; height: 1px !important; }
-  .stars.front .star{ opacity: .55 !important; box-shadow: 0 0 3px rgba(255,255,255,.28) !important; }
-  .stars.back .star{ opacity: .16 !important; filter: blur(.6px) !important; }
+  /* Keep background calm */
+  .universe::before{ opacity: 0.55; }
 
-  .universe-wrap::after{
-    background: radial-gradient(circle at 50% 45%,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,0.28) 58%,
-      rgba(0,0,0,0.42) 100%) !important;
-  }
+  /* Reduce overall ring visuals so destination is clearer */
+  .planets{ transform: scale(0.78); transform-origin: 50% 50%; }
 
+  /* Make center star visible & tappable */
   .portrait-center-link{
     display:block !important;
     width: 220px !important;
     height: 220px !important;
-    z-index: 30 !important;
     pointer-events:auto !important;
+  }
+
+  /* Soften dark overlay if present */
+  .universe-wrap::after{
+    background: radial-gradient(circle at 50% 45%,
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.26) 58%,
+      rgba(0,0,0,0.40) 100%) !important;
   }
 }
 
-/* Landscape: half-size stars */
+/* ===== Mobile LANDSCAPE: shrink the "stars/planets" to half ===== */
 @media (max-width: 980px) and (orientation: landscape){
-  .stars .star{ width: 0.7px !important; height: 0.7px !important; }
-  .stars.front .star{ opacity:.85 !important; box-shadow: 0 0 3px rgba(255,255,255,.28) !important; }
-  .stars.back .star{ opacity:.10 !important; }
+  /* Slightly denser/smaller star pattern */
+  .universe::before{
+    opacity: 0.55;
+    background-size:
+      160px 160px,
+      180px 180px,
+      170px 170px,
+      190px 190px,
+      170px 170px,
+      220px 220px,
+      240px 240px,
+      260px 260px,
+      240px 240px,
+      260px 260px,
+      90px 90px;
+  }
+
+  /* This is the main ask: make the ring planets about half size */
+  .planets{ transform: scale(0.50); transform-origin: 50% 50%; }
+
   .portrait-center-link{
     display:block !important;
     width: 180px !important;
     height: 180px !important;
-    z-index: 30 !important;
   }
 }
