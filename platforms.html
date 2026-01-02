@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link href="landscape_fullscreen.css" rel="stylesheet"/>
-<link href="platforms_mobile_stars_FINAL_v4.css" rel="stylesheet"/>
+<link href="platforms_mobile_stars_FINAL_v5.css" rel="stylesheet"/>
 <title>ARA KOREA GROUP | Platforms</title>
 <style>
 :root{
@@ -1589,6 +1589,10 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
     // y = cos(a)*r*ellipseY + yBase ; at a=0 -> y = r*ellipseY + yBase = 0 => yBase = -r*ellipseY
     const yBase = -r * ellipseY;
 
+    // Determine which planet is truly the 'front' one each frame (for portrait tap + crispness)
+    let bestPlanet = null;
+    let bestT = -1;
+
     if (!isDown) {
       velocity *= 0.94;
       if (Math.abs(velocity) < 0.00002) velocity = 0;
@@ -1605,6 +1609,10 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
       // Depth: front at a=0 (z=1), back at a=pi (z=-1)
       const z = Math.cos(a); // -1..1
       const t = Math.max(0, Math.min(1, (z + 1) * 0.5)); // 0..1
+
+      // Track front-most planet
+      p.__t = t;
+      if (t > bestT){ bestT = t; bestPlanet = p; }
 
       // Make center planet "real": crisp, high-contrast, higher saturation
       const sc = minScale + Math.pow(t, scaleCurve) * (maxScale - minScale);
@@ -1624,15 +1632,6 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
       p.style.zIndex = String(Math.round(10 + t * 280));
       p.style.opacity = String(Math.max(0.08, Math.min(1, op)));
       p.style.filter = `blur(${blur.toFixed(2)}px) saturate(${sat.toFixed(2)}) contrast(${con.toFixed(2)}) brightness(${bri.toFixed(2)})`;
-
-      // Tag the front planet (used by portrait CSS to keep it crisp)
-      if (t > 0.86) p.classList.add('is-front'); else p.classList.remove('is-front');
-
-      // Mobile UX: only the front (center) planet should be tappable to avoid mis-taps.
-      if (isMobile){
-        p.style.pointerEvents = (t > 0.86) ? "auto" : "none";
-      }
-
       // Labels: only readable at the front; otherwise ghosted away
       const label = p.querySelector(".p-label");
       if (label){
@@ -1641,6 +1640,40 @@ r = Math.min(rect.width * (isMobile ? (isLandscape ? 0.62 : 0.50) : 0.54), rect.
         label.style.transform = `translateX(-50%) translateY(${(-6 * (1-labelT)).toFixed(1)}px)`;
       }
     });
+
+    // ===== Portrait: exactly one crisp/tappable "front" planet, with hysteresis =====
+    if (isMobile && !isLandscape){
+      const FRONT_MIN_T = 0.78;      // how close to front to be considered "center"
+      const SWITCH_DELTA = 0.06;     // prevents flicker when two planets are near-front
+
+      if (!window.__frontPlanet) window.__frontPlanet = bestPlanet;
+      const current = window.__frontPlanet;
+      const currentT = (current && typeof current.__t === "number") ? current.__t : -1;
+
+      // Switch only when the new best is clearly better
+      if (!current || (bestPlanet && bestT >= FRONT_MIN_T && bestPlanet !== current && (bestT - currentT) > SWITCH_DELTA)){
+        window.__frontPlanet = bestPlanet;
+      }
+
+      planets.forEach((p) => {
+        const isFront = (p === window.__frontPlanet);
+        p.classList.toggle("is-front", isFront);
+        p.style.pointerEvents = isFront ? "auto" : "none";
+      });
+    } else {
+      // ===== Landscape / Desktop: keep existing behavior (no changes requested) =====
+      planets.forEach((p) => {
+        const t = (typeof p.__t === "number") ? p.__t : 0;
+        const frontish = t > 0.86;
+        p.classList.toggle("is-front", frontish);
+
+        if (isMobile){
+          p.style.pointerEvents = frontish ? "auto" : "none";
+        } else {
+          p.style.pointerEvents = "auto";
+        }
+      });
+    }
 
     requestAnimationFrame(layout);
   }
