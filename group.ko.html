@@ -480,6 +480,13 @@ body{
   line-break: strict;
 }
 
+
+/* ===== Mobile-only line break (Korean hero only) ===== */
+.mobile-break{ display:inline; }
+@media (max-width: 640px){
+  .mobile-break{ display:block; height:0; }
+}
+
 </style>
 </head>
 <body>
@@ -509,7 +516,7 @@ body{
 </header>
 <main>
 <section class="hero">
-<h1>공간 기반 플랫폼을 중심으로<br/>하나의 그룹, 다양한 버티컬 사업</h1>
+<h1>공간 기반 플랫폼을 중심으로<br/>하나의 그룹,<span class="mobile-break"></span>다양한 버티컬 사업</h1>
 <p>
         ARA KOREA GROUP은 공간 기반 플랫폼을 중심으로<br/>
         문화, 미디어, 커머스에 이르는<br/><br/>
