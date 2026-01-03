@@ -299,6 +299,30 @@ footer{
   main{ padding:100px 20px 28px; }
   .map-wrap{ padding:18px 14px; }
 }
+
+/* ===== Language Switch (same size as Group) ===== */
+.lang-switch{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:8px;
+}
+.lang-switch a{
+  font-size:12px;
+  padding:6px 10px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  color:rgba(242,242,242,.78);
+  letter-spacing:.04em;
+}
+.lang-switch a:hover{ color:rgba(242,242,242,.92); border-color:rgba(255,255,255,.32); }
+.lang-switch a.active{
+  color:rgba(242,242,242,.94);
+  border-color:rgba(255,255,255,.55);
+}
+
 </style>
 </head>
 
@@ -330,7 +354,14 @@ footer{
         <a href="platforms.html">Platforms</a>
         <a href="contact.html">Contact</a>
       </nav>
-    </div>
+    
+      <div class="lang-switch" aria-label="Language">
+        <a href="index.html" class="active">EN</a>
+        <a href="index.ko.html">KO</a>
+        <a href="index.ja.html">JA</a>
+        <a href="index.zh.html">中文</a>
+      </div>
+</div>
   </header>
 
   <main>
