@@ -323,6 +323,22 @@ footer{
   border-color:rgba(255,255,255,.55);
 }
 
+
+
+/* ===== KO Home: responsive line control (PC=2 lines, Mobile=3 lines) ===== */
+.hero-title-ko span,
+.hero-lead-ko span{ display:block; }
+
+/* Default: Desktop */
+.m-only{ display:none; }
+.d-only{ display:block; }
+
+/* Mobile */
+@media (max-width: 640px){
+  .m-only{ display:block; }
+  .d-only{ display:none; }
+}
+
 </style>
 </head>
 
@@ -357,14 +373,22 @@ footer{
 
   <main>
     <div class="hero-panel">
-      <h1>
-        A Creative Group Integrating<br/>
-        Culture, Media, Platform, and Commerce
+      <h1 class="hero-title-ko">
+        <span class="d-only">문화·미디어·플랫폼·커머스를 통합하는</span>
+        <span class="d-only">크리에이티브 그룹</span>
+
+        <span class="m-only">문화·미디어·플랫폼</span>
+        <span class="m-only">커머스를 통합하는</span>
+        <span class="m-only">크리에이티브 그룹</span>
       </h1>
 
-      <p class="lead">
-        ARA KOREA GROUP operates cultural initiatives, media brands, and digital platforms<br/>
-        under an integrated structure designed for long-term growth.
+      <p class="lead hero-lead-ko">
+        <span class="d-only">문화 이니셔티브, 미디어 브랜드, 디지털 플랫폼을</span>
+        <span class="d-only">장기 성장을 위한 통합 구조 안에서 운영합니다.</span>
+
+        <span class="m-only">문화 이니셔티브,</span>
+        <span class="m-only">미디어 브랜드, 디지털 플랫폼을</span>
+        <span class="m-only">장기 성장을 위한 통합 구조 안에서 운영합니다.</span>
       </p>
     </div>
 
