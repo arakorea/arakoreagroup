@@ -446,6 +446,28 @@ footer{
 .core{ overflow: visible !important; }
 .core-surface{ overflow: hidden !important; }
 .core-text{ overflow: visible !important; }
+
+/* ===== Language Switch ===== */
+.lang-switch{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  margin-top:6px;
+}
+.lang-switch a{
+  font-size:12.5px;
+  padding:6px 10px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  opacity:.78;
+  transition: opacity .15s ease, border-color .15s ease;
+}
+.lang-switch a:hover{ opacity:.95; border-color:rgba(255,255,255,.38); }
+.lang-switch a.active{
+  opacity:1;
+  border-color:rgba(255,255,255,.55);
+}
 </style>
 </head>
 <body>
@@ -464,6 +486,12 @@ footer{
 <a href="platforms.html">Platforms</a>
 <a href="contact.html">Contact</a>
 </nav>
+<div class="lang-switch" aria-label="Language">
+  <a href="group.html" class="active" aria-current="true">EN</a>
+  <a href="group.ko.html">KO</a>
+  <a href="group.ja.html">JA</a>
+  <a href="group.zh.html">中文</a>
+</div>
 </div>
 </header>
 <main>
