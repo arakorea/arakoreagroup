@@ -338,6 +338,34 @@ footer{
   .d-only{ display:none; }
 }
 
+
+/* ===== Mobile-only Korean title + copy (HOME EN) ===== */
+.hero-mobile-title-ko{
+  display:none;
+  margin:0 auto 16px;
+  font-size:20px;
+  line-height:1.45;
+  font-weight:650;
+  color:rgba(242,242,242,.92);
+  text-align:center;
+}
+.hero-mobile-title-ko span{ display:block; }
+
+.hero-mobile-ko{
+  display:none;
+  margin-top:18px;
+  font-size:15px;
+  line-height:1.6;
+  color:rgba(242,242,242,.78);
+  text-align:center;
+}
+.hero-mobile-ko span{ display:block; }
+
+@media (max-width: 640px){
+  .hero-mobile-title-ko{ display:block; }
+  .hero-mobile-ko{ display:block; }
+}
+
 </style>
 </head>
 
@@ -372,6 +400,13 @@ footer{
 
   <main>
     <div class="hero-panel">
+      <!-- Mobile-only Korean title -->
+      <h1 class="hero-mobile-title-ko" aria-label="Korean mobile title">
+        <span>문화 · 미디어 · 플랫폼 · 엔터 · 커머스를</span>
+        <span>통합하는 엔터</span>
+        <span>크리에이티브 그룹</span>
+      </h1>
+
       <h1 class="hero-title-en">
         A Creative Group Integrating<br>
         Culture, Media, Platforms, and Commerce
@@ -381,6 +416,14 @@ footer{
         We operate cultural initiatives, media brands, and digital platforms<br>
         within an integrated structure designed for long-term growth.
       </p>
+
+      <!-- Mobile-only Korean tagline -->
+      <div class="hero-mobile-ko" aria-label="Korean mobile tagline">
+        <span>ARA KOREA GROUP은</span>
+        <span>문화 이니셔티브, 엔터 미디어 브랜드,</span>
+        <span>디지털 플랫폼을 통해 장기 성장을 추구합니다</span>
+      </div>
+
     </div>
 
     <section class="map-wrap" aria-label="Group map">
