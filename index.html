@@ -1,642 +1,553 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<!-- Social share preview (KakaoTalk / Facebook / etc.) -->
-<meta property="og:title" content="2026 HAPPY NEW YEAR" />
-<meta property="og:description" content="Thank you sincerely for your support." />
-<meta property="og:image" content="https://arakoreagroup.com/og.jpg" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:url" content="https://arakoreagroup.com/" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="2026 HAPPY NEW YEAR" />
-<meta name="twitter:description" content="Thank you sincerely for your support." />
-<meta name="twitter:image" content="https://arakoreagroup.com/og.jpg" />
+<!DOCTYPE html>
+<html>
 
-<link rel="stylesheet" href="landscape_fullscreen.css"/>
-<title>ARA KOREA GROUP</title>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Interactive 3D walkthrough">
+
+  <link rel="icon" href="2026-03-31-16-04-36/favicon.ico">
+
+  <meta property="og:image" content="2026-03-31-16-04-36/thumbnail.jpg" />
+
+  <link href="2026-03-31-16-04-36/webwalk/style.css" rel="stylesheet" type="text/css">
+
+  <style>
+    @font-face {
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Open Sans'), local('OpenSans'),
+      url('2026-03-31-16-04-36/webwalk/font/open-sans-v28-vietnamese_latin-ext_latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url('2026-03-31-16-04-36/webwalk/font/open-sans-v28-vietnamese_latin-ext_latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    }
+
+    /* Original font awesome font-family names have been replaced to not rely on
+       font-weight when determining actual symbol, as it didn't work well
+       when rendering using 2D canvas features, and also to avoid spaces in
+       the names. */
+
+    @font-face {
+      font-family: 'FontAwesomeBrands';
+      src: url("2026-03-31-16-04-36/webwalk/font/fa-brands-400.woff2") format("woff2"),
+           url("2026-03-31-16-04-36/webwalk/font/fa-brands-400.woff") format("woff"); }
+
+    @font-face {
+      font-family: 'FontAwesomeRegular';
+      src: url("2026-03-31-16-04-36/webwalk/font/fa-regular-400.woff2") format("woff2"),
+           url("2026-03-31-16-04-36/webwalk/font/fa-regular-400.woff") format("woff"); }
+
+    @font-face {
+      font-family: 'FontAwesomeSolid';
+      src: url("2026-03-31-16-04-36/webwalk/font/fa-solid-900.woff2") format("woff2"),
+           url("2026-03-31-16-04-36/webwalk/font/fa-solid-900.woff") format("woff"); }
+
+    #cover-image {
+      background-image: url("2026-03-31-16-04-36/cover.jpg");
+    }
+
+    .ext-popup-close-button {
+      background-image: url("2026-03-31-16-04-36/webwalk/img/close.svg");
+    }
+  </style>
+
+  <title>3D scene</title>
+<style>
+    #ext-html-label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%); 
+}
+  </style>
+
+  <style>
+    #primary-progress-done {
+  stroke: #fff;
+}
+</style>
 
 <style>
-:root{
-  --bg:#0B0B0B;
-  --text:#F2F2F2;
-  --muted:#B8B8B8;
-  --line:rgba(255,255,255,.12);
-  --max:1180px;
-
-  /* LOGO SCALE */
-  --logoH-desktop:88px;
-  --logoH-mobile:64px;
+         .ext-popup-content {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
 }
+</style>
 
-/* ===== Base ===== */
-*{box-sizing:border-box}
-html, body { height: 100%; }
+<style>.ext-popup-close-button-panel {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 6px;
+    background-color: rgba(70, 68, 68, 0.8);
+    line-height: 0;
+    border-radius: 8px;
+    </style>
 
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  overflow-x:hidden;
-}
+<style> 
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+    p {font-family:'Noto Sans KR', sans-serif; color:black}
+</style>
 
-a{color:inherit;text-decoration:none}
+<style>
+    .view {
+      background-color: rgba(39, 44, 46, 0.7); border-radius: 4px; font-size: 15px; font-family:'Noto Sans KR', sans-serif;
+    }
+    #view-list-folder {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 4px
+    }
+    </style>
 
-/* ===== Background Layers ===== */
-#tsparticles{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  opacity:0.82;
-  transition: opacity 900ms ease;
-}
-
-/* Aurora overlay: dynamic in JS */
-#aurora{
-  position:fixed;
-  inset:-15%;
-  z-index:1;
-  pointer-events:none;
-  opacity:0;
-  filter: blur(34px) saturate(150%);
-  mix-blend-mode: screen;
-  transform: rotate(-8deg);
-  will-change: transform, opacity, filter;
-}
-
-/* Aurora animations */
-@keyframes auroraInOut{
-  0%   { opacity:0;   transform:translate3d(var(--ax1), var(--ay1), 0) rotate(var(--ar)); }
-  15%  { opacity:var(--ao); }
-  55%  { opacity:calc(var(--ao) * 0.65); transform:translate3d(var(--ax2), var(--ay2), 0) rotate(var(--ar)); }
-  100% { opacity:0;   transform:translate3d(var(--ax3), var(--ay3), 0) rotate(var(--ar)); }
-}
-@keyframes auroraHue{
-  0%{ filter: blur(34px) saturate(150%) hue-rotate(0deg); }
-  100%{ filter: blur(34px) saturate(150%) hue-rotate(24deg); }
-}
-
-/* Overlay canvas: meteors + satellites */
-#overlay{
-  position:fixed;
-  inset:0;
-  z-index:2;
-  pointer-events:none;
-  opacity:0.9;
-  transition: opacity 900ms ease;
-}
-
-/* ===== Intro Screen ===== */
-.intro{
-  position:fixed;
-  inset:0;
-  z-index:5;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  pointer-events:auto;
-  background:radial-gradient(60% 50% at 50% 45%, rgba(255,255,255,0.06), transparent 60%);
-  transition: opacity 900ms ease, visibility 900ms ease;
-}
-
-.intro-inner{
-  text-align:center;
-  padding:24px 18px;
-}
-
-.intro-title{
-  margin:0 0 18px 0;
-  font-size:13px;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-  color:rgba(242,242,242,.72);
-}
-
-.enter-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  min-width:210px;
-  height:46px;
-  padding:0 18px;
-  border-radius:999px;
-  border:1px solid rgba(255,255,255,0.26);
-  background:rgba(11,11,11,0.22);
-  color:rgba(242,242,242,0.92);
-  font-size:14px;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  cursor:pointer;
-  opacity:0;
-  transform:translateY(10px);
-  animation: enterFade 1.6s ease forwards;
-  animation-delay: 1.8s; /* appears after a beat */
-}
-.enter-btn:hover{
-  background:rgba(255,255,255,0.06);
-  border-color:rgba(255,255,255,0.40);
-}
-
-@keyframes enterFade{
-  to { opacity:1; transform:translateY(0); }
-}
-
-.hint{
-  margin:14px 0 0 0;
-  font-size:12px;
-  color:rgba(242,242,242,0.48);
-  opacity:0;
-  animation: enterFade 1.6s ease forwards;
-  animation-delay: 2.25s;
-}
-
-/* Intro “more sparkle” mode */
-body.is-intro #tsparticles{ opacity:1.0; }
-body.is-intro #overlay{ opacity:1.0; }
-
-/* When intro dismissed */
-body.is-entered .intro{
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-}
-body.is-entered #tsparticles{ opacity:0.82; }
-body.is-entered #overlay{ opacity:0.9; }
-
-/* ===== Main page wrapper ===== */
-.page{
-  position:relative;
-  z-index:3;
-  opacity:0;               /* hidden until enter */
-  transform:translateY(6px);
-  transition: opacity 900ms ease, transform 900ms ease;
-}
-body.is-entered .page{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* ===== GLOBAL HEADER ===== */
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(11,11,11,.88);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--line);
-}
-
-.header-inner{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:36px 20px 28px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:22px;
-}
-
-.brand img{
-  height:var(--logoH-desktop);
-  width:auto;
-  display:block;
-}
-
-nav{
-  display:flex;
-  gap:32px;
-  font-size:14px;
-  color:var(--muted);
-}
-nav a:hover{color:var(--text)}
-
-/* ===== CONTENT ===== */
-main{
-  padding:120px 20px 36px;
-  max-width:var(--max);
-  margin:0 auto;
-  text-align:center;
-}
-
-h1{
-  font-size:42px;
-  line-height:1.2;
-  margin:0 auto 22px;
-  max-width:980px;
-}
-
-p.lead{
-  font-size:18px;
-  line-height:1.7;
-  color:rgba(242,242,242,.86);
-  max-width:780px;
-  margin:0 auto;
-}
-
-.hero-panel{
-  display:inline-block;
-  padding:16px 20px;
-  border-radius:18px;
-  background:rgba(11,11,11,.34);
-  border:1px solid rgba(255,255,255,.08);
-}
-
-/* ===== Pyramid / Root Map ===== */
-.map-wrap{
-  max-width:980px;
-  margin:44px auto 0;
-  padding:22px 18px;
-  border-radius:22px;
-  background:rgba(11,11,11,.30);
-  border:1px solid rgba(255,255,255,.10);
-}
-
-.svgbox{ width:100%; height:auto; display:block; }
-
-.node{ fill:rgba(255,255,255,.06); stroke:rgba(255,255,255,.20); stroke-width:1.2; }
-.nodeStrong{ fill:rgba(255,255,255,.08); stroke:rgba(255,255,255,.28); }
-.label{ fill:rgba(242,242,242,.92); font-size:14px; font-weight:650; letter-spacing:.02em; }
-.sub{ fill:rgba(242,242,242,.82); font-size:12px; font-weight:520; }
-.muted{ fill:rgba(242,242,242,.64); font-size:11px; font-weight:520; }
-
-.link{ stroke:rgba(255,255,255,.16); stroke-width:1.2; }
-.link2{ stroke:rgba(255,255,255,.10); stroke-width:1; stroke-dasharray:2.5 4; }
-
-@keyframes drift { 0%{transform:translateY(0)} 50%{transform:translateY(-4px)} 100%{transform:translateY(0)} }
-.float1{ animation:drift 6.5s ease-in-out infinite; transform-origin:center; }
-.float2{ animation:drift 7.8s ease-in-out infinite; transform-origin:center; }
-.float3{ animation:drift 6.9s ease-in-out infinite; transform-origin:center; }
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce){
-  .float1,.float2,.float3{ animation:none; }
-  #aurora{ display:none; }
-  #overlay{ display:none; }
-  .enter-btn, .hint{ animation:none; opacity:1; transform:none; }
-}
-
-/* ===== FOOTER ===== */
-footer{
-  border-top:1px solid var(--line);
-  padding:36px 20px;
-  text-align:center;
-  font-size:13px;
-  color:var(--muted);
-  margin-top:64px;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:640px){
-  .brand img{ height:var(--logoH-mobile); }
-  nav{ gap:18px; font-size:13px; }
-  h1{ font-size:32px; }
-  main{ padding:100px 20px 28px; }
-  .map-wrap{ padding:18px 14px; }
-}
-
-/* ===== Language Switch (same size as Group) ===== */
-.lang-switch{
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  align-items:center;
-  flex-wrap:wrap;
-  margin-top:8px;
-}
-.lang-switch a{
-  font-size:12px;
-  padding:6px 10px;
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:999px;
-  color:rgba(242,242,242,.78);
-  letter-spacing:.04em;
-}
-.lang-switch a:hover{ color:rgba(242,242,242,.92); border-color:rgba(255,255,255,.32); }
-.lang-switch a.active{
-  color:rgba(242,242,242,.94);
-  border-color:rgba(255,255,255,.55);
-}
-
+<style>
+    #help-button {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 30px
+    }
+    #vr-button {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 30px
+    }
+    #engine-logo-text {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 30px
+    }
+    #fullscreen-button {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 30px
+    }
+    #tour-button {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 30px
+    }
+    #engine-logo {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 30px
+    }
+    #menu-bar-folder {
+        background-color: rgb(39, 44, 46, 0.7); border-radius: 30px
+    }
 </style>
 </head>
 
-<body class="is-intro">
-<div id="tsparticles" aria-hidden="true"></div>
-<div id="aurora" aria-hidden="true"></div>
-<canvas id="overlay" aria-hidden="true"></canvas>
+<body>
+  <noscript>
+    <div class="message error-message absolute-center">
+      Explore this interactive 3D walkthrough on desktop and mobile
+      devices or with a Virtual Reality headset. To start the virtual
+      tour just click the play button. You don't need to install any
+      application, but you need to enable JavaScript in your browser.
+    </div>
+  </noscript>
 
-<!-- Intro: Space first, then Enter -->
-<div class="intro" role="dialog" aria-label="Enter ARA KOREA GROUP">
-  <div class="intro-inner">
-    <p class="intro-title">ARA KOREA GROUP</p>
-    <button class="enter-btn" id="enterBtn" type="button">Enter</button>
-    <p class="hint">Click to continue</p>
+  <div id="cover-image">
   </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/tsparticles-slim@2.12.0/tsparticles.slim.bundle.min.js"></script>
+  <!-- tabindex allows to give the canvas keyboard focus with a
+         focus() function -->
+  <canvas id="walk-canvas" tabindex="-1">
+  </canvas>
 
-<script>
-  // Year
-  const yEl = document.getElementById("y");
-  if (yEl) yEl.textContent = new Date().getFullYear();
-const prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  <div id="info-message" class="message info-message" style="display: none">
+  </div>
 
-  // ===== Intro gating =====
-  const enterBtn = document.getElementById("enterBtn");
-  function enterSite(){
-    window.location.href = "home.html";
-  }
-  enterBtn.addEventListener("click", enterSite);
-  // Allow Enter key
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && document.body.classList.contains("is-intro")) enterSite();
-  });
+  <div id="error-message" class="message error-message absolute-center"
+       style="display: none">
+  </div>
 
-  // ===== tsParticles (intro sparkle vs normal) =====
-  const colorStars = ["#ffffff", "#ffd7a8", "#a8d7ff", "#b7ffcf", "#d7b7ff", "#ffe9f3"];
+  <!-- Error messages in old IEs can not be shown from JS, because old
+       IEs fail to parse new JS constructs -->
+  <!--[if lte IE 9]>
+      <div class="message error-message absolute-center">
+        Old versions of the Internet Explorer browser do not support
+        <a href="https://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation"
+           target="_blank">
+          WebGL</a>.
+        <br/>
+        <a href="https://get.webgl.org/" target="_blank">
+          Find out how to get it.</a>
+      </div>
+  <![endif]-->
 
-  const baseParticles = {
-    fpsLimit: prefersReducedMotion ? 30 : 60,
-    fullScreen: { enable: false },
-    background: { color: { value: "transparent" } },
-    detectRetina: true,
-    particles: {
-      number: { value: prefersReducedMotion ? 26 : 80, density: { enable: true, area: 900 } },
-      color: { value: colorStars },
-      links: { enable: true, distance: 140, color: "#ffffff", opacity: 0.10, width: 1 },
-      collisions: { enable: false },
-      move: {
-        enable: !prefersReducedMotion,
-        speed: 0.35,
-        direction: "none",
-        random: true,
-        straight: false,
-        outModes: { default: "out" }
-      },
-      opacity: { value: { min: 0.10, max: 0.42 }, animation: { enable: !prefersReducedMotion, speed: 0.6, minimumValue: 0.08, sync: false } },
-      size: { value: { min: 0.8, max: 2.6 } }
-    },
-    interactivity: {
-      detectsOn: "window",
-      events: { onHover: { enable: !prefersReducedMotion, mode: "grab" }, resize: true },
-      modes: { grab: { distance: 170, links: { opacity: 0.18 } } }
-    }
-  };
+  <div id="info-bar" class="ui-top ui-left">
+    <div id="info-bar-slide">
+      <a id="author-logo" class="info-item ui-panel"
+         style="display: none"
+         target="_blank">
+        <img>
+      </a><!-- NS = no spaces
+   --><div id="info-text" class="info-item ui-panel" style="display: none">
+        <div>
+          <div id="info-title"></div>
+        </div>
+        <div>
+          <a id="info-author" target="_blank"></a>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  // Make intro feel more “sparkly”
-  const introBoost = JSON.parse(JSON.stringify(baseParticles));
-  introBoost.particles.number.value = prefersReducedMotion ? 30 : 120;
-  introBoost.particles.links.opacity = 0.14;
-  introBoost.particles.opacity.value = { min: 0.14, max: 0.62 };
-  introBoost.particles.size.value = { min: 0.9, max: 3.2 };
-  introBoost.particles.move.speed = 0.55;
+  <div id="menu-bar" class="ui-bottom ui-right">
+    <div id="menu-bar-slide">
+      <div id="menu-bar-folder" class="menu-item ui-hoverable ui-panel"
+           style="display: none">
+        <img src="2026-03-31-16-04-36/webwalk/img/fold-horizontal.svg">
+      </div><!-- NS
+   --><div id="menu-bar-content">
+        <div id="menu-buttons" style="display: none">
+          <div id="help-button"
+               class="menu-button menu-item ui-hoverable ui-panel">
+            ?
+          </div><!-- NS
+       --><div id="minimap-button-toggle"
+               class="menu-button menu-item ui-hoverable ui-panel"
+               style="display:none">
+            <img src="2026-03-31-16-04-36/webwalk/img/map.svg">
+          </div><!-- NS
+       --><div id="tour-button"
+               class="menu-button menu-item ui-hoverable ui-panel"
+               style="display: none">
+            <img src="2026-03-31-16-04-36/webwalk/img/tour.svg">
+          </div><!-- NS
+       --><div id="vr-button"
+               class="vr-specific menu-button menu-item ui-hoverable ui-panel"
+               style="display: none">
+            VR
+          </div><!-- NS
+       --><div id="fullscreen-button"
+               class="fullscreen-specific menu-button menu-item ui-hoverable
+                      ui-panel"
+               style="display: none">
+            <img src="2026-03-31-16-04-36/webwalk/img/fullscreen.svg">
+          </div>
+        </div><!-- NS
+     --><a id="engine-logo" class="menu-item ui-panel" style="display: none"
+           href="https://www.shapespark.com" target="_blank">
+          <div id="engine-logo-text" style="display: none"></div><!-- NS
+       --><img src="2026-03-31-16-04-36/webwalk/img/shapespark-logo.svg">
+        </a>
+      </div>
+    </div>
+  </div>
 
-  let currentMode = "intro";
-  function loadParticles(mode){
-    if (!window.tsParticles) return;
-    const opts = mode === "intro" ? introBoost : baseParticles;
-    tsParticles.load("tsparticles", opts);
-  }
-  loadParticles("intro");
+  <div id="view-list" class="ui-top ui-right" style="display: none">
+    <div id="view-list-slide">
+      <div id="view-list-items" class="ui-scrollbar">
+        <div class="view ui-hoverable ui-panel"></div>
+      </div>
+      <div id="view-list-folder" class="ui-folder-vertical ui-hoverable ui-panel">
+        <img src="2026-03-31-16-04-36/webwalk/img/fold-vertical.svg">
+      </div>
+    </div>
+  </div>
 
-  // When entering, switch to calmer mode after fade
-  function onEntered(){
-    if (currentMode !== "entered") {
-      currentMode = "entered";
-      setTimeout(() => loadParticles("entered"), 650);
-    }
-  }
-  const obs = new MutationObserver(() => {
-    if (document.body.classList.contains("is-entered")) onEntered();
-  });
-  obs.observe(document.body, { attributes:true, attributeFilter:["class"] });
+  <div id="minimap-container" class="minimap-container-default" style="display: none">
+    <div id="minimap-wrapper" class="minimap-wrapper-default">
+      <div id="minimap-button-close" class="minimap-button minimap-button-close">
+        <img src="2026-03-31-16-04-36/webwalk/img/close.svg">
+      </div>
+      <div id="minimap-button-minimize" class="minimap-button minimap-button-minimize">
+        <img src="2026-03-31-16-04-36/webwalk/img/minimize.svg">
+      </div>
+      <div id="minimap-button-maximize" class="minimap-button minimap-button-maximize">
+        <img src="2026-03-31-16-04-36/webwalk/img/maximize.svg">
+      </div>
+      <div id="minimap-content-wrapper" class="minimap-content-wrapper">
+        <div id="minimap-content" class="minimap-content"></div>
+      </div>
+      <div id="minimap-tabs" class="minimap-tabs-default" style="display: none"></div>
+    </div>
+  </div>
 
-  // ===== Aurora: irregular appearance + drift across screen =====
-  (function(){
-    if (prefersReducedMotion) return;
-    const aurora = document.getElementById("aurora");
+  <div id="view-mode" class="ui-top ui-center" style="display: none">
+    <div id="view-mode-slide">
+      <div class="view-mode-container">
+        <div id="view-mode-top"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-top.svg">
+        </div>
+        <div id="view-mode-front"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-front.svg">
+        </div>
+        <div id="view-mode-left"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-left.svg">
+        </div>
+        <div id="view-mode-fps"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-fps.svg">
+        </div>
+      </div>
+      <div class="view-mode-container">
+        <div id="view-mode-persp"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-persp.svg">
+        </div>
+        <div id="view-mode-ortho"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-ortho.svg">
+        </div>
+      </div>
+      <div class="view-mode-container">
+        <div id="view-mode-color"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-color.svg">
+        </div>
+        <div id="view-mode-wireframe-opaque"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-wireframe-opaque.svg">
+        </div>
+        <div id="view-mode-wireframe-transparent"
+             class="menu-item view-mode-item ui-hoverable ui-panel">
+          <img src="2026-03-31-16-04-36/webwalk/img/view-mode-wireframe-transparent.svg">
+        </div>
+      </div>
+    </div>
+  </div>
 
-    function rand(min,max){ return min + Math.random()*(max-min); }
-    function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
+  <img id="play-button" class="absolute-center" src="2026-03-31-16-04-36/webwalk/img/play.svg"
+       style="display: none">
 
-    function buildAuroraGrad(){
-      const palettes = [
-        ["rgba(90,255,210,.28)","rgba(140,120,255,.22)","rgba(80,180,255,.20)"],
-        ["rgba(120,255,170,.25)","rgba(190,120,255,.18)","rgba(90,210,255,.18)"],
-        ["rgba(80,220,255,.24)","rgba(160,255,200,.18)","rgba(190,140,255,.16)"]
-      ];
-      const [c1,c2,c3] = pick(palettes);
+  <div id='interaction-prompt' class="ui-all-center ui-panel" style="display: none">
+    <div class='interaction-prompt-icon'>
+      <img class='interaction-prompt-icon-idle interaction-prompt-desktop' src="2026-03-31-16-04-36/webwalk/img/pointer.svg"/>
+      <img class='interaction-prompt-icon-pressed interaction-prompt-desktop' src="2026-03-31-16-04-36/webwalk/img/pointer-pressed.svg"/>
+      <img class='interaction-prompt-icon-idle interaction-prompt-mobile' src="2026-03-31-16-04-36/webwalk/img/hand.svg"/>
+      <img class='interaction-prompt-icon-pressed interaction-prompt-mobile' src="2026-03-31-16-04-36/webwalk/img/hand-pressed.svg"/>
+    </div>
+    <div data-strings="help.interactiveDesktop" class='interaction-prompt-indicator-text interaction-prompt-desktop'></div>
+    <div data-strings="help.interactiveMobile" class='interaction-prompt-indicator-text interaction-prompt-mobile'></div>
+  </div>
 
-      const p1x = rand(10,40), p1y = rand(55,85);
-      const p2x = rand(55,90), p2y = rand(45,80);
-      const p3x = rand(35,75), p3y = rand(10,40);
+  <!-- When the help is to be shown automatically during load (#help
+       hash), it is displayed above the primary progress indicator.
+       help-and-primary-progress is a wrapper for these two elements that
+       helps to lay them out consistently. -->
+  <div id="help-and-primary-progress" class="absolute-center">
 
-      aurora.style.background =
-        `radial-gradient(48% 36% at ${p1x}% ${p1y}%, ${c1}, transparent 66%),
-         radial-gradient(58% 42% at ${p2x}% ${p2y}%, ${c2}, transparent 70%),
-         radial-gradient(40% 32% at ${p3x}% ${p3y}%, ${c3}, transparent 72%)`;
-    }
+    <div id="desktop-help" class="help ui-panel" style="display: none">
+      <img id="close-desktop-help-button"
+           class="close-help-button ui-close-hoverable"
+           src="2026-03-31-16-04-36/webwalk/img/close.svg">
+      <div id="desktop-help-switch">
+        <div data-strings="help.basic" id="basic-desktop-help-option">
+        </div><!-- NS = no spaces
+     --><div data-strings="help.advanced" id="advanced-desktop-help-option">
+        </div>
+      </div>
 
-    function run(){
-      buildAuroraGrad();
-      const ax1 = rand(-60,60)+"px", ay1 = rand(-50,50)+"px";
-      const ax2 = rand(-220,220)+"px", ay2 = rand(-170,170)+"px";
-      const ax3 = rand(-140,140)+"px", ay3 = rand(-110,110)+"px";
-      const ao  = rand(0.10,0.20).toFixed(3);
-      const ar  = rand(-16,16).toFixed(2)+"deg";
-      aurora.style.setProperty("--ax1", ax1);
-      aurora.style.setProperty("--ay1", ay1);
-      aurora.style.setProperty("--ax2", ax2);
-      aurora.style.setProperty("--ay2", ay2);
-      aurora.style.setProperty("--ax3", ax3);
-      aurora.style.setProperty("--ay3", ay3);
-      aurora.style.setProperty("--ao", ao);
-      aurora.style.setProperty("--ar", ar);
+      <div id="desktop-help-content">
 
-      const dur = rand(9,15).toFixed(2) + "s";
-      aurora.style.animation = "none";
-      void aurora.offsetWidth;
-      aurora.style.animation = `auroraInOut ${dur} ease-in-out 1, auroraHue ${dur} linear 1`;
+        <div id="desktop-basic-help" class="help-columns" style="display: none">
+          <div class="help-column3">
+            <h1 data-strings="help.mouse"></h1>
+            <img src="2026-03-31-16-04-36/webwalk/img/mouse-controls.svg">
+          </div><!-- NS
+       --><div class="help-column3-sep"></div><!-- NS
+       --><div class="help-column3">
+            <h1 data-strings="help.keyboard"></h1>
+            <img src="2026-03-31-16-04-36/webwalk/img/keyboard-controls.svg">
+          </div><!-- NS
+       --><div class="help-column3-sep"></div><!-- NS
+       --><div class="help-column3">
+            <h1 data-strings="help.vrTeleport"></h1>
+            <img src="2026-03-31-16-04-36/webwalk/img/vr-controls.svg">
+          </div>
+        </div>
 
-      const next = rand(6500, 23000);
-      setTimeout(run, next);
-    }
-    setTimeout(run, 1200 + Math.random()*5200);
-  })();
+        <div id="advanced-desktop-help" style="display: none">
+          <h1 data-strings="help.mouse"></h1>
+          <div>
+            <div class="help-how" data-strings="help.holdLeftButton">
+            </div><!-- NS
+         --><div data-strings="help.lookAround" class="help-what"></div>
+          </div>
+          <div>
+            <div class="help-how" data-strings="help.clickLeftButton">
+            </div><!-- NS
+         --><div data-strings="help.walkToClickedPlace" class="viewer-specific help-what">
+            </div><!-- NS
+         --><div data-strings="help.selectMaterialLightObject"
+              class="editor-specific help-what" style="display: none">
+            </div>
+          </div>
+          <div>
+            <div class="help-how" data-strings="help.scroll" ></div><!-- NS
+         --><div data-strings="help.walkStraight" class="help-what"></div>
+          </div>
+          <h1 data-strings="help.keyboard"></h1>
+          <div>
+            <div class="help-how">
+              <div>
+                <div class="help-key-placeholder"></div><!-- NS
+             --><div class="help-key">&#8593;</div><!-- NS
+             --><div class="help-key-placeholder"></div>
+              </div>
+              <div>
+                <div class="help-key">&#8592;</div><!-- NS
+             --><div class="help-key">&#8595;</div><!-- NS
+             --><div class="help-key">&#8594;</div>
+              </div>
+            </div><!-- NS
+         --><div data-strings="help.walkStraightAndLookAround" class="help-what">
+            </div>
+          </div>
+          <div>
+            <div class="help-how">
+              <div>
+                <div class="help-key-placeholder"></div><!-- NS
+             --><div class="help-key">W</div><!-- NS
+             --><div class="help-key-placeholder"></div>
+              </div>
+              <div>
+                <div class="help-key">A</div><!-- NS
+             --><div class="help-key">S</div><!-- NS
+             --><div class="help-key">D</div>
+              </div>
+            </div><!-- NS
+         --><div data-strings="help.walkStraightAndSideways" class="help-what"></div>
+          </div>
+          <div>
+            <div class="help-how">
+              <div class="help-key">PgUp</div><div class="help-key">PgDn</div><!-- NS
+           --><div class="help-key-sep"></div><!-- NS
+           --><div class="help-key">E</div><div class="help-key">Q</div>
+            </div><!-- NS
+         --><div data-strings="help.changeHeight" class="help-what"></div>
+          </div>
+          <div>
+            <div class="help-how">
+              <div class="help-key">1</div>
+              &#8211;
+              <div class="help-key">9</div><!-- NS
+           --><div class="help-key-sep"></div><!-- NS
+           --><div class="help-key">[</div>
+              <div class="help-key">]</div>
+            </div><!-- NS
+       --><div data-strings="help.switchView" class="help-what"></div>
+          </div>
+          <div class="help-how">
+            <div class="help-key">P</div>
+          </div><!-- NS
+       --><div data-strings="help.screenshot" class="help-what"></div>
+          <div class="editor-specific help-how" style="display: none">
+            <div class="help-key">I</div>
+          </div><!-- NS
+       --><div data-strings="help.illuminationPreview" class="editor-specific help-what"
+               style="display: none"></div>
+          <div class="help-how">
+            <div class="help-key">M</div>
+          </div><!-- NS
+       --><div data-strings="help.hideShowMenu" class="help-what"></div>
+          <div class="help-how">
+            <div class="help-key">L</div>
+          </div><!-- NS
+       --><div data-strings="help.hideShowMousePointer" class="help-what"></div>
 
-  // ===== Overlay canvas: meteors + satellites =====
-  (function(){
-    if (prefersReducedMotion) return;
+          <h1 data-strings="help.vrMode"></h1>
+          <div>
+            <div class="help-how">
+              <div data-strings="help.gazeAtFixedPlace"></div>
+              <div data-strings="help.or"></div>
+              <div data-strings="help.clickControllerButton">
+              </div>
+            </div><!-- NS
+         --><div data-strings="help.teleport" class="help-what"></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    const canvas = document.getElementById("overlay");
-    const ctx = canvas.getContext("2d");
-    let w, h, dpr;
-    const meteors = [];
-    const sats = [];
+    <div id="mobile-help" class="help ui-panel"
+         style="display: none">
+      <img id="close-mobile-help-button"
+           class="close-help-button ui-close-hoverable"
+           src="2026-03-31-16-04-36/webwalk/img/close.svg">
+      <div class="help-columns">
+        <div class="help-column2">
+          <h1 data-strings="help.touch"></h1>
+          <img src="2026-03-31-16-04-36/webwalk/img/touch-controls.svg">
+        </div><!-- NS
+     --><div class="help-column2-sep"></div><!-- NS
+     --><div class="navigation-help-column2">
+          <h1 data-strings="help.vrTeleport"></h1>
+          <img src="2026-03-31-16-04-36/webwalk/img/vr-controls.svg">
+        </div>
+      </div>
+    </div>
 
-    function rand(min,max){ return min + Math.random()*(max-min); }
-    function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
+    <svg id="primary-progress" viewBox="-58 -58 116 116"
+         style="display: none">
+      <circle cx="0" cy="0" r="50" stroke-width="14">
+      </circle>
+      <circle id="primary-progress-done" cx="0" cy="0" r="50"
+              stroke-width="8" stroke-dasharray="315.159"
+              stroke-dashoffset="314.159" transform="rotate(-90)">
+      </circle>
+    </svg>
 
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = canvas.clientWidth = window.innerWidth;
-      h = canvas.clientHeight = window.innerHeight;
-      canvas.width = Math.floor(w * dpr);
-      canvas.height = Math.floor(h * dpr);
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-    }
-    window.addEventListener("resize", resize, { passive:true });
-    resize();
+  </div>
 
-    // Meteors
-    function spawnMeteor(){
-      const dirs = [
-        {sx: rand(-160, w*0.25), sy: rand(-120, h*0.25), ex: w+320, ey: h+260},
-        {sx: rand(w*0.75, w+160), sy: rand(-120, h*0.25), ex: -320, ey: h+260},
-      ];
-      const d = pick(dirs);
-      const dx = d.ex - d.sx, dy = d.ey - d.sy;
-      const dist = Math.hypot(dx,dy) || 1;
-      const ux = dx/dist, uy = dy/dist;
+  <div id="secondary-progress" style="display: none">
+    <div id="secondary-progress-done"></div>
+  </div>
 
-      const speed = rand(18, 34);
-      const len = rand(420, 820);
-      const width = rand(1.7, 2.8);
-      const spark = rand(0.60, 0.86);
-      const maxLife = rand(36, 56);
-      meteors.push({ x:d.sx, y:d.sy, vx:ux*speed, vy:uy*speed, len, width, spark, life:0, maxLife });
-    }
+  <div id="ext-html-label"
+       class="ext-popup ui-top ui-left ext-html-label-animated"
+       style="display: none">
+    <div id="ext-html-label-content" class="ext-popup-content"></div><!-- NS
+ --><div id="ext-html-label-close"
+         class="ext-popup-close-button-panel ui-close-hoverable">
+      <div class="ext-popup-close-button"></div>
+    </div>
+  </div>
 
-    function scheduleMeteors(){
-      const burst = Math.random() < 0.32;
-      spawnMeteor();
-      if (burst) setTimeout(spawnMeteor, rand(380, 1100));
-      const next = rand(3200, 14500);
-      setTimeout(scheduleMeteors, next);
-    }
-    setTimeout(scheduleMeteors, rand(1200, 6800));
-
-    function drawMeteor(m){
-      const v = Math.hypot(m.vx, m.vy) || 1;
-      const nx = m.vx/v, ny = m.vy/v;
-      const tailX = m.x - nx * m.len;
-      const tailY = m.y - ny * m.len;
-
-      const g = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
-      g.addColorStop(0, `rgba(255,255,255,${m.spark})`);
-      g.addColorStop(0.12, "rgba(255,255,255,0.32)");
-      g.addColorStop(0.48, "rgba(255,255,255,0.12)");
-      g.addColorStop(1, "rgba(255,255,255,0)");
-
-      ctx.strokeStyle = g;
-      ctx.lineWidth = m.width;
-      ctx.beginPath();
-      ctx.moveTo(m.x, m.y);
-      ctx.lineTo(tailX, tailY);
-      ctx.stroke();
-
-      // head glow
-      ctx.fillStyle = `rgba(255,255,255,${m.spark})`;
-      ctx.beginPath();
-      ctx.arc(m.x, m.y, 2.0, 0, Math.PI*2);
-      ctx.fill();
-    }
-
-    // Satellites
-    function spawnSat(){
-      const y = rand(h*0.10, h*0.42);
-      const fromLeft = Math.random() < 0.5;
-      const x = fromLeft ? -160 : w+160;
-      const vx = fromLeft ? rand(0.32,0.56) : -rand(0.32,0.56);
-      const size = rand(16, 24);
-      const tilt = rand(-0.40,0.40);
-      const alpha = rand(0.18, 0.30);
-      const tw = rand(0.02, 0.05);
-      sats.push({x,y,vx,size,tilt,alpha,tw,phase:Math.random()*Math.PI*2});
-    }
-
-    function ensureSats(){
-      const target = 1 + (Math.random() < 0.45 ? 1 : 0); // 1 or 2
-      while (sats.length < target) spawnSat();
-    }
-    ensureSats();
-    setInterval(() => {
-      if (sats.length && Math.random() < 0.55) sats.shift();
-      ensureSats();
-    }, 17000);
-
-    function drawSat(s){
-      ctx.save();
-      ctx.globalAlpha = s.alpha + Math.sin(s.phase)*s.tw;
-      ctx.translate(s.x, s.y);
-      ctx.rotate(s.tilt);
-
-      const trail = ctx.createLinearGradient(-90, 0, 0, 0);
-      trail.addColorStop(0, "rgba(255,255,255,0)");
-      trail.addColorStop(1, "rgba(255,255,255,0.12)");
-      ctx.strokeStyle = trail;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(-96, 0);
-      ctx.lineTo(-18, 0);
-      ctx.stroke();
-
-      ctx.fillStyle = "rgba(255,255,255,0.14)";
-      ctx.fillRect(-s.size-18, -4, 18, 8);
-      ctx.fillRect( s.size,    -4, 18, 8);
-
-      ctx.fillStyle = "rgba(255,255,255,0.28)";
-      ctx.fillRect(-10, -6, 20, 12);
-
-      ctx.strokeStyle = "rgba(255,255,255,0.22)";
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(10,0);
-      ctx.lineTo(18,0);
-      ctx.stroke();
-
-      ctx.restore();
-    }
-
-    function tick(){
-      ctx.clearRect(0,0,w,h);
-
-      for (let i = meteors.length - 1; i >= 0; i--){
-        const m = meteors[i];
-        m.x += m.vx;
-        m.y += m.vy;
-        m.life += 1;
-
-        const t = m.life / m.maxLife;
-        const a = t < 0.15 ? (t/0.15) : (t > 0.86 ? ((1-t)/0.14) : 1);
-        ctx.globalAlpha = a;
-        drawMeteor(m);
-
-        if (m.life > m.maxLife || m.x < -620 || m.x > w+620 || m.y < -620 || m.y > h+620) meteors.splice(i,1);
-      }
-      ctx.globalAlpha = 1;
-
-      for (let i = sats.length - 1; i >= 0; i--){
-        const s = sats[i];
-        s.x += s.vx;
-        s.phase += 0.03;
-        drawSat(s);
-        if (s.vx > 0 && s.x > w+200) sats.splice(i,1);
-        if (s.vx < 0 && s.x < -200) sats.splice(i,1);
-      }
-      ensureSats();
-
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  })();
-</script>
-</body>
+  <div id="ext-meeting-status" class="ext-popup ui-top ui-left"
+       style="display: none">
+    <div id="ext-meeting-status-content" class="ext-popup-content">
+      <ul id="ext-meeting-who-list" class="ui-scrollbar ext-meeting-who-list">
+      </ul>
+      <div>
+        <button id="ext-meeting-mic-toggle"
+                class="ext-meeting-button ext-meeting-button-highlight">
+          <span class="fa-microphone" style="display: none"></span>
+          <span class="fa-microphone-slash"></span>
+        </button>
+        <button id="ext-meeting-camera-toggle"
+                class="ext-meeting-button ext-meeting-button-highlight">
+          <span class="fa-video" style="display: none"></span>
+          <span class="fa-video-slash"></span>
+        </button>
+        <button id="ext-meeting-pointer" class="ext-meeting-button">
+          <span class="fa-hand-pointer"></span>
+        </button>
+      </div>
+      <div id="ext-meeting-notes-preview" style="display: none">
+        <strong>Notes:</strong>
+        <ul id="ext-meeting-note-list" class="ext-meeting-list">
+        </ul>
+        <button id="ext-meeting-add-note" class="ext-meeting-button">
+          Add note
+        </button>
+      </div>
+      <div id="ext-meeting-status-footer">
+        <span id = ext-meeting-quality-indicator-container>
+        </span>
+        <span>
+          <button id="ext-meeting-leave"
+                  class="ext-meeting-button ext-meeting-button-highlight"
+                  data-strings="meetings.leaveMeeting">
+          </button>
+        </span>
+      </div>
+    </div>
+    <div id="ext-meeting-who-list-folder" class="ui-folder-vertical ui-hoverable ui-panel">
+      <img src="2026-03-31-16-04-36/webwalk/img/fold-vertical.svg">
+    </div>
+  </div>
+  <div id="ext-meeting-camera-preview" style="display: none"></div>
+  
+  
+  
+  
+  
+  <script type="module">
+    WALK.ASSETS_URL = '2026-03-31-16-04-36/';
+  </script>
+<script src="2026-03-31-16-04-36/webwalk/walk.min.js" type="text/javascript"></script></body>
 </html>
