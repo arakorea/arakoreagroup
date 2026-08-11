@@ -1,0 +1,137 @@
+
+:root{--ink:#f6f8ff;--muted:rgba(235,241,255,.48)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#010207;color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+body{background:radial-gradient(circle at 50% 48%,#07111f 0,#030711 31%,#010207 70%,#000 100%)}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:1}
+.aurora{position:fixed;z-index:2;inset:-20%;pointer-events:none;filter:blur(90px);opacity:.32;background:
+radial-gradient(ellipse at 20% 30%,rgba(70,130,255,.18),transparent 35%),
+radial-gradient(ellipse at 78% 62%,rgba(156,91,255,.13),transparent 34%),
+radial-gradient(ellipse at 53% 48%,rgba(71,230,205,.08),transparent 29%);
+animation:aurora 17s ease-in-out infinite alternate}
+@keyframes aurora{to{transform:translate(3%,-2%) scale(1.06);opacity:.44}}
+.vignette{position:fixed;z-index:3;inset:0;pointer-events:none;background:
+radial-gradient(circle at 50% 50%,transparent 25%,rgba(0,0,0,.12) 55%,rgba(0,0,0,.82) 100%),
+linear-gradient(180deg,rgba(0,0,0,.34),transparent 23%,transparent 72%,rgba(0,0,0,.45))}
+.stage{position:relative;z-index:5;width:100%;height:100svh;min-height:560px}
+.brand{position:absolute;left:50%;top:28px;transform:translateX(-50%);font-size:11px;letter-spacing:.31em;font-weight:700;white-space:nowrap;color:rgba(255,255,255,.82)}
+.language-bar{position:fixed;z-index:20;right:30px;top:24px;display:flex;gap:5px}
+.language-bar button{border:0;background:none;color:rgba(255,255,255,.36);font-size:9px;letter-spacing:.14em;padding:6px;cursor:pointer}
+.language-bar button.active,.language-bar button:hover{color:#fff}
+.hero{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:min(94vw,1200px);text-align:center;pointer-events:none}
+.kicker{margin-bottom:20px;font-size:9px;letter-spacing:.46em;color:rgba(226,236,255,.45)}
+h1{margin:0;text-transform:uppercase;font-size:clamp(58px,9.2vw,146px);line-height:.79;letter-spacing:-.075em;font-weight:800;text-shadow:0 0 40px rgba(120,160,255,.06)}
+h1 span{display:block}
+.enter{position:absolute;left:50%;top:73%;transform:translate(-50%,-50%);width:122px;height:122px;border-radius:50%;border:1px solid rgba(212,231,255,.27);background:
+radial-gradient(circle at 50% 50%,rgba(128,176,255,.12),rgba(0,0,0,.10) 55%,rgba(0,0,0,.30));color:#fff;cursor:pointer;z-index:8;letter-spacing:.18em;font-size:10px;box-shadow:0 0 0 rgba(130,180,255,0);transition:box-shadow .35s ease,transform .35s ease}
+.enter:before,.enter:after{content:"";position:absolute;border-radius:50%;border:1px solid rgba(190,218,255,.14);inset:-15px;animation:spin 13s linear infinite}
+.enter:after{inset:-31px;border-color:rgba(190,218,255,.07);animation-duration:21s;animation-direction:reverse}
+.enter:hover{box-shadow:0 0 38px rgba(145,195,255,.20),0 0 120px rgba(90,135,255,.15);transform:translate(-50%,-50%) scale(1.045)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);font-size:8px;letter-spacing:.18em;color:rgba(255,255,255,.28);white-space:nowrap}
+.hint-ko{display:none}
+.warp{position:fixed;z-index:40;inset:0;pointer-events:none;opacity:0;transform:scale(.18);background:
+radial-gradient(circle at 50% 50%,rgba(255,255,255,.98) 0 2%,rgba(145,190,255,.62) 4%,rgba(50,80,170,.30) 12%,transparent 42%);
+transition:opacity .75s ease,transform 1s cubic-bezier(.2,.8,.2,1)}
+body.entering .warp{opacity:1;transform:scale(8)}
+body.entering .stage{transform:scale(1.10);filter:blur(2px);transition:transform .95s ease,filter .95s ease}
+@media(max-width:700px){
+ .brand{top:max(20px,env(safe-area-inset-top));font-size:9px;letter-spacing:.24em}
+ .language-bar{top:max(52px,calc(env(safe-area-inset-top) + 34px));right:14px}
+ .hero{top:41%}
+ h1{font-size:clamp(50px,18vw,82px)}
+ .enter{top:71%;width:98px;height:98px}
+ .hint{bottom:18px}
+}
+@media(max-height:520px) and (orientation:landscape){
+ .brand{left:22px;top:18px;transform:none}
+ .language-bar{right:18px;top:13px}
+ .hero{left:6vw;top:50%;transform:translateY(-50%);text-align:left;width:60vw}
+ h1{font-size:clamp(44px,10vw,84px)}
+ .enter{left:79%;top:52%;width:92px;height:92px}
+ .hint{display:none}
+}
+@media(prefers-reduced-motion:reduce){.aurora,.enter:before,.enter:after{animation:none}}
+
+
+/* v3 — intro must not look like a normal website header */
+.language-bar{
+  padding:5px 7px;
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:999px;
+  background:rgba(1,2,7,.16);
+  backdrop-filter:blur(8px);
+}
+.language-bar button{
+  font-size:8px;
+  letter-spacing:.10em;
+  padding:5px 6px;
+}
+.brand{
+  pointer-events:none;
+}
+
+.language-bar{display:none!important}
+
+/* v9 — premium cosmic transition: no white flash */
+.warp{
+  position:fixed!important;z-index:60!important;inset:0!important;pointer-events:none!important;
+  opacity:0!important;transform:none!important;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(3,7,18,0) 0 7%,
+      rgba(47,86,170,.12) 10%,
+      rgba(94,66,180,.18) 16%,
+      rgba(199,146,71,.10) 23%,
+      rgba(1,3,10,.60) 42%,
+      rgba(0,0,0,.96) 72%)!important;
+  transition:opacity .85s ease!important;
+  overflow:hidden!important;
+}
+.warp::before{
+  content:"";position:absolute;left:50%;top:50%;width:12vmin;height:12vmin;
+  transform:translate(-50%,-50%) scale(.18);border-radius:50%;
+  border:1px solid rgba(168,207,255,.34);
+  box-shadow:
+    0 0 25px rgba(101,166,255,.25),
+    0 0 80px rgba(87,72,190,.22),
+    0 0 145px rgba(217,161,79,.09),
+    inset 0 0 28px rgba(160,210,255,.14);
+  background:
+    radial-gradient(circle,rgba(11,20,48,.78),rgba(4,8,22,.92) 47%,rgba(0,0,0,.96) 73%);
+  opacity:0;
+}
+.warp::after{
+  content:"";position:absolute;inset:-35%;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 50%,
+      rgba(120,175,255,0) 0deg 5deg,
+      rgba(120,175,255,.10) 5.3deg 5.7deg,
+      rgba(159,104,255,0) 6deg 12deg);
+  filter:blur(2px);
+  opacity:0;
+  transform:scale(.45) rotate(0deg);
+}
+body.entering .warp{opacity:1!important}
+body.entering .warp::before{
+  animation:cosmicPortal .95s cubic-bezier(.18,.8,.18,1) forwards;
+}
+body.entering .warp::after{
+  animation:starTunnel .95s cubic-bezier(.16,.75,.18,1) forwards;
+}
+body.entering .stage{
+  transform:scale(1.055)!important;
+  filter:blur(1px) brightness(.72) saturate(1.15)!important;
+  transition:transform .95s ease,filter .95s ease!important;
+}
+@keyframes cosmicPortal{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.18)}
+  25%{opacity:.75}
+  72%{opacity:1;transform:translate(-50%,-50%) scale(3.8)}
+  100%{opacity:1;transform:translate(-50%,-50%) scale(13)}
+}
+@keyframes starTunnel{
+  0%{opacity:0;transform:scale(.36) rotate(0deg)}
+  28%{opacity:.25}
+  100%{opacity:.72;transform:scale(3.6) rotate(18deg)}
+}

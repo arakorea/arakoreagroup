@@ -1,0 +1,17 @@
+ARA KOREA GROUP — DEPLOYMENT CHECKLIST
+
+[ ] Upload every file/folder from this package
+[ ] Confirm root URL
+[ ] Confirm HOME / GROUP / BUSINESSES / ECOSYSTEM / CONTACT
+[ ] Confirm EN / KO / JA / 中文 switching
+[ ] Confirm mobile navigation
+[ ] Confirm constellation and star-mesh interaction
+[ ] Confirm ECOSYSTEM shooting stars
+[ ] Confirm all external links open in a new tab
+[ ] Submit one CONTACT message and verify email delivery
+[ ] Open /robots.txt
+[ ] Open /sitemap.xml
+[ ] Submit sitemap in Google Search Console
+[ ] Request indexing for core pages
+[ ] Check KakaoTalk/social share thumbnail
+[ ] Check GA4 Realtime

@@ -1,0 +1,338 @@
+
+.business-page{background:#010207}
+.business-main{position:relative;z-index:5}
+.business-section{
+  position:relative;
+  min-height:100svh;
+  padding:calc(var(--header-h) + 64px) var(--pad-x) 86px;
+}
+.business-hero{
+  display:grid;
+  grid-template-columns:minmax(300px,.85fr) minmax(480px,1.15fr);
+  align-items:center;
+  gap:6vw;
+  overflow:hidden;
+}
+.business-hero::after{
+  content:"";position:absolute;right:4%;top:50%;width:min(52vw,700px);aspect-ratio:1;
+  transform:translateY(-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(70,126,255,.10),transparent 63%);
+  filter:blur(30px);pointer-events:none
+}
+.business-hero-copy{position:relative;z-index:5}
+.business-index{font-size:8px;letter-spacing:.42em;color:rgba(225,233,255,.40);margin-bottom:22px}
+.business-hero h1,
+.business-world h2,
+.search-hub h2{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:400;
+  text-transform:uppercase;
+}
+.business-hero h1{
+  font-size:clamp(58px,8.4vw,132px);
+  line-height:.82;letter-spacing:-.055em;
+}
+.business-hero h1 span{display:block}
+.business-hero .designed-copy{margin-top:28px;width:min(580px,44vw)!important}
+.business-hero .designed-copy .sentence{font-size:11px;line-height:1.85;letter-spacing:.08em;color:rgba(235,240,255,.58)}
+
+.business-radar{
+  position:relative;z-index:4;width:min(48vw,680px);aspect-ratio:1;margin:auto;
+}
+.business-radar .ring{
+  position:absolute;left:50%;top:50%;border:1px solid rgba(170,205,255,.10);
+  border-radius:50%;transform:translate(-50%,-50%) rotateX(68deg)
+}
+.business-radar .r1{width:38%;height:38%}.business-radar .r2{width:60%;height:60%}.business-radar .r3{width:82%;height:82%}
+.business-radar .core{
+  width:118px;height:118px;z-index:10;
+}
+.business-radar .axis{
+  position:absolute;left:50%;top:50%;width:72%;height:1px;
+  transform-origin:center;background:linear-gradient(90deg,transparent,rgba(174,208,255,.23),transparent)
+}
+.business-radar .a1{transform:translate(-50%,-50%) rotate(0deg)}
+.business-radar .a2{transform:translate(-50%,-50%) rotate(90deg)}
+.business-radar .a3{transform:translate(-50%,-50%) rotate(45deg);opacity:.45}
+.business-radar .a4{transform:translate(-50%,-50%) rotate(-45deg);opacity:.45}
+.radar-label{
+  position:absolute;font-size:7px;letter-spacing:.18em;color:rgba(245,248,255,.55);
+  white-space:nowrap
+}
+.rl1{left:50%;top:4%;transform:translateX(-50%)}.rl2{right:1%;top:50%}
+.rl3{left:50%;bottom:4%;transform:translateX(-50%)}.rl4{left:1%;top:50%}
+
+.business-world{
+  min-height:100svh;
+  display:grid;
+  grid-template-columns:.82fr 1.18fr;
+  gap:7vw;
+  align-items:center;
+  border-top:1px solid rgba(255,255,255,.055);
+  overflow:hidden;
+}
+.business-world:nth-child(even) .business-visual{order:2}
+.business-world:nth-child(even) .business-copy{order:1}
+.business-visual{
+  position:relative;
+  min-height:600px;
+  display:grid;
+  place-items:center;
+  perspective:1200px;
+}
+.business-planet{
+  position:relative;
+  width:min(29vw,350px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 30% 23%,#fff 0 1.5%,var(--light) 5%,var(--mid) 26%,var(--deep) 62%,#010207 84%);
+  box-shadow:
+    inset -48px -37px 62px rgba(0,0,0,.76),
+    inset 21px 10px 38px rgba(255,255,255,.08),
+    0 0 3px rgba(255,255,255,.82),
+    0 0 52px var(--glow),
+    0 0 170px color-mix(in srgb,var(--glow) 35%,transparent);
+  animation:planetBreath 6s ease-in-out infinite alternate;
+}
+@keyframes planetBreath{to{transform:scale(1.025);filter:brightness(1.05)}}
+.business-planet::before{
+  content:"";position:absolute;inset:-8%;border-radius:50%;
+  background:repeating-linear-gradient(112deg,rgba(255,255,255,.08) 0 2px,transparent 3px 17px);
+  opacity:.43;mix-blend-mode:overlay;animation:bizSpin 34s linear infinite
+}
+@keyframes bizSpin{to{transform:rotate(360deg) translateX(3%)}}
+.business-planet::after{
+  content:"";position:absolute;inset:-21%;border-radius:50%;
+  border:1px solid color-mix(in srgb,var(--glow) 25%,transparent);
+  transform:rotateX(69deg)
+}
+.w-ara{--light:#87d1ff;--mid:#225f94;--deep:#061a31;--glow:#4db1ff;--accent:#7ccaff}
+.w-akenm{--light:#ce9aff;--mid:#67368f;--deep:#1d092e;--glow:#a165ff;--accent:#c18dff}
+.w-tikoonz{--light:#ffd17e;--mid:#9f5b22;--deep:#311604;--glow:#ffa53f;--accent:#f1b566}
+.w-ourbang{--light:#76f3e8;--mid:#278c83;--deep:#062b27;--glow:#49dfd2;--accent:#70e8dd}
+
+.business-copy{position:relative;z-index:5}
+.business-copy .num{font-size:8px;letter-spacing:.35em;color:rgba(255,255,255,.32);margin-bottom:19px}
+.business-copy h2{
+  font-size:clamp(48px,6vw,88px);line-height:.9;letter-spacing:-.04em
+}
+.business-copy .tag{
+  margin-top:15px;font-size:9px;letter-spacing:.20em;color:var(--accent)
+}
+.business-copy .designed-copy{
+  margin-top:25px;width:min(620px,48vw)!important;gap:.42em
+}
+.business-copy .designed-copy .sentence{
+  font-size:10.5px;line-height:1.86;letter-spacing:.06em;color:rgba(235,240,255,.58)
+}
+.business-grid{
+  margin-top:30px;display:grid;grid-template-columns:repeat(2,minmax(190px,1fr));
+  gap:12px;max-width:680px
+}
+.business-card{
+  min-height:116px;padding:17px 18px;border:1px solid rgba(255,255,255,.075);
+  background:linear-gradient(135deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
+  backdrop-filter:blur(8px);position:relative;overflow:hidden
+}
+.business-card::before{
+  content:"";position:absolute;left:0;top:0;width:3px;height:100%;
+  background:linear-gradient(var(--accent),transparent);opacity:.55
+}
+.business-card h3{margin:0;font-size:9px;letter-spacing:.16em;font-weight:500;color:rgba(255,255,255,.90)}
+.business-card p{margin:10px 0 0;font-size:8px;line-height:1.7;letter-spacing:.05em;color:rgba(235,240,255,.48);max-width:none}
+.business-card a{
+  display:inline-flex;margin-top:12px;font-size:7px;letter-spacing:.14em;color:var(--accent)
+}
+.business-card a::after{content:"↗";margin-left:7px}
+.business-card strong{font-weight:500;color:rgba(255,255,255,.76)}
+.business-card .domain{display:block;margin-top:8px;font-size:7px;letter-spacing:.08em;color:rgba(255,255,255,.35)}
+
+.search-hub{
+  min-height:92svh;border-top:1px solid rgba(255,255,255,.055);
+  display:grid;grid-template-columns:.8fr 1.2fr;gap:7vw;align-items:center
+}
+.search-hub h2{font-size:clamp(52px,7vw,104px);line-height:.86;letter-spacing:-.05em}
+.search-hub h2 span{display:block}
+.search-hub-copy p{max-width:540px;font-size:10px;line-height:1.9;letter-spacing:.07em;color:rgba(235,240,255,.55)}
+.fact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.fact{
+  padding:18px;border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.015)
+}
+.fact b{display:block;font-size:8px;letter-spacing:.16em;color:rgba(255,255,255,.84)}
+.fact span{display:block;margin-top:9px;font-size:8px;line-height:1.7;color:rgba(235,240,255,.47)}
+
+@media(max-width:980px){
+  .business-hero{grid-template-columns:1fr;text-align:center;align-content:center}
+  .business-hero .designed-copy{width:min(660px,84vw)!important;margin-left:auto;margin-right:auto}
+  .business-radar{width:min(72vw,620px)}
+  .business-world{grid-template-columns:1fr;padding-top:90px;padding-bottom:90px}
+  .business-world:nth-child(even) .business-visual{order:0}
+  .business-world:nth-child(even) .business-copy{order:1}
+  .business-visual{min-height:420px}.business-planet{width:min(44vw,310px)}
+  .business-copy{text-align:center}.business-copy .designed-copy{width:min(650px,82vw)!important;margin-left:auto;margin-right:auto}
+  .business-grid{margin-left:auto;margin-right:auto;text-align:left}
+  .search-hub{grid-template-columns:1fr;text-align:center}.search-hub-copy p{margin-left:auto;margin-right:auto}
+}
+@media(max-width:620px){
+  .business-section{padding-left:22px;padding-right:22px}
+  .business-hero h1{font-size:clamp(50px,16vw,76px)}
+  .business-radar{width:92vw}.business-radar .core{width:86px;height:86px}
+  .business-visual{min-height:330px}.business-planet{width:58vw}
+  .business-copy h2{font-size:50px}
+  .business-copy .designed-copy{width:88vw!important}
+  .business-grid{grid-template-columns:1fr;max-width:92vw}
+  .business-card{min-height:0}
+  .fact-grid{grid-template-columns:1fr}
+  .search-hub h2{font-size:clamp(48px,14vw,68px)}
+}
+
+/* =========================================================
+   v18 READABLE TYPE SCALE
+   Human-readable sizes while preserving the visual hierarchy
+   ========================================================= */
+
+/* Main descriptive copy */
+.business-hero .designed-copy .sentence{
+  font-size:16px!important;
+  line-height:1.78!important;
+  letter-spacing:.025em!important;
+}
+.business-copy .designed-copy .sentence{
+  font-size:15.5px!important;
+  line-height:1.82!important;
+  letter-spacing:.018em!important;
+}
+
+/* Section category / hierarchy text */
+.business-index{
+  font-size:11px!important;
+  letter-spacing:.30em!important;
+}
+.business-copy .num{
+  font-size:11px!important;
+  letter-spacing:.28em!important;
+}
+.business-copy .tag{
+  font-size:12px!important;
+  line-height:1.55!important;
+  letter-spacing:.12em!important;
+}
+
+/* Cards */
+.business-card{
+  padding:20px 21px!important;
+  min-height:145px!important;
+}
+.business-card h3{
+  font-size:14px!important;
+  line-height:1.35!important;
+  letter-spacing:.10em!important;
+}
+.business-card p{
+  margin-top:12px!important;
+  font-size:14px!important;
+  line-height:1.72!important;
+  letter-spacing:.005em!important;
+  color:rgba(235,240,255,.62)!important;
+}
+.business-card .domain{
+  margin-top:10px!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+  letter-spacing:.035em!important;
+}
+.business-card a{
+  margin-top:14px!important;
+  font-size:12px!important;
+  line-height:1.4!important;
+  letter-spacing:.08em!important;
+}
+
+/* Search / official business map */
+.search-hub-copy > p{
+  font-size:15px!important;
+  line-height:1.82!important;
+  letter-spacing:.015em!important;
+}
+.fact{
+  padding:21px!important;
+}
+.fact b{
+  font-size:13px!important;
+  line-height:1.4!important;
+  letter-spacing:.10em!important;
+}
+.fact span{
+  margin-top:10px!important;
+  font-size:13px!important;
+  line-height:1.65!important;
+  letter-spacing:.01em!important;
+}
+
+/* Radar labels remain decorative but readable */
+.radar-label{
+  font-size:10px!important;
+}
+
+/* CJK body needs a little more line spacing */
+html[lang="ko"] .business-hero .designed-copy .sentence,
+html[lang="ko"] .business-copy .designed-copy .sentence,
+html[lang="ja"] .business-hero .designed-copy .sentence,
+html[lang="ja"] .business-copy .designed-copy .sentence,
+html[lang="zh-Hans"] .business-hero .designed-copy .sentence,
+html[lang="zh-Hans"] .business-copy .designed-copy .sentence{
+  line-height:1.9!important;
+  letter-spacing:.005em!important;
+}
+
+/* Tablet stays comfortably readable */
+@media(max-width:980px){
+  .business-hero .designed-copy .sentence{
+    font-size:16px!important;
+  }
+  .business-copy .designed-copy .sentence{
+    font-size:15px!important;
+  }
+  .business-card p{
+    font-size:14px!important;
+  }
+}
+
+/* Mobile: never shrink substantive text to decorative sizes */
+@media(max-width:620px){
+  .business-hero .designed-copy .sentence{
+    font-size:15.5px!important;
+    line-height:1.8!important;
+  }
+  .business-copy .designed-copy .sentence{
+    font-size:15px!important;
+    line-height:1.82!important;
+  }
+  .business-copy .tag{
+    font-size:11px!important;
+    line-height:1.55!important;
+  }
+  .business-card{
+    padding:19px!important;
+  }
+  .business-card h3{
+    font-size:14px!important;
+  }
+  .business-card p{
+    font-size:14px!important;
+    line-height:1.72!important;
+  }
+  .business-card .domain,
+  .business-card a{
+    font-size:12px!important;
+  }
+  .search-hub-copy > p{
+    font-size:15px!important;
+  }
+  .fact b{
+    font-size:13px!important;
+  }
+  .fact span{
+    font-size:13px!important;
+  }
+}

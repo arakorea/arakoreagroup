@@ -1,0 +1,587 @@
+
+.eco-page{background:#010207}
+.eco-main{position:relative;z-index:4;overflow:hidden}
+.eco-section{position:relative;padding:calc(var(--header-h) + 62px) var(--pad-x) 92px}
+.eco-hero{min-height:100svh;display:grid;place-items:center;text-align:center;overflow:hidden}
+.eco-hero-inner{position:relative;z-index:5;width:min(1180px,92vw);display:grid;justify-items:center}
+.eco-kicker{font-size:11px;letter-spacing:.31em;color:rgba(229,237,255,.42);margin-bottom:24px}
+.eco-title{margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:700;text-transform:uppercase;
+font-size:clamp(64px,9.2vw,150px);line-height:.79;letter-spacing:-.065em}
+.eco-title span{display:block}
+.eco-title .soft{color:rgba(236,244,255,.82)}
+.eco-mantra{margin-top:28px;font-size:11px;letter-spacing:.26em;color:rgba(207,224,255,.48);word-spacing:.45em}
+.eco-copy{margin:28px auto 0;width:min(720px,76vw)!important}
+.eco-copy .sentence{font-size:16px!important;line-height:1.84!important;letter-spacing:.012em!important;color:rgba(235,240,255,.60)}
+
+.signal-field{position:absolute;inset:0;z-index:1;pointer-events:none}
+.signal-glow{position:absolute;left:50%;top:48%;width:min(68vw,960px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+background:radial-gradient(circle,rgba(93,157,255,.16) 0%,rgba(72,104,255,.07) 27%,transparent 67%);filter:blur(22px)}
+.signal-ring{position:absolute;left:50%;top:48%;border-radius:50%;transform:translate(-50%,-50%);border:1px solid rgba(146,194,255,.08)}
+.sr1{width:min(30vw,420px);aspect-ratio:1}.sr2{width:min(52vw,730px);aspect-ratio:1}.sr3{width:min(78vw,1090px);aspect-ratio:1}
+.signal-ray{position:absolute;left:50%;top:48%;width:min(72vw,1020px);height:1px;transform-origin:center;
+background:linear-gradient(90deg,transparent,rgba(129,190,255,.08),rgba(238,248,255,.48),rgba(129,190,255,.08),transparent);
+box-shadow:0 0 18px rgba(90,166,255,.14)}
+.r1{transform:translate(-50%,-50%) rotate(17deg)}.r2{transform:translate(-50%,-50%) rotate(73deg)}
+.r3{transform:translate(-50%,-50%) rotate(131deg)}.r4{transform:translate(-50%,-50%) rotate(163deg)}
+.signal-core{position:absolute;left:50%;top:48%;width:12px;height:12px;transform:translate(-50%,-50%);border-radius:50%;
+background:#f4fbff;box-shadow:0 0 12px #fff,0 0 34px #8fd5ff,0 0 90px rgba(89,128,255,.55)}
+.signal-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:rgba(224,244,255,.88);box-shadow:0 0 16px rgba(112,203,255,.8)}
+.sd1{left:20%;top:28%}.sd2{left:76%;top:22%}.sd3{left:84%;top:64%}.sd4{left:24%;top:73%}.sd5{left:64%;top:82%}
+.brand-signal{position:absolute;font-size:9px;letter-spacing:.18em;color:rgba(230,240,255,.36);white-space:nowrap}
+.bs1{left:14%;top:43%}.bs2{right:14%;top:34%}.bs3{right:12%;top:68%}.bs4{left:17%;top:70%}
+
+/* Flow statement */
+.eco-flow{min-height:88svh;border-top:1px solid rgba(255,255,255,.055);display:grid;align-content:center}
+.flow-heading{max-width:920px;margin:0 auto 64px;text-align:center}
+.flow-heading h2,.eco-worlds h2{margin:0;font-family:Arial,Helvetica,sans-serif;font-weight:700;text-transform:uppercase;
+font-size:clamp(48px,6.1vw,94px);line-height:.86;letter-spacing:-.05em}
+.flow-heading p{font-size:15px;line-height:1.88;color:rgba(235,240,255,.57);max-width:720px;margin:24px auto 0}
+.flow-track{max-width:1360px;margin:auto;display:grid;grid-template-columns:repeat(9,1fr);align-items:center}
+.flow-step{position:relative;min-height:145px;display:grid;align-content:center;justify-items:center;text-align:center}
+.flow-step:not(:last-child)::after{content:"";position:absolute;top:50%;left:64%;width:72%;height:1px;
+background:linear-gradient(90deg,rgba(112,192,255,.46),rgba(112,192,255,.05))}
+.flow-step i{display:block;width:9px;height:9px;border-radius:50%;background:#dff5ff;box-shadow:0 0 13px rgba(100,199,255,.9),0 0 28px rgba(86,130,255,.38);margin-bottom:17px}
+.flow-step b{font-size:10px;letter-spacing:.13em;font-weight:500;color:rgba(245,248,255,.72)}
+
+/* Four worlds */
+.eco-worlds{min-height:100svh;border-top:1px solid rgba(255,255,255,.055);display:grid;grid-template-columns:.74fr 1.26fr;gap:7vw;align-items:center}
+.world-copy p{font-size:15px;line-height:1.9;color:rgba(235,240,255,.57);max-width:620px}
+.world-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.world-card{min-height:235px;padding:26px;border:1px solid rgba(255,255,255,.075);background:linear-gradient(145deg,rgba(255,255,255,.026),rgba(255,255,255,.006));position:relative}
+.world-card::before{content:"";position:absolute;left:25px;top:25px;width:7px;height:7px;border-radius:50%;background:#c9ecff;box-shadow:0 0 16px rgba(104,193,255,.7)}
+.world-card .world-no{font-size:10px;letter-spacing:.22em;color:rgba(255,255,255,.27);margin-left:22px}
+.world-card h3{margin:48px 0 13px;font-size:17px;letter-spacing:.08em;font-weight:600}
+.world-card p{margin:0;font-size:14px;line-height:1.78;color:rgba(235,240,255,.55)}
+
+/* Search-readable knowledge layer */
+.eco-knowledge{border-top:1px solid rgba(255,255,255,.055);min-height:auto;padding-top:90px;padding-bottom:100px}
+.knowledge-wrap{max-width:1120px;margin:auto}
+.knowledge-wrap h2{font-size:14px;letter-spacing:.16em;font-weight:600;margin:0 0 20px}
+.knowledge-wrap>p{font-size:15px;line-height:1.9;color:rgba(235,240,255,.57);max-width:900px}
+.knowledge-list{margin-top:34px;display:grid;grid-template-columns:1fr 1fr;gap:0 40px}
+.knowledge-item{padding:20px 0;border-top:1px solid rgba(255,255,255,.07)}
+.knowledge-item b{display:block;font-size:13px;letter-spacing:.08em;margin-bottom:8px}
+.knowledge-item span{font-size:14px;line-height:1.75;color:rgba(235,240,255,.52)}
+
+@media(max-width:980px){
+ .eco-title{font-size:clamp(64px,12vw,112px)}
+ .brand-signal{display:none}
+ .flow-track{grid-template-columns:repeat(3,1fr);gap:20px}
+ .flow-step:not(:last-child)::after{display:none}
+ .eco-worlds{grid-template-columns:1fr;text-align:center}
+ .world-copy p{margin-left:auto;margin-right:auto}.world-grid{text-align:left}
+}
+@media(max-width:620px){
+ .eco-section{padding-left:22px;padding-right:22px}
+ .eco-title{font-size:clamp(54px,16.5vw,78px);line-height:.82}
+ .eco-mantra{font-size:9px;line-height:2.1;max-width:90vw}
+ .eco-copy{width:88vw!important}.eco-copy .sentence{font-size:15px!important}
+ .sr1{width:52vw}.sr2{width:82vw}.sr3{width:120vw}
+ .signal-ray{width:120vw}
+ .flow-track{grid-template-columns:repeat(3,1fr)}
+ .flow-step{min-height:110px}.flow-step b{font-size:8px}
+ .world-grid{grid-template-columns:1fr}.world-card{min-height:205px}
+ .knowledge-list{grid-template-columns:1fr}
+}
+
+/* =========================================================
+   v24 ECOSYSTEM LINE-DESIGN SYSTEM
+   Same editorial rules used across GROUP / BUSINESSES
+   ========================================================= */
+
+.eco-page .designed-copy{
+  display:flex;
+  flex-direction:column;
+  gap:.36em;
+  max-width:none!important;
+}
+
+.eco-page .designed-copy .sentence{
+  display:block;
+  width:max-content;
+  max-width:100%;
+  white-space:nowrap;
+  text-wrap:nowrap;
+  word-break:keep-all;
+  overflow-wrap:normal;
+  hyphens:none;
+}
+
+/* Hero lines are centered and deliberately balanced */
+.eco-hero .eco-copy{
+  width:min(820px,78vw)!important;
+  align-items:center;
+}
+.eco-hero .eco-copy .sentence{
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+
+/* Flow/world copy uses editorial left alignment */
+.section-copy{
+  width:min(760px,66vw)!important;
+}
+.flow-heading .section-copy{
+  align-items:center;
+  margin-left:auto;
+  margin-right:auto;
+}
+.flow-heading .section-copy .sentence{
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+.world-copy .section-copy{
+  width:min(660px,46vw)!important;
+  align-items:flex-start;
+}
+.world-copy .section-copy .sentence{
+  text-align:left;
+}
+
+/* Knowledge layer keeps sentence blocks readable but not overly wide */
+.knowledge-copy{
+  width:min(980px,80vw)!important;
+  align-items:flex-start;
+}
+.knowledge-copy .sentence{
+  text-align:left;
+}
+
+/* All meaningful explanatory copy stays human-readable */
+.eco-page .designed-copy .sentence{
+  font-size:15px!important;
+  line-height:1.86!important;
+  letter-spacing:.01em!important;
+}
+.eco-hero .eco-copy .sentence{
+  font-size:16px!important;
+}
+.knowledge-copy .sentence{
+  font-size:15px!important;
+}
+
+/* CJK */
+html[lang="ko"] .eco-page .designed-copy .sentence,
+html[lang="ja"] .eco-page .designed-copy .sentence,
+html[lang="zh-Hans"] .eco-page .designed-copy .sentence{
+  letter-spacing:0!important;
+  line-height:1.92!important;
+}
+
+/* Tablet: preserve sentence-level design, center body where layout stacks */
+@media(max-width:980px){
+  .eco-hero .eco-copy,
+  .section-copy,
+  .world-copy .section-copy,
+  .knowledge-copy{
+    width:min(760px,84vw)!important;
+    align-items:center;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .world-copy .section-copy .sentence,
+  .knowledge-copy .sentence{
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+  }
+}
+
+/* Mobile:
+   Keep each sentence as a separate visual block.
+   A physically long sentence may wrap inside itself, but the next sentence starts separately. */
+@media(max-width:620px){
+  .eco-page .designed-copy{
+    width:88vw!important;
+    gap:.46em;
+  }
+  .eco-page .designed-copy .sentence{
+    width:auto;
+    max-width:100%;
+    white-space:normal;
+    text-wrap:pretty;
+    word-break:keep-all;
+    overflow-wrap:break-word;
+    text-align:center!important;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:14.5px!important;
+    line-height:1.9!important;
+  }
+  html[lang="en"] .eco-page .designed-copy .sentence{
+    word-break:normal;
+  }
+}
+
+/* v30 — typography aligned with GROUP / BUSINESSES */
+.eco-title,.flow-heading h2,.eco-worlds h2{
+  font-family:Georgia,"Times New Roman","AppleMyungjo","Batang",serif!important;
+  font-weight:400!important;
+  letter-spacing:-.045em!important;
+}
+.eco-title{line-height:.84!important}
+.flow-heading h2,.eco-worlds h2{line-height:.9!important}
+.eco-page .designed-copy{gap:.42em!important}
+.eco-page .designed-copy .sentence{font-size:15.5px!important;line-height:1.9!important;letter-spacing:.004em!important}
+.eco-hero .designed-copy .sentence{font-size:16px!important}
+.world-card{padding:28px 27px!important}
+.world-card h3{font-size:16px!important;line-height:1.4!important;letter-spacing:.07em!important}
+.world-card p{font-size:14.5px!important;line-height:1.82!important;color:rgba(235,240,255,.64)!important}
+.knowledge-item b{font-size:13.5px!important;line-height:1.45!important}
+.knowledge-item span{font-size:14.5px!important;line-height:1.82!important;color:rgba(235,240,255,.60)!important}
+html[lang="ko"] .eco-page .designed-copy .sentence,
+html[lang="ja"] .eco-page .designed-copy .sentence,
+html[lang="zh-Hans"] .eco-page .designed-copy .sentence{
+  word-break:keep-all!important;line-height:1.96!important
+}
+@media(max-width:620px){
+ .eco-page .designed-copy .sentence{font-size:15px!important}
+ .world-card p,.knowledge-item span{font-size:14px!important}
+}
+
+/* =========================================================
+   v31 — ECOSYSTEM TYPOGRAPHY / LINE DESIGN
+   English display serif, CJK display clean sans.
+   ========================================================= */
+
+.flow-heading h2,
+.eco-worlds h2{
+  max-width:14ch!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  text-align:center!important;
+  text-wrap:balance!important;
+}
+
+.flow-heading h2 .heading-line,
+.eco-worlds h2 .heading-line{
+  display:block!important;
+  width:max-content!important;
+  max-width:100%!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* English keeps the established editorial serif */
+html[lang="en"] .eco-title,
+html[lang="en"] .flow-heading h2,
+html[lang="en"] .eco-worlds h2{
+  font-family:Georgia,"Times New Roman",serif!important;
+  font-weight:400!important;
+}
+
+/* Korean/Japanese/Chinese use the clean sans family used throughout body/navigation */
+html[lang="ko"] .eco-title,
+html[lang="ko"] .flow-heading h2,
+html[lang="ko"] .eco-worlds h2,
+html[lang="ja"] .eco-title,
+html[lang="ja"] .flow-heading h2,
+html[lang="ja"] .eco-worlds h2,
+html[lang="zh-Hans"] .eco-title,
+html[lang="zh-Hans"] .flow-heading h2,
+html[lang="zh-Hans"] .eco-worlds h2{
+  font-family:Arial,Helvetica,"Apple SD Gothic Neo","Noto Sans CJK KR","Malgun Gothic",sans-serif!important;
+  font-weight:600!important;
+  letter-spacing:-.045em!important;
+}
+
+/* Korean section titles: elegant, not oversized */
+html[lang="ko"] .flow-heading h2,
+html[lang="ko"] .eco-worlds h2{
+  font-size:clamp(48px,5.25vw,78px)!important;
+  line-height:1.02!important;
+  max-width:13ch!important;
+}
+
+/* Japanese/Chinese equivalent balance */
+html[lang="ja"] .flow-heading h2,
+html[lang="ja"] .eco-worlds h2,
+html[lang="zh-Hans"] .flow-heading h2,
+html[lang="zh-Hans"] .eco-worlds h2{
+  font-size:clamp(46px,5vw,74px)!important;
+  line-height:1.04!important;
+  max-width:13ch!important;
+}
+
+/* Intro display remains strong but less compressed for CJK */
+html[lang="ko"] .eco-title,
+html[lang="ja"] .eco-title,
+html[lang="zh-Hans"] .eco-title{
+  font-size:clamp(56px,7.6vw,112px)!important;
+  line-height:.94!important;
+  letter-spacing:-.055em!important;
+}
+
+/* Description rhythm */
+.flow-heading .section-copy{
+  margin-top:30px!important;
+  max-width:760px!important;
+}
+.flow-heading .section-copy .sentence{
+  font-size:15.5px!important;
+  line-height:1.9!important;
+}
+html[lang="ko"] .flow-heading .section-copy .sentence{
+  line-height:1.96!important;
+}
+
+/* Flow steps: readable and evenly spaced */
+.flow-track{
+  margin-top:54px!important;
+  column-gap:4px!important;
+}
+.flow-step b{
+  font-size:11px!important;
+  letter-spacing:.08em!important;
+  line-height:1.45!important;
+  white-space:nowrap!important;
+}
+html[lang="ko"] .flow-step b,
+html[lang="ja"] .flow-step b,
+html[lang="zh-Hans"] .flow-step b{
+  letter-spacing:.02em!important;
+}
+
+/* Cards preserve consistent text rhythm */
+.world-card h3{
+  margin-top:46px!important;
+}
+.world-card p{
+  max-width:34ch!important;
+  text-wrap:pretty!important;
+}
+
+/* Mobile */
+@media(max-width:620px){
+  html[lang="ko"] .flow-heading h2,
+  html[lang="ko"] .eco-worlds h2,
+  html[lang="ja"] .flow-heading h2,
+  html[lang="ja"] .eco-worlds h2,
+  html[lang="zh-Hans"] .flow-heading h2,
+  html[lang="zh-Hans"] .eco-worlds h2{
+    font-size:clamp(38px,10.8vw,54px)!important;
+    line-height:1.06!important;
+  }
+
+  .flow-heading h2 .heading-line,
+  .eco-worlds h2 .heading-line{
+    width:auto!important;
+  }
+
+  .flow-track{
+    grid-template-columns:repeat(3,1fr)!important;
+    gap:18px 8px!important;
+  }
+  .flow-step b{
+    font-size:10px!important;
+  }
+}
+
+/* =========================================================
+   v32 — EXPLICIT LANGUAGE HEADING LINES
+   Do not allow automatic word wrapping inside designed lines.
+   ========================================================= */
+.flow-heading h2 .heading-line,
+.eco-worlds h2 .heading-line{
+  display:block!important;
+  width:max-content!important;
+  max-width:none!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  margin-inline:auto!important;
+}
+
+/* Korean: exact two-line composition */
+html[lang="ko"] .eco-worlds h2{
+  max-width:none!important;
+  width:100%!important;
+}
+html[lang="ko"] .eco-worlds h2 .heading-line{
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+}
+
+/* Responsive sizing preserves the designed line rather than breaking words */
+@media(max-width:900px){
+  html[lang="ko"] .eco-worlds h2{
+    font-size:clamp(42px,7.2vw,68px)!important;
+  }
+}
+@media(max-width:620px){
+  .flow-heading h2 .heading-line,
+  .eco-worlds h2 .heading-line{
+    width:max-content!important;
+    max-width:94vw!important;
+    white-space:nowrap!important;
+  }
+  html[lang="ko"] .eco-worlds h2{
+    font-size:clamp(34px,9.8vw,50px)!important;
+  }
+}
+
+/* =========================================================
+   v33 — WORLD TITLE: EXACT TWO-LINE COMPOSITION
+   네 개의 영역.
+   하나의 연속체.
+   ========================================================= */
+
+/* Keep the title as a compact visual object rather than a full-width line */
+.eco-worlds h2{
+  width:auto!important;
+  max-width:100%!important;
+  text-align:center!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* Every designed language line stays on its own row */
+.eco-worlds h2 .heading-line{
+  display:block!important;
+  width:max-content!important;
+  max-width:92vw!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+
+/* Korean desktop composition */
+html[lang="ko"] .eco-worlds h2{
+  width:auto!important;
+  max-width:none!important;
+  font-size:clamp(48px,5.35vw,76px)!important;
+  line-height:1.04!important;
+  letter-spacing:-.05em!important;
+}
+html[lang="ko"] .eco-worlds h2 .heading-line + .heading-line{
+  margin-top:.08em!important;
+}
+
+/* Preserve generous space around the title */
+.eco-worlds .world-copy{
+  margin-top:30px!important;
+}
+
+/* Tablet */
+@media(max-width:900px){
+  html[lang="ko"] .eco-worlds h2{
+    font-size:clamp(43px,6.7vw,64px)!important;
+  }
+}
+
+/* Mobile: still two complete lines, never split '하나의' */
+@media(max-width:620px){
+  html[lang="ko"] .eco-worlds h2{
+    font-size:clamp(34px,9.5vw,48px)!important;
+    line-height:1.07!important;
+  }
+  .eco-worlds h2 .heading-line{
+    max-width:94vw!important;
+  }
+}
+
+/* v34 — HARD LINE BREAK. BR controls the composition, not browser wrapping. */
+.eco-worlds h2 .heading-line,
+.flow-heading h2 .heading-line{
+  display:inline-block!important;
+  width:auto!important;
+  max-width:none!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  margin:0!important;
+}
+.eco-worlds h2 br,
+.flow-heading h2 br{
+  display:block!important;
+  content:""!important;
+}
+html[lang="ko"] .eco-worlds h2{
+  width:100%!important;
+  max-width:none!important;
+  text-align:center!important;
+  font-size:clamp(48px,5.1vw,74px)!important;
+  line-height:1.06!important;
+}
+html[lang="ko"] .eco-worlds h2 br{
+  line-height:.18!important;
+}
+@media(max-width:620px){
+  html[lang="ko"] .eco-worlds h2{
+    font-size:clamp(34px,9vw,46px)!important;
+  }
+}
+
+/* v35 — STATIC LANGUAGE TITLE
+   This title is no longer generated by JS. Each language owns two literal HTML lines. */
+.world-title-fixed .world-title-lang{display:none!important}
+html[data-lang="en"] .world-title-fixed [data-title-lang="en"],
+html[data-lang="ko"] .world-title-fixed [data-title-lang="ko"],
+html[data-lang="ja"] .world-title-fixed [data-title-lang="ja"],
+html[data-lang="zh"] .world-title-fixed [data-title-lang="zh"]{
+  display:block!important;
+}
+.world-title-fixed .world-title-lang>span{
+  display:block!important;
+  width:max-content!important;
+  max-width:94vw!important;
+  margin-inline:auto!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+html[data-lang="ko"] .world-title-fixed{
+  width:100%!important;
+  max-width:none!important;
+  text-align:center!important;
+  font-family:Arial,Helvetica,"Apple SD Gothic Neo","Noto Sans CJK KR","Malgun Gothic",sans-serif!important;
+  font-size:clamp(48px,5.1vw,74px)!important;
+  font-weight:600!important;
+  line-height:1.07!important;
+  letter-spacing:-.05em!important;
+}
+html[data-lang="ko"] .world-title-fixed [data-title-lang="ko"]>span+span{
+  margin-top:.08em!important;
+}
+@media(max-width:620px){
+ html[data-lang="ko"] .world-title-fixed{font-size:clamp(34px,9vw,46px)!important}
+}
+
+/* =========================================================
+   v37 — ECOSYSTEM POETIC FLOW TITLE
+   시작에서
+   새로운 탄생으로.
+   ========================================================= */
+.flow-heading h2 .heading-line{
+  display:inline-block!important;
+  width:auto!important;
+  max-width:none!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+}
+html[lang="ko"] .flow-heading h2{
+  width:100%!important;
+  max-width:none!important;
+  text-align:center!important;
+  font-size:clamp(46px,5.15vw,74px)!important;
+  line-height:1.06!important;
+  letter-spacing:-.05em!important;
+}
+html[lang="ko"] .flow-heading h2 .heading-line{
+  white-space:nowrap!important;
+}
+html[lang="ko"] .flow-heading h2 br{
+  display:block!important;
+  content:""!important;
+  line-height:.16!important;
+}
+@media(max-width:620px){
+  html[lang="ko"] .flow-heading h2{
+    font-size:clamp(34px,9.2vw,48px)!important;
+  }
+}

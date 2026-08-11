@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const host=location.hostname.replace(/^www\./,"");document.querySelectorAll('a[href^="http://"],a[href^="https://"]').forEach(a=>{try{const h=new URL(a.href).hostname.replace(/^www\./,"");if(h!==host){a.target="_blank";a.rel="noopener noreferrer"}}catch(e){}})});

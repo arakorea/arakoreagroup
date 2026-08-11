@@ -1,0 +1,54 @@
+ARA KOREA GROUP — FINAL SITE AUDIT
+Date: 2026-08-11
+
+STATUS
+PASS — no blocking static audit errors found.
+
+PAGES
+index.html: PASS
+home.html: PASS
+group.html: PASS
+businesses.html: PASS
+ecosystem.html: PASS
+contact.html: PASS
+Contact Formspree maqyznbe: PASS
+
+SEARCH / AI DISCOVERY
+- Unique page titles and meta descriptions: complete
+- Canonical URLs: complete
+- robots meta: complete
+- robots.txt: allows standard crawlers and explicitly allows OAI-SearchBot
+- sitemap.xml: complete with current lastmod date
+- Open Graph: complete
+- Twitter large image cards: complete
+- OG image normalized to 1200 x 630
+- Organization / WebSite / WebPage JSON-LD: standardized across all pages
+- ARA KOREA GROUP → ARA KOREA / AK ENM / TIKOONZ / OURBANG hierarchy: represented in JSON-LD
+- Official ARA KOREA and TIKOONZ web properties: represented as WebSite nodes
+- llms.txt: added as an optional concise machine-readable summary
+- Client-side language switch remains EN / KO / JA / 中文
+- Misleading hreflang entries removed because the project intentionally uses one physical page per section rather than separate locale URLs
+- ?lang=en|ko|ja|zh is now accepted by the language script for direct sharing
+
+FUNCTION / CONTENT
+- Existing GA4 loader retained
+- Existing Formspree CONTACT endpoint maqyznbe retained
+- External off-domain links continue to open in a new tab through external-links.js
+- Unique page constellation sets, cursor star mesh and ecosystem meteor effects retained
+
+IMPORTANT AFTER DEPLOYMENT
+1. Upload the entire FINAL package, not individual HTML files only.
+2. Confirm https://arakoreagroup.com/ loads the new index.
+3. Open robots.txt and sitemap.xml from the live domain.
+4. Submit https://arakoreagroup.com/sitemap.xml in Google Search Console.
+5. Use URL Inspection in Search Console for the root, group, businesses, ecosystem and contact pages and request indexing.
+6. Test CONTACT once from the live domain and confirm delivery to the Formspree-connected mailbox.
+7. Send the live domain once in KakaoTalk / Messages and confirm the 1200x630 share image.
+8. Check GA4 Realtime after visiting the live site.
+9. Re-audit after any domain/path change.
+
+NOTE ON MULTILINGUAL SEARCH
+The site intentionally uses one HTML page per section with a client-side language switch. Search engines may primarily index the default rendered language. True language-targeted indexing would normally require separate crawlable locale URLs/pages. This FINAL build does not create duplicate locale pages because the project requirement is to keep one maintainable page per section.
+
+ERRORS
+None found in the static audit.

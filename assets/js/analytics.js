@@ -1,0 +1,2 @@
+
+document.addEventListener("DOMContentLoaded",()=>{const c=window.ARA_SITE?.analytics;if(!c?.enabled||!c.ga4MeasurementId)return;const id=c.ga4MeasurementId,s=document.createElement("script");s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(id);document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag("js",new Date());gtag("config",id,{anonymize_ip:true,allow_google_signals:false})});
